@@ -3,7 +3,11 @@ project(bindiff_server)
 
 set(CMAKE_CXX_STANDARD 17)
 
+include_directories(${CMAKE_SOURCE_DIR})
 
-add_executable(bindiff_server main.cpp
-        Adder.h
-        Adder.cpp)
+add_library(Adder Adder.cpp)
+
+add_executable(server Server/server_main.cpp)
+
+add_executable(client Client/client_main.cpp)
+target_link_libraries(client Adder)
