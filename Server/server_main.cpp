@@ -1,15 +1,25 @@
 #include <iostream>
 #include <grpcpp/grpcpp.h>
-#include <helloworld.grpc.pb.h>
+#include <binexport2.grpc.pb.h>
+#include <bindiff.grpc.pb.h>
 
-class HelloWorldServer final : public helloworld::Greeter::Service {
-	::grpc::Status SayHello(
+class HelloWorldServer final : public bindiff::BinExportService::Service {
+	grpc::Status UploadBinExport(
 		grpc::ServerContext *context,
-		const helloworld::HelloRequest *request,
-		helloworld::HelloReply *response) override {
+		const bindiff::BinExportRequest *request,
+		bindiff::BinExportResponse *response) override {
 
-		response->set_message("Demetre " + request->name());
-		return ::grpc::Status::OK;
+		BinExport2::CallGraph call_graph;
+		if (!call_graph.ParseFromString(request->binexport_data())) {
+			return {grpc::StatusCode::INVALID_ARGUMENT, "Failed to parse BinExport data"};
+		}
+
+		std::cout << call_graph.DebugString() << std::endl;
+		for (const auto& function : call_graph.vertex()) {
+			response->add_function_names(std::to_string(function.address()));
+		}
+
+		return grpc::Status::OK;
 	}
 };
 
