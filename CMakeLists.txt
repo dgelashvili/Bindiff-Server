@@ -3,7 +3,7 @@ project(bindiff_server)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(gRPC_DIR "/home/demetre/grpc-install")
+set(gRPC_DIR "/home/takusi/grpc/grpc")
 
 find_package(protobuf REQUIRED)
 find_package(gRPC REQUIRED)
