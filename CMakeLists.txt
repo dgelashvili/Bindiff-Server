@@ -3,7 +3,7 @@ project(bindiff_server)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(gRPC_DIR "/home/demetre/grpc-install")
+set(gRPC_DIR "/home/takusi/grpc/grpc")
 
 find_package(protobuf REQUIRED)
 find_package(gRPC REQUIRED)
@@ -16,10 +16,6 @@ add_executable(server
 		Server/server_main.cpp
 		build/generated/helloworld.pb.cc
 		build/generated/helloworld.grpc.pb.cc
-		build/generated/bindiff.pb.cc
-		build/generated/bindiff.grpc.pb.cc
-		build/generated/binexport2.pb.cc
-		build/generated/binexport2.grpc.pb.cc
 )
 target_link_libraries(server
 		gRPC::grpc++
@@ -30,10 +26,6 @@ add_executable(client
 		Client/client_main.cpp
 		build/generated/helloworld.pb.cc
 		build/generated/helloworld.grpc.pb.cc
-		build/generated/bindiff.pb.cc
-		build/generated/bindiff.grpc.pb.cc
-		build/generated/binexport2.pb.cc
-		build/generated/binexport2.grpc.pb.cc
 )
 target_link_libraries(client
 		gRPC::grpc++
