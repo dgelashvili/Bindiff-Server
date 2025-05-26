@@ -24,13 +24,16 @@ target_include_directories(sha256 PUBLIC
 
 add_executable(server
 		Server/server_main.cpp
+
 		build/generated/binexport2.pb.cc
 		build/generated/binexportParser.pb.cc
 		build/generated/binexportParser.grpc.pb.cc
 		build/generated/bin_diff.pb.cc
 		build/generated/bin_diff.grpc.pb.cc
+
 		Server/BinDiffServer.cpp
 		Server/BinDiffCache.cpp
+		Server/BinExportContent.cpp
 )
 target_link_libraries(server
 		gRPC::grpc++
