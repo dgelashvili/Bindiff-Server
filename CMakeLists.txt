@@ -11,7 +11,7 @@ find_package(gRPC REQUIRED)
 include_directories(${Protobuf_INCLUDE_DIRS})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/build/generated)
-
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Server)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/SHA_256)
 
 add_library(sha256 STATIC
@@ -27,6 +27,10 @@ add_executable(server
 		build/generated/binexport2.pb.cc
 		build/generated/binexportParser.pb.cc
 		build/generated/binexportParser.grpc.pb.cc
+		build/generated/bin_diff.pb.cc
+		build/generated/bin_diff.grpc.pb.cc
+		Server/BinDiffServer.cpp
+		Server/BinDiffCache.cpp
 )
 target_link_libraries(server
 		gRPC::grpc++
