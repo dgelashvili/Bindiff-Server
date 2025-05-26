@@ -1,4 +1,6 @@
 #include <iostream>
+#include <sha256Wrapper.h>
+
 #include "grpcpp/grpcpp.h"
 #include "binexport2.pb.h"
 #include "binexportParser.grpc.pb.h"
@@ -17,7 +19,7 @@ class BinexportParserServer final : public binexportParser::Parser::Service {
 		}
 
 		for (const auto& function : binexport.call_graph().vertex()) {
-			response->add_names(function.mangled_name());
+			response->add_names(sha_256(function.mangled_name()));
 		}
 
 		return ::grpc::Status::OK;

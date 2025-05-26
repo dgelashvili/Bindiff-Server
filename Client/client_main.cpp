@@ -12,7 +12,7 @@ public:
 	void Parse() const {
 		grpc::ClientContext context;
 
-		std::ifstream file("/home/demetre/Bindiff-Server/Client/test_binDiff_1.exe.BinExport", std::ios::binary);
+		std::ifstream file("/home/takusi/Bindiff-Server/Client/test_binDiff_1.exe.BinExport", std::ios::binary);
 		std::string file_data((std::istreambuf_iterator<char>(file)),
 							  std::istreambuf_iterator<char>());
 
