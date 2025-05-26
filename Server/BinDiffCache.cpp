@@ -1,12 +1,14 @@
 #include "BinDiffCache.h"
 
-void BinDiffCache::add(const std::string &id, const std::string &content) {
+void BinDiffCache::add(const std::string &id, const std::shared_ptr<BinExportContent> &content) {
 	if (contains(id)) return;
 	cache_[id] = content;
 }
 
-std::string BinDiffCache::get(const std::string &id) {
-	if (!contains(id)) return "";
+std::shared_ptr<BinExportContent> BinDiffCache::get(const std::string &id) {
+	if (!contains(id)) {
+		throw std::runtime_error("No parsed file with given ID");
+	}
 	return cache_[id];
 }
 
