@@ -1,5 +1,4 @@
 #include "BinDiffServer.h"
-
 #include "sha256Wrapper.h"
 
 grpc::Status BinDiffServer::Upload(

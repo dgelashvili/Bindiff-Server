@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+
 #include "binexport2.pb.h"
 
 class BinExportContent {

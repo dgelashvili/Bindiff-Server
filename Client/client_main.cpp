@@ -11,6 +11,7 @@ public:
 
 	[[nodiscard]] std::string Upload(const std::string& file_path) const {
 		grpc::ClientContext context;
+
 		std::ifstream file(file_path, std::ios::binary);
 		if (!file || !file.is_open()) {
 			std::cerr << "File does not exist or failed to open: " << file_path << std::endl;
@@ -26,7 +27,7 @@ public:
 		if (const grpc::Status status = stub_->Upload(&context, request, &reply); status.ok()) {
 			return reply.id();
 		} else {
-			std::cout << status.error_code() << ": " << status.error_message() << std::endl;
+			std::cerr << status.error_code() << ": " << status.error_message() << std::endl;
 			return "";
 		}
 	}
@@ -43,7 +44,7 @@ public:
 				std::cout << function_name << std::endl;
 			}
 		} else {
-			std::cout << status.error_code() << ": " << status.error_message() << std::endl;
+			std::cerr << status.error_code() << ": " << status.error_message() << std::endl;
 		}
 	}
 
@@ -52,14 +53,17 @@ private:
 };
 
 int main() {
-	const BinDiffClient client(grpc::CreateChannel("localhost:50051", grpc::InsecureChannelCredentials()));
+	const BinDiffClient client(
+		grpc::CreateChannel(
+			"localhost:50051",
+			grpc::InsecureChannelCredentials()));
+
 	const std::string id = client.Upload("../Client/test_binDiff_1.exe.BinExport");
 	std::string fake_id = client.Upload("../Client/client_main.cpp");
 	std::string nonexistent_id = client.Upload("../Client/nonexistent.BinExport");
-	std::cout << std::endl;
-	client.Get("random_id");
-	std::cout << std::endl;
 
+	client.Get("random_id");
 	client.Get(id);
+
 	return 0;
 }
