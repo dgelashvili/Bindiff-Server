@@ -26,8 +26,6 @@ add_executable(server
 		Server/server_main.cpp
 
 		build/generated/binexport2.pb.cc
-		build/generated/binexportParser.pb.cc
-		build/generated/binexportParser.grpc.pb.cc
 		build/generated/bin_diff.pb.cc
 		build/generated/bin_diff.grpc.pb.cc
 
@@ -43,8 +41,7 @@ target_link_libraries(server
 
 add_executable(client
 		Client/client_main.cpp
-		build/generated/binexportParser.pb.cc
-		build/generated/binexportParser.grpc.pb.cc
+
 		build/generated/bin_diff.pb.cc
 		build/generated/bin_diff.grpc.pb.cc
 )
