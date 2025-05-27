@@ -50,6 +50,13 @@ class BinDiffServer final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::bin_diff::DiffReply>> PrepareAsyncDiff(::grpc::ClientContext* context, const ::bin_diff::DiffRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::bin_diff::DiffReply>>(PrepareAsyncDiffRaw(context, request, cq));
     }
+    virtual ::grpc::Status Get(::grpc::ClientContext* context, const ::bin_diff::GetRequest& request, ::bin_diff::GetReply* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::bin_diff::GetReply>> AsyncGet(::grpc::ClientContext* context, const ::bin_diff::GetRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::bin_diff::GetReply>>(AsyncGetRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::bin_diff::GetReply>> PrepareAsyncGet(::grpc::ClientContext* context, const ::bin_diff::GetRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::bin_diff::GetReply>>(PrepareAsyncGetRaw(context, request, cq));
+    }
     class async_interface {
      public:
       virtual ~async_interface() {}
@@ -57,6 +64,8 @@ class BinDiffServer final {
       virtual void Upload(::grpc::ClientContext* context, const ::bin_diff::UploadRequest* request, ::bin_diff::UploadReply* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       virtual void Diff(::grpc::ClientContext* context, const ::bin_diff::DiffRequest* request, ::bin_diff::DiffReply* response, std::function<void(::grpc::Status)>) = 0;
       virtual void Diff(::grpc::ClientContext* context, const ::bin_diff::DiffRequest* request, ::bin_diff::DiffReply* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void Get(::grpc::ClientContext* context, const ::bin_diff::GetRequest* request, ::bin_diff::GetReply* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void Get(::grpc::ClientContext* context, const ::bin_diff::GetRequest* request, ::bin_diff::GetReply* response, ::grpc::ClientUnaryReactor* reactor) = 0;
     };
     typedef class async_interface experimental_async_interface;
     virtual class async_interface* async() { return nullptr; }
@@ -66,6 +75,8 @@ class BinDiffServer final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::bin_diff::UploadReply>* PrepareAsyncUploadRaw(::grpc::ClientContext* context, const ::bin_diff::UploadRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::bin_diff::DiffReply>* AsyncDiffRaw(::grpc::ClientContext* context, const ::bin_diff::DiffRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::bin_diff::DiffReply>* PrepareAsyncDiffRaw(::grpc::ClientContext* context, const ::bin_diff::DiffRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::bin_diff::GetReply>* AsyncGetRaw(::grpc::ClientContext* context, const ::bin_diff::GetRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::bin_diff::GetReply>* PrepareAsyncGetRaw(::grpc::ClientContext* context, const ::bin_diff::GetRequest& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
@@ -84,6 +95,13 @@ class BinDiffServer final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::bin_diff::DiffReply>> PrepareAsyncDiff(::grpc::ClientContext* context, const ::bin_diff::DiffRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::bin_diff::DiffReply>>(PrepareAsyncDiffRaw(context, request, cq));
     }
+    ::grpc::Status Get(::grpc::ClientContext* context, const ::bin_diff::GetRequest& request, ::bin_diff::GetReply* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::bin_diff::GetReply>> AsyncGet(::grpc::ClientContext* context, const ::bin_diff::GetRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::bin_diff::GetReply>>(AsyncGetRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::bin_diff::GetReply>> PrepareAsyncGet(::grpc::ClientContext* context, const ::bin_diff::GetRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::bin_diff::GetReply>>(PrepareAsyncGetRaw(context, request, cq));
+    }
     class async final :
       public StubInterface::async_interface {
      public:
@@ -91,6 +109,8 @@ class BinDiffServer final {
       void Upload(::grpc::ClientContext* context, const ::bin_diff::UploadRequest* request, ::bin_diff::UploadReply* response, ::grpc::ClientUnaryReactor* reactor) override;
       void Diff(::grpc::ClientContext* context, const ::bin_diff::DiffRequest* request, ::bin_diff::DiffReply* response, std::function<void(::grpc::Status)>) override;
       void Diff(::grpc::ClientContext* context, const ::bin_diff::DiffRequest* request, ::bin_diff::DiffReply* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void Get(::grpc::ClientContext* context, const ::bin_diff::GetRequest* request, ::bin_diff::GetReply* response, std::function<void(::grpc::Status)>) override;
+      void Get(::grpc::ClientContext* context, const ::bin_diff::GetRequest* request, ::bin_diff::GetReply* response, ::grpc::ClientUnaryReactor* reactor) override;
      private:
       friend class Stub;
       explicit async(Stub* stub): stub_(stub) { }
@@ -106,8 +126,11 @@ class BinDiffServer final {
     ::grpc::ClientAsyncResponseReader< ::bin_diff::UploadReply>* PrepareAsyncUploadRaw(::grpc::ClientContext* context, const ::bin_diff::UploadRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::bin_diff::DiffReply>* AsyncDiffRaw(::grpc::ClientContext* context, const ::bin_diff::DiffRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::bin_diff::DiffReply>* PrepareAsyncDiffRaw(::grpc::ClientContext* context, const ::bin_diff::DiffRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::bin_diff::GetReply>* AsyncGetRaw(::grpc::ClientContext* context, const ::bin_diff::GetRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::bin_diff::GetReply>* PrepareAsyncGetRaw(::grpc::ClientContext* context, const ::bin_diff::GetRequest& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_Upload_;
     const ::grpc::internal::RpcMethod rpcmethod_Diff_;
+    const ::grpc::internal::RpcMethod rpcmethod_Get_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -117,6 +140,7 @@ class BinDiffServer final {
     virtual ~Service();
     virtual ::grpc::Status Upload(::grpc::ServerContext* context, const ::bin_diff::UploadRequest* request, ::bin_diff::UploadReply* response);
     virtual ::grpc::Status Diff(::grpc::ServerContext* context, const ::bin_diff::DiffRequest* request, ::bin_diff::DiffReply* response);
+    virtual ::grpc::Status Get(::grpc::ServerContext* context, const ::bin_diff::GetRequest* request, ::bin_diff::GetReply* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_Upload : public BaseClass {
@@ -158,7 +182,27 @@ class BinDiffServer final {
       ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_Upload<WithAsyncMethod_Diff<Service > > AsyncService;
+  template <class BaseClass>
+  class WithAsyncMethod_Get : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_Get() {
+      ::grpc::Service::MarkMethodAsync(2);
+    }
+    ~WithAsyncMethod_Get() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status Get(::grpc::ServerContext* /*context*/, const ::bin_diff::GetRequest* /*request*/, ::bin_diff::GetReply* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestGet(::grpc::ServerContext* context, ::bin_diff::GetRequest* request, ::grpc::ServerAsyncResponseWriter< ::bin_diff::GetReply>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_Upload<WithAsyncMethod_Diff<WithAsyncMethod_Get<Service > > > AsyncService;
   template <class BaseClass>
   class WithCallbackMethod_Upload : public BaseClass {
    private:
@@ -213,7 +257,34 @@ class BinDiffServer final {
     virtual ::grpc::ServerUnaryReactor* Diff(
       ::grpc::CallbackServerContext* /*context*/, const ::bin_diff::DiffRequest* /*request*/, ::bin_diff::DiffReply* /*response*/)  { return nullptr; }
   };
-  typedef WithCallbackMethod_Upload<WithCallbackMethod_Diff<Service > > CallbackService;
+  template <class BaseClass>
+  class WithCallbackMethod_Get : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_Get() {
+      ::grpc::Service::MarkMethodCallback(2,
+          new ::grpc::internal::CallbackUnaryHandler< ::bin_diff::GetRequest, ::bin_diff::GetReply>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::bin_diff::GetRequest* request, ::bin_diff::GetReply* response) { return this->Get(context, request, response); }));}
+    void SetMessageAllocatorFor_Get(
+        ::grpc::MessageAllocator< ::bin_diff::GetRequest, ::bin_diff::GetReply>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(2);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::bin_diff::GetRequest, ::bin_diff::GetReply>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_Get() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status Get(::grpc::ServerContext* /*context*/, const ::bin_diff::GetRequest* /*request*/, ::bin_diff::GetReply* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* Get(
+      ::grpc::CallbackServerContext* /*context*/, const ::bin_diff::GetRequest* /*request*/, ::bin_diff::GetReply* /*response*/)  { return nullptr; }
+  };
+  typedef WithCallbackMethod_Upload<WithCallbackMethod_Diff<WithCallbackMethod_Get<Service > > > CallbackService;
   typedef CallbackService ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_Upload : public BaseClass {
@@ -245,6 +316,23 @@ class BinDiffServer final {
     }
     // disable synchronous version of this method
     ::grpc::Status Diff(::grpc::ServerContext* /*context*/, const ::bin_diff::DiffRequest* /*request*/, ::bin_diff::DiffReply* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_Get : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_Get() {
+      ::grpc::Service::MarkMethodGeneric(2);
+    }
+    ~WithGenericMethod_Get() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status Get(::grpc::ServerContext* /*context*/, const ::bin_diff::GetRequest* /*request*/, ::bin_diff::GetReply* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -290,6 +378,26 @@ class BinDiffServer final {
     }
   };
   template <class BaseClass>
+  class WithRawMethod_Get : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_Get() {
+      ::grpc::Service::MarkMethodRaw(2);
+    }
+    ~WithRawMethod_Get() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status Get(::grpc::ServerContext* /*context*/, const ::bin_diff::GetRequest* /*request*/, ::bin_diff::GetReply* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestGet(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithRawCallbackMethod_Upload : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
@@ -331,6 +439,28 @@ class BinDiffServer final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     virtual ::grpc::ServerUnaryReactor* Diff(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_Get : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_Get() {
+      ::grpc::Service::MarkMethodRawCallback(2,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->Get(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_Get() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status Get(::grpc::ServerContext* /*context*/, const ::bin_diff::GetRequest* /*request*/, ::bin_diff::GetReply* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* Get(
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
@@ -387,9 +517,36 @@ class BinDiffServer final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedDiff(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::bin_diff::DiffRequest,::bin_diff::DiffReply>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_Upload<WithStreamedUnaryMethod_Diff<Service > > StreamedUnaryService;
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_Get : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_Get() {
+      ::grpc::Service::MarkMethodStreamed(2,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::bin_diff::GetRequest, ::bin_diff::GetReply>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::bin_diff::GetRequest, ::bin_diff::GetReply>* streamer) {
+                       return this->StreamedGet(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_Get() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status Get(::grpc::ServerContext* /*context*/, const ::bin_diff::GetRequest* /*request*/, ::bin_diff::GetReply* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedGet(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::bin_diff::GetRequest,::bin_diff::GetReply>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_Upload<WithStreamedUnaryMethod_Diff<WithStreamedUnaryMethod_Get<Service > > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_Upload<WithStreamedUnaryMethod_Diff<Service > > StreamedService;
+  typedef WithStreamedUnaryMethod_Upload<WithStreamedUnaryMethod_Diff<WithStreamedUnaryMethod_Get<Service > > > StreamedService;
 };
 
 }  // namespace bin_diff

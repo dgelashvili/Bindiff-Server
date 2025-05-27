@@ -16,6 +16,12 @@ public:
 		const bin_diff::DiffRequest *request,
 		bin_diff::DiffReply *response) override;
 
+	// This method is temporary and is used for testing
+	::grpc::Status Get(
+		grpc::ServerContext *context,
+		const bin_diff::GetRequest *request,
+		bin_diff::GetReply *response) override;
+
 private:
 	BinDiffCache bin_diff_cache_;
 };

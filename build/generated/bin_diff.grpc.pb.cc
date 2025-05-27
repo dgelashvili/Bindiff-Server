@@ -24,6 +24,7 @@ namespace bin_diff {
 static const char* BinDiffServer_method_names[] = {
   "/bin_diff.BinDiffServer/Upload",
   "/bin_diff.BinDiffServer/Diff",
+  "/bin_diff.BinDiffServer/Get",
 };
 
 std::unique_ptr< BinDiffServer::Stub> BinDiffServer::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -35,6 +36,7 @@ std::unique_ptr< BinDiffServer::Stub> BinDiffServer::NewStub(const std::shared_p
 BinDiffServer::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options)
   : channel_(channel), rpcmethod_Upload_(BinDiffServer_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_Diff_(BinDiffServer_method_names[1], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_Get_(BinDiffServer_method_names[2], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status BinDiffServer::Stub::Upload(::grpc::ClientContext* context, const ::bin_diff::UploadRequest& request, ::bin_diff::UploadReply* response) {
@@ -83,6 +85,29 @@ void BinDiffServer::Stub::async::Diff(::grpc::ClientContext* context, const ::bi
   return result;
 }
 
+::grpc::Status BinDiffServer::Stub::Get(::grpc::ClientContext* context, const ::bin_diff::GetRequest& request, ::bin_diff::GetReply* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::bin_diff::GetRequest, ::bin_diff::GetReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_Get_, context, request, response);
+}
+
+void BinDiffServer::Stub::async::Get(::grpc::ClientContext* context, const ::bin_diff::GetRequest* request, ::bin_diff::GetReply* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::bin_diff::GetRequest, ::bin_diff::GetReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Get_, context, request, response, std::move(f));
+}
+
+void BinDiffServer::Stub::async::Get(::grpc::ClientContext* context, const ::bin_diff::GetRequest* request, ::bin_diff::GetReply* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_Get_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::bin_diff::GetReply>* BinDiffServer::Stub::PrepareAsyncGetRaw(::grpc::ClientContext* context, const ::bin_diff::GetRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::bin_diff::GetReply, ::bin_diff::GetRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_Get_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::bin_diff::GetReply>* BinDiffServer::Stub::AsyncGetRaw(::grpc::ClientContext* context, const ::bin_diff::GetRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncGetRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
 BinDiffServer::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       BinDiffServer_method_names[0],
@@ -104,6 +129,16 @@ BinDiffServer::Service::Service() {
              ::bin_diff::DiffReply* resp) {
                return service->Diff(ctx, req, resp);
              }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      BinDiffServer_method_names[2],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< BinDiffServer::Service, ::bin_diff::GetRequest, ::bin_diff::GetReply, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](BinDiffServer::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::bin_diff::GetRequest* req,
+             ::bin_diff::GetReply* resp) {
+               return service->Get(ctx, req, resp);
+             }, this)));
 }
 
 BinDiffServer::Service::~Service() {
@@ -117,6 +152,13 @@ BinDiffServer::Service::~Service() {
 }
 
 ::grpc::Status BinDiffServer::Service::Diff(::grpc::ServerContext* context, const ::bin_diff::DiffRequest* request, ::bin_diff::DiffReply* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status BinDiffServer::Service::Get(::grpc::ServerContext* context, const ::bin_diff::GetRequest* request, ::bin_diff::GetReply* response) {
   (void) context;
   (void) request;
   (void) response;
