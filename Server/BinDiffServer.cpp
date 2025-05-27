@@ -11,9 +11,15 @@ grpc::Status BinDiffServer::Upload(
 	response->set_id(id);
 	if (bin_diff_cache_.contains(id)) return grpc::Status::OK;
 
-	const auto content = std::make_shared<BinExportContent>(request->content());
-	bin_diff_cache_.add(id, content);
-	return grpc::Status::OK;
+	try {
+		const auto content = std::make_shared<BinExportContent>(request->content());
+		bin_diff_cache_.add(id, content);
+		return grpc::Status::OK;
+	} catch (const std::runtime_error& e) {
+		return {grpc::StatusCode::ABORTED, e.what()};
+	} catch (...) {
+		return {grpc::StatusCode::UNKNOWN, "Unknown error"};
+	}
 }
 
 grpc::Status BinDiffServer::Diff(
