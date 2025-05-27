@@ -4,6 +4,7 @@
 #include "grpcpp/grpcpp.h"
 #include "binexport2.pb.h"
 #include "binexportParser.grpc.pb.h"
+#include "BinDiffServer.h"
 
 class BinexportParserServer final : public binexportParser::Parser::Service {
 	::grpc::Status Parse(
@@ -26,18 +27,22 @@ class BinexportParserServer final : public binexportParser::Parser::Service {
 	}
 };
 
-int main() {
-	const std::string address = "localhost:50051";
+void BuildAndStartServer(const std::string& server_address) {
 	grpc::ServerBuilder builder;
-	builder.AddListeningPort(address, grpc::InsecureServerCredentials());
+	builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
 
-	BinexportParserServer service;
+	BinDiffServer service;
 	builder.RegisterService(&service);
 
 	const std::unique_ptr<grpc::Server> server = builder.BuildAndStart();
 
-	std::cout << "Server listening on " << address << std::endl;
-
 	server->Wait();
+}
+
+int main() {
+	const std::string address = "localhost:50051";
+
+	BuildAndStartServer(address);
+
 	return 0;
 }

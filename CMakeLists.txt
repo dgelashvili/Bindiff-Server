@@ -45,6 +45,8 @@ add_executable(client
 		Client/client_main.cpp
 		build/generated/binexportParser.pb.cc
 		build/generated/binexportParser.grpc.pb.cc
+		build/generated/bin_diff.pb.cc
+		build/generated/bin_diff.grpc.pb.cc
 )
 target_link_libraries(client
 		gRPC::grpc++
