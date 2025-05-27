@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package bin_diff;
+
+service BinDiffServer {
+  rpc Upload (UploadRequest) returns (UploadReply);
+  rpc Diff (DiffRequest) returns (DiffReply);
+  rpc Get (GetRequest) returns (GetReply);
+}
+
+message UploadRequest {
+  bytes content = 1;
+}
+
+message UploadReply {
+  string id = 1;
+}
+
+message DiffRequest {
+  string id_1 = 1;
+  string id_2 = 2;
+}
+
+message DiffReply {
+
+}
+
+message GetRequest {
+  string id = 1;
+}
+
+message GetReply {
+  repeated string function_names = 1;
+}

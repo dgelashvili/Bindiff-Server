@@ -1,37 +1,69 @@
 #include <iostream>
 #include <fstream>
+
 #include "grpcpp/grpcpp.h"
-#include "binexportParser.grpc.pb.h"
+#include "bin_diff.grpc.pb.h"
 
-class BinexportParserClient {
-private:
-	std::unique_ptr<binexportParser::Parser::Stub> stub_;
+class BinDiffClient {
 public:
-	explicit BinexportParserClient(const std::shared_ptr<grpc::Channel>& channel): stub_(binexportParser::Parser::NewStub(channel)) {};
+	explicit BinDiffClient(const std::shared_ptr<grpc::Channel>& channel):
+		stub_(bin_diff::BinDiffServer::NewStub(channel)) {};
 
-	void Parse() const {
+	[[nodiscard]] std::string Upload(const std::string& file_path) const {
 		grpc::ClientContext context;
 
-		std::ifstream file("/home/demetre/Bindiff-Server/Client/test_binDiff_1.exe.BinExport", std::ios::binary);
+		std::ifstream file(file_path, std::ios::binary);
+		if (!file || !file.is_open()) {
+			std::cerr << "File does not exist or failed to open: " << file_path << std::endl;
+			return "";
+		}
 		std::string file_data((std::istreambuf_iterator<char>(file)),
 							  std::istreambuf_iterator<char>());
 
-		binexportParser::ParseRequest request;
-		binexportParser::ParseReply reply;
+		bin_diff::UploadRequest request;
+		bin_diff::UploadReply reply;
 		request.set_content(file_data);
 
-		if (const grpc::Status status = stub_->Parse(&context, request, &reply); status.ok()) {
-			for (const auto& elem : reply.names()) {
-				std::cout << elem << std::endl;
-			}
+		if (const grpc::Status status = stub_->Upload(&context, request, &reply); status.ok()) {
+			return reply.id();
 		} else {
-			std::cout << status.error_code() << ": " << status.error_message() << std::endl;
+			std::cerr << status.error_code() << ": " << status.error_message() << std::endl;
+			return "";
 		}
 	}
+
+	void Get(const std::string& id) const {
+		grpc::ClientContext context;
+
+		bin_diff::GetRequest request;
+		bin_diff::GetReply reply;
+		request.set_id(id);
+
+		if (const grpc::Status status = stub_->Get(&context, request, &reply); status.ok()) {
+			for (const auto& function_name : reply.function_names()) {
+				std::cout << function_name << std::endl;
+			}
+		} else {
+			std::cerr << status.error_code() << ": " << status.error_message() << std::endl;
+		}
+	}
+
+private:
+	std::unique_ptr<bin_diff::BinDiffServer::Stub> stub_;
 };
 
 int main() {
-	const BinexportParserClient client(grpc::CreateChannel("localhost:50051", grpc::InsecureChannelCredentials()));
-	client.Parse();
+	const BinDiffClient client(
+		grpc::CreateChannel(
+			"localhost:50051",
+			grpc::InsecureChannelCredentials()));
+
+	const std::string id = client.Upload("../Client/test_binDiff_1.exe.BinExport");
+	std::string fake_id = client.Upload("../Client/client_main.cpp");
+	std::string nonexistent_id = client.Upload("../Client/nonexistent.BinExport");
+
+	client.Get("random_id");
+	client.Get(id);
+
 	return 0;
 }
