@@ -51,3 +51,5 @@ target_link_libraries(client
 		gRPC::grpc++
 		${Protobuf_LIBRARIES}
 )
+
+add_subdirectory(test)
