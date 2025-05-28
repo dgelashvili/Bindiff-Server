@@ -46,6 +46,8 @@ add_executable(client
 
 		${SRC_DIR}/build/generated/bin_diff.pb.cc
 		${SRC_DIR}/build/generated/bin_diff.grpc.pb.cc
+
+		${SRC_DIR}/Client/BinDiffClient.cpp
 )
 target_link_libraries(client
 		gRPC::grpc++
