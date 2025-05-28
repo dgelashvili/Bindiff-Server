@@ -58,9 +58,9 @@ int main() {
 			"localhost:50051",
 			grpc::InsecureChannelCredentials()));
 
-	const std::string id = client.Upload("../Client/test_binDiff_1.exe.BinExport");
-	std::string fake_id = client.Upload("../Client/client_main.cpp");
-	std::string nonexistent_id = client.Upload("../Client/nonexistent.BinExport");
+	const std::string id = client.Upload("../src/Client/test_binDiff_1.exe.BinExport");
+	std::string fake_id = client.Upload("../src/Client/client_main.cpp");
+	std::string nonexistent_id = client.Upload("../src/Client/nonexistent.BinExport");
 
 	client.Get("random_id");
 	client.Get(id);

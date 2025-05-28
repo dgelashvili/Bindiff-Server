@@ -4,34 +4,36 @@ project(bindiff_server)
 set(CMAKE_CXX_STANDARD 17)
 
 set(gRPC_DIR "$HOME/.local")
+set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
 
 find_package(protobuf REQUIRED)
 find_package(gRPC REQUIRED)
 
 include_directories(${Protobuf_INCLUDE_DIRS})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/build/generated)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Server)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/SHA_256)
+include_directories(${SRC_DIR})
+include_directories(${SRC_DIR}/build/generated)
+include_directories(${SRC_DIR}/Server)
+include_directories(${SRC_DIR}/SHA_256)
 
 add_library(sha256 STATIC
-		SHA_256/sha256.c
-		SHA_256/sha256Wrapper.cpp
+		${SRC_DIR}/SHA_256/sha256.c
+		${SRC_DIR}/SHA_256/sha256Wrapper.cpp
 )
 target_include_directories(sha256 PUBLIC
-		${CMAKE_CURRENT_SOURCE_DIR}/SHA_256
+		${SRC_DIR}/SHA_256
 )
 
 add_executable(server
-		Server/server_main.cpp
+		${SRC_DIR}/Server/server_main.cpp
 
-		build/generated/binexport2.pb.cc
-		build/generated/bin_diff.pb.cc
-		build/generated/bin_diff.grpc.pb.cc
+		${SRC_DIR}/build/generated/binexport2.pb.cc
+		${SRC_DIR}/build/generated/bin_diff.pb.cc
+		${SRC_DIR}/build/generated/bin_diff.grpc.pb.cc
 
-		Server/BinDiffServer.cpp
-		Server/BinDiffCache.cpp
-		Server/BinExportContent.cpp
+		${SRC_DIR}/Server/BinDiffServer.cpp
+		${SRC_DIR}/Server/BinDiffCache.cpp
+		${SRC_DIR}/Server/BinExportContent.cpp
 )
 target_link_libraries(server
 		gRPC::grpc++
@@ -40,10 +42,10 @@ target_link_libraries(server
 )
 
 add_executable(client
-		Client/client_main.cpp
+		${SRC_DIR}/Client/client_main.cpp
 
-		build/generated/bin_diff.pb.cc
-		build/generated/bin_diff.grpc.pb.cc
+		${SRC_DIR}/build/generated/bin_diff.pb.cc
+		${SRC_DIR}/build/generated/bin_diff.grpc.pb.cc
 )
 target_link_libraries(client
 		gRPC::grpc++
