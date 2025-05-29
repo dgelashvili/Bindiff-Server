@@ -3,6 +3,7 @@
 
 #include <string>
 #include <unordered_map>
+#include <mutex>
 
 #include "BinExportContent.h"
 
@@ -13,7 +14,10 @@ public:
 	bool contains(const std::string& id);
 
 private:
+	bool contains_without_lock(const std::string& id);
+
 	std::unordered_map<std::string, std::shared_ptr<BinExportContent>> cache_;
+	std::mutex cache_mutex_;
 };
 
 #endif //BINDIFFCACHE_H
