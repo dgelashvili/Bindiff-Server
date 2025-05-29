@@ -12,7 +12,7 @@ public:
 	explicit BinDiffClient(const std::shared_ptr<grpc::Channel>& channel);
 
 	[[nodiscard]] std::string Upload(const std::string& file_path) const;
-	std::vector<std::string> Get(const std::string& id) const;
+	[[nodiscard]] std::vector<std::string> Get(const std::string& id) const;
 
 private:
 	std::unique_ptr<bin_diff::BinDiffServer::Stub> stub_;
