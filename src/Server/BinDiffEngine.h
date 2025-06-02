@@ -11,7 +11,9 @@ class BinDiffEngine {
 public:
 	BinDiffEngine();
 
-	[[nodiscard]] std::vector<Match> match(const BinExportContent& primary, const BinExportContent& secondary) const;
+	[[nodiscard]] std::vector<Match> match(
+		const std::shared_ptr<BinExportContent>& primary,
+		const std::shared_ptr<BinExportContent>& secondary) const;
 
 private:
 	void fill_matching_algorithms();

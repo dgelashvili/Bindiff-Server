@@ -23,8 +23,8 @@ public:
 	virtual ~MatchingAlgorithm() = default;
 
 	virtual void match(
-		const BinExportContent& primary,
-		const BinExportContent& secondary,
+		const std::shared_ptr<BinExportContent>& primary,
+		const std::shared_ptr<BinExportContent>& secondary,
 		std::vector<Match>& out_matches,
 		std::vector<PotentialMatches>& unmatched_groups) const = 0;
 };

@@ -25,7 +25,29 @@ grpc::Status BinDiffServer::Diff(
 	grpc::ServerContext *context,
 	const bin_diff::DiffRequest *request,
 	bin_diff::DiffReply *response) {
-	return grpc::Status::OK;
+
+	const std::string& primary_id = request->id_1();
+	const std::string& secondary_id = request->id_2();
+	try {
+		const std::shared_ptr<BinExportContent> primary_content = bin_diff_cache_.get(primary_id);
+		const std::shared_ptr<BinExportContent> secondary_content = bin_diff_cache_.get(secondary_id);
+
+		std::vector<Match> matches = bin_diff_engine.match(primary_content, secondary_content);
+
+		for (const auto& match : matches) {
+			auto* new_match = response->add_matches();
+			new_match->set_address_primary(match.address_primary);
+			new_match->set_address_secondary(match.address_secondary);
+			new_match->set_similarity(match.similarity);
+			new_match->set_confidence(match.confidence);
+		}
+
+		return grpc::Status::OK;
+	} catch (const std::runtime_error& e) {
+		return {grpc::StatusCode::NOT_FOUND, e.what()};
+	} catch (...) {
+		return {grpc::StatusCode::UNKNOWN, "Unknown error"};
+	}
 }
 
 grpc::Status BinDiffServer::Get(

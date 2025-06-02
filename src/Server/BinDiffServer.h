@@ -3,6 +3,7 @@
 
 #include "bin_diff.grpc.pb.h"
 #include "BinDiffCache.h"
+#include "BinDiffEngine.h"
 
 class BinDiffServer final : public bin_diff::BinDiffServer::Service {
 public:
@@ -24,6 +25,7 @@ public:
 
 private:
 	BinDiffCache bin_diff_cache_;
+	BinDiffEngine bin_diff_engine;
 };
 
 #endif //BINDIFFSERVER_H
