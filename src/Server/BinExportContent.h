@@ -11,8 +11,8 @@ public:
 	explicit BinExportContent(const std::string& file_bytes);
 
 	const BinExport2& get_raw();
-	std::vector<std::string> get_function_names();
-	std::vector<std::uint64_t> get_function_addresses();
+	std::vector<std::string> get_function_names() const;
+	std::vector<std::uint64_t> get_function_addresses() const;
 
 private:
 	BinExport2 binexport_raw_;

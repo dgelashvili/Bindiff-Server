@@ -15,10 +15,10 @@ const BinExport2 &BinExportContent::get_raw() {
 	return binexport_raw_;
 }
 
-std::vector<std::string> BinExportContent::get_function_names() {
+std::vector<std::string> BinExportContent::get_function_names() const {
 	return function_names_;
 }
 
-std::vector<std::uint64_t> BinExportContent::get_function_addresses() {
+std::vector<std::uint64_t> BinExportContent::get_function_addresses() const {
 	return function_addresses_;
 }

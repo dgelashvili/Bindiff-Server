@@ -34,6 +34,10 @@ add_executable(server
 		${SRC_DIR}/Server/BinDiffServer.cpp
 		${SRC_DIR}/Server/BinDiffCache.cpp
 		${SRC_DIR}/Server/BinExportContent.cpp
+
+		${SRC_DIR}/Server/MatchingAlgorithm.h
+		${SRC_DIR}/Server/BinDiffEngine.cpp
+		${SRC_DIR}/Server/BinDiffEngine.h
 )
 target_link_libraries(server
 		gRPC::grpc++
