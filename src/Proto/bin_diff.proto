@@ -21,8 +21,15 @@ message DiffRequest {
   string id_2 = 2;
 }
 
-message DiffReply {
+message FunctionMatch {
+  uint64 address_primary = 1;
+  uint64 address_secondary = 2;
+  float similarity = 3;
+  float confidence = 4;
+}
 
+message DiffReply {
+  repeated FunctionMatch matches = 1;
 }
 
 message GetRequest {

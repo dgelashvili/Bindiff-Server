@@ -20,7 +20,6 @@
 #include "google/protobuf/io/coded_stream.h"
 #include "google/protobuf/arena.h"
 #include "google/protobuf/arenastring.h"
-#include "google/protobuf/generated_message_bases.h"
 #include "google/protobuf/generated_message_tctable_decl.h"
 #include "google/protobuf/generated_message_util.h"
 #include "google/protobuf/metadata_lite.h"
@@ -62,6 +61,10 @@ class DiffRequest;
 struct DiffRequestDefaultTypeInternal;
 extern DiffRequestDefaultTypeInternal _DiffRequest_default_instance_;
 extern const ::google::protobuf::internal::ClassDataFull DiffRequest_class_data_;
+class FunctionMatch;
+struct FunctionMatchDefaultTypeInternal;
+extern FunctionMatchDefaultTypeInternal _FunctionMatch_default_instance_;
+extern const ::google::protobuf::internal::ClassDataFull FunctionMatch_class_data_;
 class GetReply;
 struct GetReplyDefaultTypeInternal;
 extern GetReplyDefaultTypeInternal _GetReply_default_instance_;
@@ -538,7 +541,7 @@ class GetRequest final : public ::google::protobuf::Message
     return *reinterpret_cast<const GetRequest*>(
         &_GetRequest_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 4;
+  static constexpr int kIndexInFileMessages = 5;
   friend void swap(GetRequest& a, GetRequest& b) { a.Swap(&b); }
   inline void Swap(GetRequest* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -734,7 +737,7 @@ class GetReply final : public ::google::protobuf::Message
     return *reinterpret_cast<const GetReply*>(
         &_GetReply_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 5;
+  static constexpr int kIndexInFileMessages = 6;
   friend void swap(GetReply& a, GetReply& b) { a.Swap(&b); }
   inline void Swap(GetReply* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -879,6 +882,233 @@ class GetReply final : public ::google::protobuf::Message
 };
 
 extern const ::google::protobuf::internal::ClassDataFull GetReply_class_data_;
+// -------------------------------------------------------------------
+
+class FunctionMatch final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:bin_diff.FunctionMatch) */ {
+ public:
+  inline FunctionMatch() : FunctionMatch(nullptr) {}
+  ~FunctionMatch() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(FunctionMatch* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(FunctionMatch));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR FunctionMatch(::google::protobuf::internal::ConstantInitialized);
+
+  inline FunctionMatch(const FunctionMatch& from) : FunctionMatch(nullptr, from) {}
+  inline FunctionMatch(FunctionMatch&& from) noexcept
+      : FunctionMatch(nullptr, std::move(from)) {}
+  inline FunctionMatch& operator=(const FunctionMatch& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline FunctionMatch& operator=(FunctionMatch&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const FunctionMatch& default_instance() {
+    return *reinterpret_cast<const FunctionMatch*>(
+        &_FunctionMatch_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 3;
+  friend void swap(FunctionMatch& a, FunctionMatch& b) { a.Swap(&b); }
+  inline void Swap(FunctionMatch* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(FunctionMatch* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  FunctionMatch* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<FunctionMatch>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const FunctionMatch& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const FunctionMatch& from) { FunctionMatch::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
+                        const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(FunctionMatch* PROTOBUF_NONNULL other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "bin_diff.FunctionMatch"; }
+
+ protected:
+  explicit FunctionMatch(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  FunctionMatch(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const FunctionMatch& from);
+  FunctionMatch(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, FunctionMatch&& from) noexcept
+      : FunctionMatch(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
+  static void* PROTOBUF_NONNULL PlacementNew_(
+      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr auto InternalNewImpl_();
+
+ public:
+  static constexpr auto InternalGenerateClassData_();
+
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kAddressPrimaryFieldNumber = 1,
+    kAddressSecondaryFieldNumber = 2,
+    kSimilarityFieldNumber = 3,
+    kConfidenceFieldNumber = 4,
+  };
+  // uint64 address_primary = 1;
+  void clear_address_primary() ;
+  ::uint64_t address_primary() const;
+  void set_address_primary(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_address_primary() const;
+  void _internal_set_address_primary(::uint64_t value);
+
+  public:
+  // uint64 address_secondary = 2;
+  void clear_address_secondary() ;
+  ::uint64_t address_secondary() const;
+  void set_address_secondary(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_address_secondary() const;
+  void _internal_set_address_secondary(::uint64_t value);
+
+  public:
+  // float similarity = 3;
+  void clear_similarity() ;
+  float similarity() const;
+  void set_similarity(float value);
+
+  private:
+  float _internal_similarity() const;
+  void _internal_set_similarity(float value);
+
+  public:
+  // float confidence = 4;
+  void clear_confidence() ;
+  float confidence() const;
+  void set_confidence(float value);
+
+  private:
+  float _internal_confidence() const;
+  void _internal_set_confidence(float value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:bin_diff.FunctionMatch)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<2, 4,
+                                   0, 0,
+                                   2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+        const FunctionMatch& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::uint64_t address_primary_;
+    ::uint64_t address_secondary_;
+    float similarity_;
+    float confidence_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_bin_5fdiff_2eproto;
+};
+
+extern const ::google::protobuf::internal::ClassDataFull FunctionMatch_class_data_;
 // -------------------------------------------------------------------
 
 class DiffRequest final : public ::google::protobuf::Message
@@ -1094,10 +1324,11 @@ class DiffRequest final : public ::google::protobuf::Message
 extern const ::google::protobuf::internal::ClassDataFull DiffRequest_class_data_;
 // -------------------------------------------------------------------
 
-class DiffReply final : public ::google::protobuf::internal::ZeroFieldsBase
+class DiffReply final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:bin_diff.DiffReply) */ {
  public:
   inline DiffReply() : DiffReply(nullptr) {}
+  ~DiffReply() PROTOBUF_FINAL;
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
   void operator delete(DiffReply* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
@@ -1148,7 +1379,7 @@ class DiffReply final : public ::google::protobuf::internal::ZeroFieldsBase
     return *reinterpret_cast<const DiffReply*>(
         &_DiffReply_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 3;
+  static constexpr int kIndexInFileMessages = 4;
   friend void swap(DiffReply& a, DiffReply& b) { a.Swap(&b); }
   inline void Swap(DiffReply* PROTOBUF_NONNULL other) {
     if (other == this) return;
@@ -1167,21 +1398,48 @@ class DiffReply final : public ::google::protobuf::internal::ZeroFieldsBase
   // implements Message ----------------------------------------------
 
   DiffReply* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
-    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<DiffReply>(arena);
+    return ::google::protobuf::Message::DefaultConstruct<DiffReply>(arena);
   }
-  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
-  inline void CopyFrom(const DiffReply& from) {
-    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
-  }
-  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
-  void MergeFrom(const DiffReply& from) {
-    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
-  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const DiffReply& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const DiffReply& from) { DiffReply::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
+                        const ::google::protobuf::MessageLite& from_msg);
 
   public:
   bool IsInitialized() const {
     return true;
   }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(DiffReply* PROTOBUF_NONNULL other);
  private:
   template <typename T>
   friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
@@ -1208,12 +1466,32 @@ class DiffReply final : public ::google::protobuf::internal::ZeroFieldsBase
   // nested types ----------------------------------------------------
 
   // accessors -------------------------------------------------------
+  enum : int {
+    kMatchesFieldNumber = 1,
+  };
+  // repeated .bin_diff.FunctionMatch matches = 1;
+  int matches_size() const;
+  private:
+  int _internal_matches_size() const;
+
+  public:
+  void clear_matches() ;
+  ::bin_diff::FunctionMatch* PROTOBUF_NONNULL mutable_matches(int index);
+  ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionMatch>* PROTOBUF_NONNULL mutable_matches();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionMatch>& _internal_matches() const;
+  ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionMatch>* PROTOBUF_NONNULL _internal_mutable_matches();
+  public:
+  const ::bin_diff::FunctionMatch& matches(int index) const;
+  ::bin_diff::FunctionMatch* PROTOBUF_NONNULL add_matches();
+  const ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionMatch>& matches() const;
   // @@protoc_insertion_point(class_scope:bin_diff.DiffReply)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<0, 0,
-                                   0, 0,
+  static const ::google::protobuf::internal::TcParseTable<0, 1,
+                                   1, 0,
                                    2>
       _table_;
 
@@ -1232,8 +1510,11 @@ class DiffReply final : public ::google::protobuf::internal::ZeroFieldsBase
         ::google::protobuf::internal::InternalVisibility visibility,
         ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
         const DiffReply& from_msg);
+    ::google::protobuf::RepeatedPtrField< ::bin_diff::FunctionMatch > matches_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
+  union { Impl_ _impl_; };
   friend struct ::TableStruct_bin_5fdiff_2eproto;
 };
 
@@ -1525,7 +1806,157 @@ inline void DiffRequest::set_allocated_id_2(std::string* PROTOBUF_NULLABLE value
 
 // -------------------------------------------------------------------
 
+// FunctionMatch
+
+// uint64 address_primary = 1;
+inline void FunctionMatch::clear_address_primary() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.address_primary_ = ::uint64_t{0u};
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline ::uint64_t FunctionMatch::address_primary() const {
+  // @@protoc_insertion_point(field_get:bin_diff.FunctionMatch.address_primary)
+  return _internal_address_primary();
+}
+inline void FunctionMatch::set_address_primary(::uint64_t value) {
+  _internal_set_address_primary(value);
+  _impl_._has_bits_[0] |= 0x00000001u;
+  // @@protoc_insertion_point(field_set:bin_diff.FunctionMatch.address_primary)
+}
+inline ::uint64_t FunctionMatch::_internal_address_primary() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.address_primary_;
+}
+inline void FunctionMatch::_internal_set_address_primary(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.address_primary_ = value;
+}
+
+// uint64 address_secondary = 2;
+inline void FunctionMatch::clear_address_secondary() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.address_secondary_ = ::uint64_t{0u};
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline ::uint64_t FunctionMatch::address_secondary() const {
+  // @@protoc_insertion_point(field_get:bin_diff.FunctionMatch.address_secondary)
+  return _internal_address_secondary();
+}
+inline void FunctionMatch::set_address_secondary(::uint64_t value) {
+  _internal_set_address_secondary(value);
+  _impl_._has_bits_[0] |= 0x00000002u;
+  // @@protoc_insertion_point(field_set:bin_diff.FunctionMatch.address_secondary)
+}
+inline ::uint64_t FunctionMatch::_internal_address_secondary() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.address_secondary_;
+}
+inline void FunctionMatch::_internal_set_address_secondary(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.address_secondary_ = value;
+}
+
+// float similarity = 3;
+inline void FunctionMatch::clear_similarity() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.similarity_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000004u;
+}
+inline float FunctionMatch::similarity() const {
+  // @@protoc_insertion_point(field_get:bin_diff.FunctionMatch.similarity)
+  return _internal_similarity();
+}
+inline void FunctionMatch::set_similarity(float value) {
+  _internal_set_similarity(value);
+  _impl_._has_bits_[0] |= 0x00000004u;
+  // @@protoc_insertion_point(field_set:bin_diff.FunctionMatch.similarity)
+}
+inline float FunctionMatch::_internal_similarity() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.similarity_;
+}
+inline void FunctionMatch::_internal_set_similarity(float value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.similarity_ = value;
+}
+
+// float confidence = 4;
+inline void FunctionMatch::clear_confidence() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.confidence_ = 0;
+  _impl_._has_bits_[0] &= ~0x00000008u;
+}
+inline float FunctionMatch::confidence() const {
+  // @@protoc_insertion_point(field_get:bin_diff.FunctionMatch.confidence)
+  return _internal_confidence();
+}
+inline void FunctionMatch::set_confidence(float value) {
+  _internal_set_confidence(value);
+  _impl_._has_bits_[0] |= 0x00000008u;
+  // @@protoc_insertion_point(field_set:bin_diff.FunctionMatch.confidence)
+}
+inline float FunctionMatch::_internal_confidence() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.confidence_;
+}
+inline void FunctionMatch::_internal_set_confidence(float value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.confidence_ = value;
+}
+
+// -------------------------------------------------------------------
+
 // DiffReply
+
+// repeated .bin_diff.FunctionMatch matches = 1;
+inline int DiffReply::_internal_matches_size() const {
+  return _internal_matches().size();
+}
+inline int DiffReply::matches_size() const {
+  return _internal_matches_size();
+}
+inline void DiffReply::clear_matches() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.matches_.Clear();
+}
+inline ::bin_diff::FunctionMatch* PROTOBUF_NONNULL DiffReply::mutable_matches(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:bin_diff.DiffReply.matches)
+  return _internal_mutable_matches()->Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionMatch>* PROTOBUF_NONNULL DiffReply::mutable_matches()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:bin_diff.DiffReply.matches)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_matches();
+}
+inline const ::bin_diff::FunctionMatch& DiffReply::matches(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:bin_diff.DiffReply.matches)
+  return _internal_matches().Get(index);
+}
+inline ::bin_diff::FunctionMatch* PROTOBUF_NONNULL DiffReply::add_matches()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::bin_diff::FunctionMatch* _add = _internal_mutable_matches()->Add();
+  // @@protoc_insertion_point(field_add:bin_diff.DiffReply.matches)
+  return _add;
+}
+inline const ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionMatch>& DiffReply::matches() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:bin_diff.DiffReply.matches)
+  return _internal_matches();
+}
+inline const ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionMatch>&
+DiffReply::_internal_matches() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.matches_;
+}
+inline ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionMatch>* PROTOBUF_NONNULL
+DiffReply::_internal_mutable_matches() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.matches_;
+}
 
 // -------------------------------------------------------------------
 
