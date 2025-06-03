@@ -14,6 +14,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${SRC_DIR})
 include_directories(${SRC_DIR}/build/generated)
 include_directories(${SRC_DIR}/Server)
+include_directories(${SRC_DIR}/Server/MatchingAlgorithms)
 include_directories(${SRC_DIR}/SHA_256)
 
 add_library(sha256 STATIC
@@ -35,9 +36,11 @@ add_executable(server
 		${SRC_DIR}/Server/BinDiffCache.cpp
 		${SRC_DIR}/Server/BinExportContent.cpp
 
-		${SRC_DIR}/Server/MatchingAlgorithm.h
+		${SRC_DIR}/Server/MatchingAlgorithms/MatchingAlgorithm.h
 		${SRC_DIR}/Server/BinDiffEngine.cpp
-		${SRC_DIR}/Server/BinDiffEngine.h
+
+		${SRC_DIR}/Server/MatchingAlgorithms/NameMatcher.cpp
+		${SRC_DIR}/Server/MatchingAlgorithms/NameMatcher.h
 )
 target_link_libraries(server
 		gRPC::grpc++
