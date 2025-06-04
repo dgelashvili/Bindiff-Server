@@ -1,11 +1,11 @@
-#ifndef NAMEMATCHER_H
-#define NAMEMATCHER_H
+#ifndef BASICSTRUCTUREMATCHER_H
+#define BASICSTRUCTUREMATCHER_H
 
 #include "MatchingAlgorithm.h"
 
-class NameMatcher : public MatchingAlgorithm {
+class BasicStructureMatcher : public MatchingAlgorithm {
 public:
-	~NameMatcher() override = default;
+	~BasicStructureMatcher() override = default;
 
 	void match(
 		const std::shared_ptr<BinExportContent>& primary,
@@ -22,4 +22,4 @@ private:
 		std::vector<PotentialMatches>& new_unmatched_groups);
 };
 
-#endif //NAMEMATCHER_H
+#endif //BASICSTRUCTUREMATCHER_H

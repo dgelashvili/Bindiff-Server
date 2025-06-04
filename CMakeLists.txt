@@ -40,7 +40,7 @@ add_executable(server
 		${SRC_DIR}/Server/BinDiffEngine.cpp
 
 		${SRC_DIR}/Server/MatchingAlgorithms/NameMatcher.cpp
-		${SRC_DIR}/Server/MatchingAlgorithms/NameMatcher.h
+		${SRC_DIR}/Server/MatchingAlgorithms/BasicStructureMatcher.cpp
 )
 target_link_libraries(server
 		gRPC::grpc++
