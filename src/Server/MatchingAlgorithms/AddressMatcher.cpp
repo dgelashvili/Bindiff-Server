@@ -1,6 +1,6 @@
-#include "HashMatcher.h"
+#include "AddressMatcher.h"
 
-void HashMatcher::match(
+void AddressMatcher::match(
 	const std::shared_ptr<BinExportContent>& primary,
 	const std::shared_ptr<BinExportContent>& secondary,
 	std::vector<Match>& out_matches,
@@ -15,45 +15,45 @@ void HashMatcher::match(
 	}
 }
 
-void HashMatcher::match_specific_bucket(
+void AddressMatcher::match_specific_bucket(
 	const std::shared_ptr<BinExportContent>& primary,
 	const std::shared_ptr<BinExportContent>& secondary,
 	std::vector<Match>& out_matches,
 	std::vector<PotentialMatches>& unmatched_groups,
-	const int index,
+	int index,
 	std::vector<PotentialMatches>& new_unmatched_groups) {
 
-	std::unordered_map<std::string, PotentialMatches> potential_matches;
+	std::map<uint64_t, PotentialMatches> potential_matches;
 	PotentialMatches specific_bucket = unmatched_groups[index];
 	unmatched_groups.erase(unmatched_groups.begin() + index);
 
 	for (const auto& function : specific_bucket.primary) {
-		std::string function_hash = primary->get_functions()[function].get_hash();
-		potential_matches[function_hash].primary.push_back(function);
+		uint64_t function_address = primary->get_functions()[function].get_address();
+		potential_matches[function_address].primary.push_back(function);
 	}
 	for (const auto& function : specific_bucket.secondary) {
-		std::string function_hash = secondary->get_functions()[function].get_hash();
-		potential_matches[function_hash].secondary.push_back(function);
+		uint64_t function_address = secondary->get_functions()[function].get_address();
+		potential_matches[function_address].secondary.push_back(function);
 	}
 
-	PotentialMatches lone_functions_bucket;
+	PotentialMatches remaining_bucket;
 	for (const auto& it : potential_matches) {
-		PotentialMatches hash_matches = it.second;
-		if (hash_matches.primary.size() == 1 && hash_matches.secondary.size() == 1) {
+		PotentialMatches structure_matches = it.second;
+		if (structure_matches.primary.size() == 1 && structure_matches.secondary.size() == 1) {
 			Match match;
-			match.address_primary = primary->get_functions()[hash_matches.primary[0]].get_address();
-			match.address_secondary = secondary->get_functions()[hash_matches.secondary[0]].get_address();
+			match.address_primary = it.first;
+			match.address_secondary = it.first;
 			match.similarity = 1.0;
 			match.confidence = 1.0;
 			out_matches.push_back(match);
 		} else {
-			for (const auto& function : hash_matches.primary) {
-				lone_functions_bucket.primary.push_back(function);
+			for (const auto& function : structure_matches.primary) {
+				remaining_bucket.primary.push_back(function);
 			}
-			for (const auto& function : hash_matches.secondary) {
-				lone_functions_bucket.secondary.push_back(function);
+			for (const auto& function : structure_matches.secondary) {
+				remaining_bucket.secondary.push_back(function);
 			}
 		}
 	}
-	new_unmatched_groups.push_back(lone_functions_bucket);
+	new_unmatched_groups.push_back(remaining_bucket);
 }

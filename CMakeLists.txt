@@ -48,6 +48,7 @@ add_executable(server
 		${SRC_DIR}/Server/MatchingAlgorithms/LoopStructureMatcher.cpp
 		${SRC_DIR}/Server/MatchingAlgorithms/CallDegreeMatcher.cpp
 		${SRC_DIR}/Server/MatchingAlgorithms/NeighbourhoodMatcher.cpp
+		${SRC_DIR}/Server/MatchingAlgorithms/AddressMatcher.cpp
 )
 target_link_libraries(server
 		gRPC::grpc++
