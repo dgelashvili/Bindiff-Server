@@ -20,6 +20,24 @@ private:
 		std::vector<PotentialMatches>& unmatched_groups,
 		int index,
 		std::vector<PotentialMatches>& new_unmatched_groups);
+	static float calculate_mnemonics_similarity(const Function& p_func, const Function& s_func);
+	static float calculate_mnemonics_confidence(const Function& p_func, const Function& s_func);
+
+	static void handle_multiple_mnemonic_matches(
+		const std::shared_ptr<BinExportContent>& primary,
+		const std::shared_ptr<BinExportContent>& secondary,
+		const PotentialMatches& mnemonic_matches,
+		std::vector<Match>& out_matches,
+		long long mnemonic_hash);
+
+	static std::vector<std::pair<int, int>> find_best_mnemonic_pairings(
+		const std::shared_ptr<BinExportContent>& primary,
+		const std::shared_ptr<BinExportContent>& secondary,
+		const PotentialMatches& mnemonic_matches);
+
+	static float calculate_structural_similarity_for_disambiguation(
+		const Function& p_func, const Function& s_func);
+
 };
 
 #endif //MNEMONICSHASHMATCHER_H
