@@ -45,3 +45,29 @@ std::vector<std::string> BinDiffClient::Get(const std::string &id) const {
 		return {};
 	}
 }
+
+std::vector<Match> BinDiffClient::Diff(const std::string &id_1, const std::string &id_2) const {
+	grpc::ClientContext context;
+
+	bin_diff::DiffRequest request;
+	bin_diff::DiffReply reply;
+	request.set_id_1(id_1);
+	request.set_id_2(id_2);
+
+	if (const grpc::Status status = stub_->Diff(&context, request, &reply); status.ok()) {
+		std::vector<Match> matches;
+		for (const auto& match_proto  : reply.matches()) {
+			Match match;
+			match.address_primary = match_proto.address_primary();
+			match.address_secondary = match_proto.address_secondary();
+			match.similarity = match_proto.similarity();
+			match.confidence = match_proto.confidence();
+			matches.push_back(match);
+		}
+		return matches;
+	} else {
+		std::cerr << status.error_code() << ": " << status.error_message() << std::endl;
+		return {};
+	}
+}
+
