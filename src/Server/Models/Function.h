@@ -51,7 +51,7 @@ private:
 	long long mnemonics_hash_;
 	int loop_count_;
 	int outgoing_degree_;
-	int ingoing_degree_;;
+	int ingoing_degree_;
 	int recursive_degree_;
 };
 

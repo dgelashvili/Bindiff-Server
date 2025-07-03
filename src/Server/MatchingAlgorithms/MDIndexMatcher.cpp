@@ -9,12 +9,10 @@ void MDIndexMatcher::match(
 
     std::vector<PotentialMatches> new_unmatched_groups;
 
-    // First pass: Strict MD index matching
     for (int i = 0; i < unmatched_groups.size(); i++) {
         match_specific_bucket(primary, secondary, out_matches, unmatched_groups, i, new_unmatched_groups, false);
     }
 
-    // Second pass: Relaxed MD index matching for remaining functions
     std::vector<PotentialMatches> relaxed_groups = new_unmatched_groups;
     new_unmatched_groups.clear();
 
@@ -78,8 +76,6 @@ void MDIndexMatcher::match_specific_bucket(
 }
 
 std::string MDIndexMatcher::calculate_md_index(const Function& function) {
-    // Simplified MD index based on structural characteristics
-    // Real MD index is more complex, but this captures the essence
 
     std::string md_index = std::to_string(function.get_basic_block_count()) + "_" +
                           std::to_string(function.get_function_instruction_count()) + "_" +
@@ -91,7 +87,6 @@ std::string MDIndexMatcher::calculate_md_index(const Function& function) {
 }
 
 std::string MDIndexMatcher::calculate_relaxed_md_index(const Function& function) {
-    // More relaxed matching - ignore exact instruction count, focus on structure
     std::string relaxed_index = std::to_string(function.get_basic_block_count()) + "_" +
                                std::to_string(function.get_outgoing_degree()) + "_" +
                                std::to_string(function.get_incoming_degree()) + "_" +

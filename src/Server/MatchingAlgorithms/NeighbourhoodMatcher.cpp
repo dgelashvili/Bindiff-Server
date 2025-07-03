@@ -54,8 +54,9 @@ void NeighbourhoodMatcher::match(
 			Match match;
 			match.address_primary = primary->get_functions()[primary_index].get_address();
 			match.address_secondary = secondary->get_functions()[secondary_index].get_address();
-			match.similarity = 1;
-			match.confidence = 1;
+
+			match.similarity = calculate_similarity(primary, secondary, primary_index, secondary_index, neighbour_score);
+			match.confidence = calculate_confidence(primary, secondary, primary_index, secondary_index, neighbour_score);
 			out_matches.push_back(match);
 
 			newly_matched_primary.insert(primary_index);
@@ -155,4 +156,65 @@ void NeighbourhoodMatcher::fill_potential_matches(
 			secondary_to_primary[secondary_index].push_back(primary_index);
 		}
 	}
+}
+
+float NeighbourhoodMatcher::calculate_similarity(
+    const std::shared_ptr<BinExportContent>& primary,
+    const std::shared_ptr<BinExportContent>& secondary,
+    int primary_index, int secondary_index,
+    const std::map<std::pair<int, int>, std::pair<int, int>>& neighbour_score) {
+
+    auto score_it = neighbour_score.find(std::make_pair(primary_index, secondary_index));
+    if (score_it == neighbour_score.end()) {
+        return 0.80f;
+    }
+
+    int matched_callers = score_it->second.first;
+    int matched_callees = score_it->second.second;
+
+    int total_callers = primary->get_caller_neighbours(primary_index).size();
+    int total_callees = primary->get_callee_neighbours(primary_index).size();
+
+    float caller_ratio = total_callers > 0 ? (float)matched_callers / total_callers : 1.0f;
+    float callee_ratio = total_callees > 0 ? (float)matched_callees / total_callees : 1.0f;
+
+    float base_similarity = 0.70f + (caller_ratio * 0.15f) + (callee_ratio * 0.15f);
+
+    return std::min(1.0f, base_similarity);
+}
+
+float NeighbourhoodMatcher::calculate_confidence(
+    const std::shared_ptr<BinExportContent>& primary,
+    const std::shared_ptr<BinExportContent>& secondary,
+    int primary_index, int secondary_index,
+    const std::map<std::pair<int, int>, std::pair<int, int>>& neighbour_score) {
+
+    auto score_it = neighbour_score.find(std::make_pair(primary_index, secondary_index));
+    if (score_it == neighbour_score.end()) {
+        return 0.70f;
+    }
+
+    int matched_callers = score_it->second.first;
+    int matched_callees = score_it->second.second;
+    int total_matches = matched_callers + matched_callees;
+
+    float confidence = 0.65f;
+
+    if (total_matches >= 5) {
+        confidence += 0.20f;
+    } else if (total_matches >= 3) {
+        confidence += 0.15f;
+    } else if (total_matches >= 2) {
+        confidence += 0.10f;
+    } else if (total_matches >= 1) {
+        confidence += 0.05f;
+    }
+
+    const auto& p_func = primary->get_functions()[primary_index];
+    int complexity = p_func.get_basic_block_count() + p_func.get_outgoing_degree();
+    if (complexity > 10) {
+        confidence += 0.05f;
+    }
+
+    return std::min(0.85f, confidence);
 }

@@ -20,8 +20,8 @@ private:
 		std::vector<PotentialMatches>& unmatched_groups,
 		int index,
 		std::vector<PotentialMatches>& new_unmatched_groups);
-	static float calculate_mnemonics_similarity(const Function& p_func, const Function& s_func);
-	static float calculate_mnemonics_confidence(const Function& p_func, const Function& s_func);
+	static float calculate_similarity(const Function& p_func, const Function& s_func);
+	static float calculate_confidence(const Function& p_func, const Function& s_func);
 
 	static void handle_multiple_mnemonic_matches(
 		const std::shared_ptr<BinExportContent>& primary,

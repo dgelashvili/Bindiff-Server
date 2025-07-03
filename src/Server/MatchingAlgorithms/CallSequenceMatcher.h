@@ -18,6 +18,13 @@ private:
 		const std::shared_ptr<BinExportContent>& content,
 		const Function& function,
 		const std::vector<Match>& existing_matches);
+	
+	static std::pair<float, float> calculate_similarity(
+		const std::shared_ptr<BinExportContent>& primary,
+		const std::shared_ptr<BinExportContent>& secondary,
+		const Function& func1,
+		const Function& func2,
+		const std::vector<Match>& existing_matches);
 
 	static void match_specific_bucket(
 		const std::shared_ptr<BinExportContent>& primary,

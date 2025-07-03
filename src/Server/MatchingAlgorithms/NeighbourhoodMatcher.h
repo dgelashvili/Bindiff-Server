@@ -26,6 +26,16 @@ private:
 		std::unordered_map<int, std::vector<int>> &primary_to_secondary,
 		std::unordered_map<int, std::vector<int>> &secondary_to_primary,
 		std::map<std::pair<int, int>, std::pair<int, int>> &neighbour_score);
+
+	static float calculate_similarity(const std::shared_ptr<BinExportContent> &primary,
+	                                         const std::shared_ptr<BinExportContent> &secondary, int primary_index,
+	                                         int secondary_index,
+	                                         const std::map<std::pair<int, int>, std::pair<int, int>> &neighbour_score);
+
+	static float calculate_confidence(const std::shared_ptr<BinExportContent> &primary,
+	                                         const std::shared_ptr<BinExportContent> &secondary, int primary_index,
+	                                         int secondary_index,
+	                                         const std::map<std::pair<int, int>, std::pair<int, int>> &neighbour_score);
 };
 
 #endif //NEIGHBOURHOODMATCHER_H

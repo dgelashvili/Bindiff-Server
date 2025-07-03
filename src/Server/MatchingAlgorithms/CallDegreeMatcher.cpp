@@ -51,8 +51,11 @@ void CallDegreeMatcher::match_specific_bucket(
 			Match match;
 			match.address_primary = primary->get_functions()[structure_matches.primary[0]].get_address();
 			match.address_secondary = secondary->get_functions()[structure_matches.secondary[0]].get_address();
-			match.similarity = 1.0;
-			match.confidence = 1.0;
+			const auto& p_func = primary->get_functions()[structure_matches.primary[0]];
+			const auto& s_func = secondary->get_functions()[structure_matches.secondary[0]];
+
+			match.similarity = calculate_similarity(p_func, s_func);
+			match.confidence = calculate_confidence(p_func, s_func);
 			out_matches.push_back(match);
 		} else {
 			for (const auto& function : structure_matches.primary) {
@@ -64,4 +67,40 @@ void CallDegreeMatcher::match_specific_bucket(
 		}
 	}
 	new_unmatched_groups.push_back(remaining_bucket);
+}
+
+float CallDegreeMatcher::calculate_similarity(const Function& p_func, const Function& s_func) {
+	float similarity = 0.88f;
+	if (p_func.get_basic_block_count() == s_func.get_basic_block_count()) {
+		similarity += 0.08f;
+	}
+	if (p_func.get_loop_count() == s_func.get_loop_count()) {
+		similarity += 0.04f;
+	}
+	return std::min(1.0f, similarity);
+}
+
+float CallDegreeMatcher::calculate_confidence(const Function& p_func, const Function& s_func) {
+	float confidence = 0.75f;
+
+
+	int total_calls = p_func.get_outgoing_degree() + p_func.get_incoming_degree();
+	if (total_calls > 15) {
+		confidence += 0.15f;
+	} else if (total_calls > 8) {
+		confidence += 0.10f;
+	} else if (total_calls > 3) {
+		confidence += 0.05f;
+	}
+
+	int recursive_calls = p_func.get_recursive_degree();
+	if (recursive_calls > 0) {
+		confidence += 0.08f;
+	}
+
+	if (total_calls == 0 && recursive_calls == 0) {
+		confidence -= 0.10f;
+	}
+
+	return std::min(0.90f, confidence);
 }

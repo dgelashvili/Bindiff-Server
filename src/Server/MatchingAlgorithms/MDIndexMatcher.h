@@ -1,5 +1,3 @@
-
-// MDIndexMatcher.h
 #ifndef MDINDEXMATCHER_H
 #define MDINDEXMATCHER_H
 
@@ -29,4 +27,4 @@ private:
 		bool use_relaxed = false);
 };
 
-#endif
+#endif //MDINDEXMATCHER_H

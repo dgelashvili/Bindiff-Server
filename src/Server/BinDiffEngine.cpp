@@ -1,5 +1,7 @@
 #include "BinDiffEngine.h"
 
+#include "CallSequenceMatcher.h"
+#include "MDIndexMatcher.h"
 #include "AddressMatcher.h"
 #include "HashMatcher.h"
 #include "MnemonicsHashMatcher.h"
@@ -42,12 +44,14 @@ std::vector<Match> BinDiffEngine::match(
 }
 
 void BinDiffEngine::fill_matching_algorithms() {
+	matching_algorithms_.push_back(std::make_unique<HashMatcher>());
 	matching_algorithms_.push_back(std::make_unique<NameMatcher>());
 	matching_algorithms_.push_back(std::make_unique<MnemonicsHashMatcher>());
-	matching_algorithms_.push_back(std::make_unique<HashMatcher>());
 	matching_algorithms_.push_back(std::make_unique<AddressMatcher>());
+	matching_algorithms_.push_back(std::make_unique<MDIndexMatcher>());
 	matching_algorithms_.push_back(std::make_unique<LoopStructureMatcher>());
 	matching_algorithms_.push_back(std::make_unique<BasicStructureMatcher>());
 	matching_algorithms_.push_back(std::make_unique<CallDegreeMatcher>());
+	matching_algorithms_.push_back(std::make_unique<CallSequenceMatcher>());
 	matching_algorithms_.push_back(std::make_unique<NeighbourhoodMatcher>());
 }
