@@ -4,6 +4,7 @@
 #include "bin_diff.grpc.pb.h"
 #include "BinDiffCache.h"
 #include "BinDiffEngine.h"
+#include "Models/MnemonicTable.h"
 
 class BinDiffServer final : public bin_diff::BinDiffServer::Service {
 public:
@@ -26,6 +27,7 @@ public:
 private:
 	BinDiffCache bin_diff_cache_;
 	BinDiffEngine bin_diff_engine;
+	MnemonicTable mnemonic_table_;
 };
 
 #endif //BINDIFFSERVER_H

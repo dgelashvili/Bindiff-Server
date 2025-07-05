@@ -11,7 +11,7 @@ grpc::Status BinDiffServer::Upload(
 	if (bin_diff_cache_.contains(id)) return grpc::Status::OK;
 
 	try {
-		const auto content = std::make_shared<BinExportContent>(request->content());
+		const auto content = std::make_shared<BinExportContent>(request->content(), &mnemonic_table_);
 		bin_diff_cache_.add(id, content);
 		return grpc::Status::OK;
 	} catch (const std::runtime_error& e) {

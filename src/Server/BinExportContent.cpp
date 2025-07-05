@@ -1,14 +1,15 @@
 #include "BinExportContent.h"
 
-BinExportContent::BinExportContent(const std::string &file_bytes) {
+BinExportContent::BinExportContent(const std::string &file_bytes, MnemonicTable* mnemonic_table) {
 	if (!binexport_raw_.ParseFromString(file_bytes)) {
 		throw std::runtime_error("Failed to parse BinExport file");
 	}
+	mnemonic_table_ = mnemonic_table;
 
 	fill_flow_graph_address_map();
 
 	for (const auto& func : binexport_raw_.call_graph().vertex()) {
-		functions_.emplace_back(&binexport_raw_, &func, flow_graph_address_map_[func.address()]);
+		functions_.emplace_back(&binexport_raw_, &func, flow_graph_address_map_[func.address()], mnemonic_table);
 		address_to_name_map_[func.address()] = functions_[functions_.size() - 1].get_name();
 	}
 }

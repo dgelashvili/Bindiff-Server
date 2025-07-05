@@ -43,6 +43,8 @@ add_executable(server
 		${SRC_DIR}/Server/MatchingAlgorithms/BasicStructureMatcher.cpp
 		${SRC_DIR}/Server/MatchingAlgorithms/HashMatcher.cpp
 		${SRC_DIR}/Server/Models/Function.cpp
+		${SRC_DIR}/Server/Models/MnemonicTable.cpp
+		${SRC_DIR}/Server/MatchingAlgorithms/MnemonicsHashMatcher.cpp
 )
 target_link_libraries(server
 		gRPC::grpc++
