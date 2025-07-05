@@ -6,8 +6,8 @@ int main() {
 			"localhost:50051",
 			grpc::InsecureChannelCredentials()));
 
-	const std::string id_1 = client.Upload("../src/Client/code1.BinExport");
-	const std::string id_2 = client.Upload("../src/Client/code2.BinExport");
+	const std::string id_1 = client.Upload("../src/Client/Samples/code1.BinExport");
+	const std::string id_2 = client.Upload("../src/Client/Samples/code2.BinExport");
 
 	const auto matches = client.Diff(id_1, id_2);
 	for (const auto&[name_primary, name_secondary, similarity, confidence] : matches) {

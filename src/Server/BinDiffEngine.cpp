@@ -33,6 +33,6 @@ std::vector<Match> BinDiffEngine::match(
 
 void BinDiffEngine::fill_matching_algorithms() {
 	matching_algorithms_.push_back(std::make_unique<HashMatcher>());
-	matching_algorithms_.push_back(std::make_unique<BasicStructureMatcher>());
 	matching_algorithms_.push_back(std::make_unique<NameMatcher>());
+	matching_algorithms_.push_back(std::make_unique<BasicStructureMatcher>());
 }
