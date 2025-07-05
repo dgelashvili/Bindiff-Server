@@ -10,8 +10,8 @@ int main() {
 	const std::string id_2 = client.Upload("../src/Client/code2.BinExport");
 
 	const auto matches = client.Diff(id_1, id_2);
-	for (const auto&[address_primary, address_secondary, similarity, confidence] : matches) {
-		std::cout << address_primary << " got matched with " << address_secondary << "\n";
+	for (const auto&[name_primary, name_secondary, similarity, confidence] : matches) {
+		std::cout << name_primary << " got matched with " << name_secondary << "\n";
 		std::cout << "similarity: " << similarity << " with confidence: " << confidence << "\n";
 		std::cout << "\n";
 	}

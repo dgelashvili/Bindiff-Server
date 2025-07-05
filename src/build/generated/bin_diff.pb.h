@@ -1027,29 +1027,39 @@ class FunctionMatch final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kAddressPrimaryFieldNumber = 1,
-    kAddressSecondaryFieldNumber = 2,
+    kNamePrimaryFieldNumber = 1,
+    kNameSecondaryFieldNumber = 2,
     kSimilarityFieldNumber = 3,
     kConfidenceFieldNumber = 4,
   };
-  // uint64 address_primary = 1;
-  void clear_address_primary() ;
-  ::uint64_t address_primary() const;
-  void set_address_primary(::uint64_t value);
+  // string name_primary = 1;
+  void clear_name_primary() ;
+  const std::string& name_primary() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_name_primary(Arg_&& arg, Args_... args);
+  std::string* PROTOBUF_NONNULL mutable_name_primary();
+  [[nodiscard]] std::string* PROTOBUF_NULLABLE release_name_primary();
+  void set_allocated_name_primary(std::string* PROTOBUF_NULLABLE value);
 
   private:
-  ::uint64_t _internal_address_primary() const;
-  void _internal_set_address_primary(::uint64_t value);
+  const std::string& _internal_name_primary() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_name_primary(const std::string& value);
+  std::string* PROTOBUF_NONNULL _internal_mutable_name_primary();
 
   public:
-  // uint64 address_secondary = 2;
-  void clear_address_secondary() ;
-  ::uint64_t address_secondary() const;
-  void set_address_secondary(::uint64_t value);
+  // string name_secondary = 2;
+  void clear_name_secondary() ;
+  const std::string& name_secondary() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_name_secondary(Arg_&& arg, Args_... args);
+  std::string* PROTOBUF_NONNULL mutable_name_secondary();
+  [[nodiscard]] std::string* PROTOBUF_NULLABLE release_name_secondary();
+  void set_allocated_name_secondary(std::string* PROTOBUF_NULLABLE value);
 
   private:
-  ::uint64_t _internal_address_secondary() const;
-  void _internal_set_address_secondary(::uint64_t value);
+  const std::string& _internal_name_secondary() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_name_secondary(const std::string& value);
+  std::string* PROTOBUF_NONNULL _internal_mutable_name_secondary();
 
   public:
   // float similarity = 3;
@@ -1077,7 +1087,7 @@ class FunctionMatch final : public ::google::protobuf::Message
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<2, 4,
-                                   0, 0,
+                                   0, 57,
                                    2>
       _table_;
 
@@ -1098,8 +1108,8 @@ class FunctionMatch final : public ::google::protobuf::Message
         const FunctionMatch& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     ::google::protobuf::internal::CachedSize _cached_size_;
-    ::uint64_t address_primary_;
-    ::uint64_t address_secondary_;
+    ::google::protobuf::internal::ArenaStringPtr name_primary_;
+    ::google::protobuf::internal::ArenaStringPtr name_secondary_;
     float similarity_;
     float confidence_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -1808,52 +1818,134 @@ inline void DiffRequest::set_allocated_id_2(std::string* PROTOBUF_NULLABLE value
 
 // FunctionMatch
 
-// uint64 address_primary = 1;
-inline void FunctionMatch::clear_address_primary() {
+// string name_primary = 1;
+inline void FunctionMatch::clear_name_primary() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.address_primary_ = ::uint64_t{0u};
+  _impl_.name_primary_.ClearToEmpty();
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline ::uint64_t FunctionMatch::address_primary() const {
-  // @@protoc_insertion_point(field_get:bin_diff.FunctionMatch.address_primary)
-  return _internal_address_primary();
+inline const std::string& FunctionMatch::name_primary() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:bin_diff.FunctionMatch.name_primary)
+  return _internal_name_primary();
 }
-inline void FunctionMatch::set_address_primary(::uint64_t value) {
-  _internal_set_address_primary(value);
-  _impl_._has_bits_[0] |= 0x00000001u;
-  // @@protoc_insertion_point(field_set:bin_diff.FunctionMatch.address_primary)
-}
-inline ::uint64_t FunctionMatch::_internal_address_primary() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.address_primary_;
-}
-inline void FunctionMatch::_internal_set_address_primary(::uint64_t value) {
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void FunctionMatch::set_name_primary(Arg_&& arg, Args_... args) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.address_primary_ = value;
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.name_primary_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:bin_diff.FunctionMatch.name_primary)
+}
+inline std::string* PROTOBUF_NONNULL FunctionMatch::mutable_name_primary()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_name_primary();
+  // @@protoc_insertion_point(field_mutable:bin_diff.FunctionMatch.name_primary)
+  return _s;
+}
+inline const std::string& FunctionMatch::_internal_name_primary() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.name_primary_.Get();
+}
+inline void FunctionMatch::_internal_set_name_primary(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.name_primary_.Set(value, GetArena());
+}
+inline std::string* PROTOBUF_NONNULL FunctionMatch::_internal_mutable_name_primary() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.name_primary_.Mutable( GetArena());
+}
+inline std::string* PROTOBUF_NULLABLE FunctionMatch::release_name_primary() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:bin_diff.FunctionMatch.name_primary)
+  if ((_impl_._has_bits_[0] & 0x00000001u) == 0) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* released = _impl_.name_primary_.Release();
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
+    _impl_.name_primary_.Set("", GetArena());
+  }
+  return released;
+}
+inline void FunctionMatch::set_allocated_name_primary(std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.name_primary_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.name_primary_.IsDefault()) {
+    _impl_.name_primary_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:bin_diff.FunctionMatch.name_primary)
 }
 
-// uint64 address_secondary = 2;
-inline void FunctionMatch::clear_address_secondary() {
+// string name_secondary = 2;
+inline void FunctionMatch::clear_name_secondary() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.address_secondary_ = ::uint64_t{0u};
+  _impl_.name_secondary_.ClearToEmpty();
   _impl_._has_bits_[0] &= ~0x00000002u;
 }
-inline ::uint64_t FunctionMatch::address_secondary() const {
-  // @@protoc_insertion_point(field_get:bin_diff.FunctionMatch.address_secondary)
-  return _internal_address_secondary();
+inline const std::string& FunctionMatch::name_secondary() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:bin_diff.FunctionMatch.name_secondary)
+  return _internal_name_secondary();
 }
-inline void FunctionMatch::set_address_secondary(::uint64_t value) {
-  _internal_set_address_secondary(value);
-  _impl_._has_bits_[0] |= 0x00000002u;
-  // @@protoc_insertion_point(field_set:bin_diff.FunctionMatch.address_secondary)
-}
-inline ::uint64_t FunctionMatch::_internal_address_secondary() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.address_secondary_;
-}
-inline void FunctionMatch::_internal_set_address_secondary(::uint64_t value) {
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void FunctionMatch::set_name_secondary(Arg_&& arg, Args_... args) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.address_secondary_ = value;
+  _impl_._has_bits_[0] |= 0x00000002u;
+  _impl_.name_secondary_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:bin_diff.FunctionMatch.name_secondary)
+}
+inline std::string* PROTOBUF_NONNULL FunctionMatch::mutable_name_secondary()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_name_secondary();
+  // @@protoc_insertion_point(field_mutable:bin_diff.FunctionMatch.name_secondary)
+  return _s;
+}
+inline const std::string& FunctionMatch::_internal_name_secondary() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.name_secondary_.Get();
+}
+inline void FunctionMatch::_internal_set_name_secondary(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_._has_bits_[0] |= 0x00000002u;
+  _impl_.name_secondary_.Set(value, GetArena());
+}
+inline std::string* PROTOBUF_NONNULL FunctionMatch::_internal_mutable_name_secondary() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_._has_bits_[0] |= 0x00000002u;
+  return _impl_.name_secondary_.Mutable( GetArena());
+}
+inline std::string* PROTOBUF_NULLABLE FunctionMatch::release_name_secondary() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:bin_diff.FunctionMatch.name_secondary)
+  if ((_impl_._has_bits_[0] & 0x00000002u) == 0) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  auto* released = _impl_.name_secondary_.Release();
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
+    _impl_.name_secondary_.Set("", GetArena());
+  }
+  return released;
+}
+inline void FunctionMatch::set_allocated_name_secondary(std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  _impl_.name_secondary_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.name_secondary_.IsDefault()) {
+    _impl_.name_secondary_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:bin_diff.FunctionMatch.name_secondary)
 }
 
 // float similarity = 3;

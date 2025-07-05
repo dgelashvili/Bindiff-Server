@@ -22,8 +22,8 @@ message DiffRequest {
 }
 
 message FunctionMatch {
-  uint64 address_primary = 1;
-  uint64 address_secondary = 2;
+  string name_primary = 1;
+  string name_secondary = 2;
   float similarity = 3;
   float confidence = 4;
 }

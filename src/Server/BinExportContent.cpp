@@ -16,6 +16,7 @@ BinExportContent::BinExportContent(const std::string &file_bytes) {
 			function_names_.push_back("");
 		}
 		function_addresses_.push_back(func.address());
+		address_to_name_map_[func.address()] = function_names_[function_names_.size() - 1];
 
 		if (flow_graph_address_map_.count(func.address())) {
 			const auto& flow_graph = flow_graph_address_map_[func.address()];
@@ -64,6 +65,10 @@ const std::vector<int>& BinExportContent::get_function_block_counts() const {
 
 const std::vector<int>& BinExportContent::get_function_instruction_counts() const {
 	return function_instruction_counts_;
+}
+
+std::unordered_map<uint64_t, std::string> &BinExportContent::get_address_to_name_map() {
+	return address_to_name_map_;
 }
 
 void BinExportContent::fill_flow_graph_address_map() {

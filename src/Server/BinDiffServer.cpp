@@ -36,8 +36,8 @@ grpc::Status BinDiffServer::Diff(
 
 		for (const auto& match : matches) {
 			auto* new_match = response->add_matches();
-			new_match->set_address_primary(match.address_primary);
-			new_match->set_address_secondary(match.address_secondary);
+			new_match->set_name_primary(primary_content->get_address_to_name_map()[match.address_primary]);
+			new_match->set_name_secondary(primary_content->get_address_to_name_map()[match.address_secondary]);
 			new_match->set_similarity(match.similarity);
 			new_match->set_confidence(match.confidence);
 		}
