@@ -31,14 +31,14 @@ void BasicStructureMatcher::match_specific_bucket(
 
 	for (const auto& function : specific_bucket.primary) {
 		std::pair<int, int> p =
-			std::make_pair(primary->get_function_block_counts()[function],
-				primary->get_function_instruction_counts()[function]);
+			std::make_pair(primary->get_functions()[function].get_basic_block_count(),
+				primary->get_functions()[function].get_function_instruction_count());
 		potential_matches[p].primary.push_back(function);
 	}
 	for (const auto& function : specific_bucket.secondary) {
 		std::pair<int, int> p =
-			std::make_pair(secondary->get_function_block_counts()[function],
-				secondary->get_function_instruction_counts()[function]);
+			std::make_pair(secondary->get_functions()[function].get_basic_block_count(),
+				secondary->get_functions()[function].get_function_instruction_count());
 		potential_matches[p].secondary.push_back(function);
 	}
 
@@ -47,8 +47,8 @@ void BasicStructureMatcher::match_specific_bucket(
 		PotentialMatches structure_matches = it.second;
 		if (structure_matches.primary.size() == 1 && structure_matches.secondary.size() == 1) {
 			Match match;
-			match.address_primary = primary->get_function_addresses()[structure_matches.primary[0]];
-			match.address_secondary = secondary->get_function_addresses()[structure_matches.secondary[0]];
+			match.address_primary = primary->get_functions()[structure_matches.primary[0]].get_address();
+			match.address_secondary = secondary->get_functions()[structure_matches.secondary[0]].get_address();
 			match.similarity = 1.0;
 			match.confidence = 1.0;
 			out_matches.push_back(match);

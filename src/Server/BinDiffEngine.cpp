@@ -14,10 +14,10 @@ std::vector<Match> BinDiffEngine::match(
 	std::vector<PotentialMatches> potentialMatches;
 
 	PotentialMatches initial;
-	for (int i = 0; i < primary->get_function_addresses().size(); i++) {
+	for (int i = 0; i < primary->get_functions().size(); i++) {
 		initial.primary.push_back(i);
 	}
-	for (int i = 0; i < secondary->get_function_addresses().size(); i++) {
+	for (int i = 0; i < secondary->get_functions().size(); i++) {
 		initial.secondary.push_back(i);
 	}
 	potentialMatches.push_back(std::move(initial));

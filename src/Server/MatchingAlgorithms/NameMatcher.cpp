@@ -31,10 +31,12 @@ void NameMatcher::match_specific_bucket(
 	unmatched_groups.erase(unmatched_groups.begin() + index);
 
 	for (const auto& function : specific_bucket.primary) {
-		potential_matches[primary->get_function_names()[function]].primary.push_back(function);
+		std::string function_name = primary->get_functions()[function].get_name();
+		potential_matches[function_name].primary.push_back(function);
 	}
 	for (const auto& function : specific_bucket.secondary) {
-		potential_matches[secondary->get_function_names()[function]].secondary.push_back(function);
+		std::string function_name = secondary->get_functions()[function].get_name();
+		potential_matches[function_name].secondary.push_back(function);
 	}
 
 	PotentialMatches remaining_bucket;
@@ -42,8 +44,8 @@ void NameMatcher::match_specific_bucket(
 		PotentialMatches name_matches = it.second;
 		if (name_matches.primary.size() == 1 && name_matches.secondary.size() == 1) {
 			Match match;
-			match.address_primary = primary->get_function_addresses()[name_matches.primary[0]];
-			match.address_secondary = secondary->get_function_addresses()[name_matches.secondary[0]];
+			match.address_primary = primary->get_functions()[name_matches.primary[0]].get_address();
+			match.address_secondary = secondary->get_functions()[name_matches.secondary[0]].get_address();
 			match.similarity = 1.0;
 			match.confidence = 1.0;
 			out_matches.push_back(match);

@@ -8,42 +8,8 @@ BinExportContent::BinExportContent(const std::string &file_bytes) {
 	fill_flow_graph_address_map();
 
 	for (const auto& func : binexport_raw_.call_graph().vertex()) {
-		if (!func.demangled_name().empty()) {
-			function_names_.push_back(func.demangled_name());
-		} else if (!func.mangled_name().empty()) {
-			function_names_.push_back(func.mangled_name());
-		} else {
-			function_names_.push_back("");
-		}
-		function_addresses_.push_back(func.address());
-		address_to_name_map_[func.address()] = function_names_[function_names_.size() - 1];
-
-		if (flow_graph_address_map_.count(func.address())) {
-			const auto& flow_graph = flow_graph_address_map_[func.address()];
-			function_block_counts_.push_back(flow_graph->basic_block_index_size());
-
-			int instruction_count = 0;
-			for (const auto& block_index : flow_graph->basic_block_index()) {
-				const auto& block = binexport_raw_.basic_block()[block_index];
-
-				for (const auto& range : block.instruction_index()) {
-					if (!range.has_begin_index()) continue;
-					const int begin = range.begin_index();
-					const int end = range.has_end_index() ? range.end_index() : begin + 1;
-					instruction_count += (end - begin);
-				}
-			}
-			function_instruction_counts_.push_back(instruction_count);
-		} else {
-			function_block_counts_.push_back(0);
-			function_instruction_counts_.push_back(0);
-		}
-	}
-
-	for (int i = 0; i < function_addresses_.size(); i++) {
-		std::cout << function_names_[i] << " "
-			<< function_block_counts_[i] << " "
-			<< function_instruction_counts_[i] << std::endl;
+		functions_.push_back(Function(&binexport_raw_, &func, nullptr));
+		address_to_name_map_[func.address()] = functions_[functions_.size() - 1].get_name();
 	}
 }
 
@@ -51,20 +17,8 @@ const BinExport2 &BinExportContent::get_raw() {
 	return binexport_raw_;
 }
 
-const std::vector<std::string>& BinExportContent::get_function_names() const {
-	return function_names_;
-}
-
-const std::vector<std::uint64_t>& BinExportContent::get_function_addresses() const {
-	return function_addresses_;
-}
-
-const std::vector<int>& BinExportContent::get_function_block_counts() const {
-	return function_block_counts_;
-}
-
-const std::vector<int>& BinExportContent::get_function_instruction_counts() const {
-	return function_instruction_counts_;
+const std::vector<Function> &BinExportContent::get_functions() {
+	return functions_;
 }
 
 std::unordered_map<uint64_t, std::string> &BinExportContent::get_address_to_name_map() {
