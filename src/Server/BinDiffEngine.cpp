@@ -1,5 +1,7 @@
 #include "BinDiffEngine.h"
 
+#include <HashMatcher.h>
+
 #include "NameMatcher.h"
 #include "BasicStructureMatcher.h"
 
@@ -30,6 +32,7 @@ std::vector<Match> BinDiffEngine::match(
 }
 
 void BinDiffEngine::fill_matching_algorithms() {
+	matching_algorithms_.push_back(std::make_unique<HashMatcher>());
 	matching_algorithms_.push_back(std::make_unique<BasicStructureMatcher>());
 	matching_algorithms_.push_back(std::make_unique<NameMatcher>());
 }

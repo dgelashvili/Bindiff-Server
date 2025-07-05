@@ -41,6 +41,7 @@ add_executable(server
 
 		${SRC_DIR}/Server/MatchingAlgorithms/NameMatcher.cpp
 		${SRC_DIR}/Server/MatchingAlgorithms/BasicStructureMatcher.cpp
+		${SRC_DIR}/Server/MatchingAlgorithms/HashMatcher.cpp
 		${SRC_DIR}/Server/Models/Function.cpp
 )
 target_link_libraries(server

@@ -1,14 +1,20 @@
 #include "Function.h"
+#include "sha256Wrapper.h"
 
 Function::Function(
 	const BinExport2* binexport_raw,
 	const BinExport2_CallGraph_Vertex* vertex,
 	const BinExport2_FlowGraph* flow_graph) :
+	hash_(calculate_hash(binexport_raw, flow_graph)),
 	address_(calculate_address(vertex)),
 	name_(calculate_name(vertex)),
 	basic_block_count_(calculate_basic_block_count(flow_graph)),
 	function_instruction_count_(calculate_function_instruction_count(binexport_raw, flow_graph))
 {
+}
+
+std::string Function::get_hash() const {
+	return hash_;
 }
 
 uint64_t Function::get_address() const {
@@ -25,6 +31,31 @@ int Function::get_basic_block_count() const {
 
 int Function::get_function_instruction_count() const {
 	return function_instruction_count_;
+}
+
+std::string Function::calculate_hash(
+	const BinExport2* binexport_raw,
+	const BinExport2_FlowGraph* flow_graph) {
+	if (!flow_graph) {
+		return "";
+	}
+	std::string raw_bytes;
+	for (const auto& block_index : flow_graph->basic_block_index()) {
+		const auto& block = binexport_raw->basic_block()[block_index];
+
+		for (const auto& range : block.instruction_index()) {
+			if (!range.has_begin_index()) continue;
+			const int begin = range.begin_index();
+			const int end = range.has_end_index() ? range.end_index() : begin + 1;
+
+			for (int instruction_index = begin; instruction_index < end; instruction_index++) {
+				const auto& instruction = binexport_raw->instruction()[instruction_index];
+				raw_bytes += instruction.raw_bytes();
+			}
+		}
+	}
+
+	return sha_256(raw_bytes);
 }
 
 uint64_t Function::calculate_address(const BinExport2_CallGraph_Vertex *vertex) {
@@ -50,7 +81,7 @@ int Function::calculate_basic_block_count(const BinExport2_FlowGraph *flow_graph
 
 int Function::calculate_function_instruction_count(
 	const BinExport2* binexport_raw,
-	const BinExport2_FlowGraph *flow_graph) {
+	const BinExport2_FlowGraph* flow_graph) {
 	if (!flow_graph) {
 		return 0;
 	}

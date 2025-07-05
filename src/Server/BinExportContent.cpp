@@ -8,7 +8,7 @@ BinExportContent::BinExportContent(const std::string &file_bytes) {
 	fill_flow_graph_address_map();
 
 	for (const auto& func : binexport_raw_.call_graph().vertex()) {
-		functions_.push_back(Function(&binexport_raw_, &func, nullptr));
+		functions_.emplace_back(&binexport_raw_, &func, flow_graph_address_map_[func.address()]);
 		address_to_name_map_[func.address()] = functions_[functions_.size() - 1].get_name();
 	}
 }
