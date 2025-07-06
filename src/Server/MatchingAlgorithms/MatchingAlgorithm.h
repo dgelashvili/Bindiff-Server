@@ -27,6 +27,19 @@ public:
 		const std::shared_ptr<BinExportContent>& secondary,
 		std::vector<Match>& out_matches,
 		std::vector<PotentialMatches>& unmatched_groups) const = 0;
+
+private:
+	[[nodiscard]] virtual float calculate_similarity(const std::shared_ptr<BinExportContent>& primary,
+	const std::shared_ptr<BinExportContent>& secondary,
+	const Function &p_func, const Function &s_func,
+	const std::vector<Match>& existing_matches) const = 0;
+
+	[[nodiscard]] virtual float calculate_confidence(const std::shared_ptr<BinExportContent>& primary,
+	const std::shared_ptr<BinExportContent>& secondary,
+	const Function &p_func, const Function &s_func,
+	const std::vector<Match>& existing_matches) const = 0;
 };
+
+
 
 #endif //MATCHINGALGORITHM_H

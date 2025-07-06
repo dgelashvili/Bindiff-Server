@@ -21,7 +21,7 @@ void MnemonicsHashMatcher::match_specific_bucket(
     std::vector<Match>& out_matches,
     std::vector<PotentialMatches>& unmatched_groups,
     const int index,
-    std::vector<PotentialMatches>& new_unmatched_groups) {
+    std::vector<PotentialMatches>& new_unmatched_groups) const {
 
     std::unordered_map<long long, PotentialMatches> potential_matches;
     PotentialMatches specific_bucket = unmatched_groups[index];
@@ -52,8 +52,8 @@ void MnemonicsHashMatcher::match_specific_bucket(
             const auto& p_func = primary->get_functions()[mnemonics_hash_matches.primary[0]];
             const auto& s_func = secondary->get_functions()[mnemonics_hash_matches.secondary[0]];
 
-            match.similarity = calculate_similarity(p_func, s_func);
-            match.confidence = calculate_confidence(p_func, s_func);
+            match.similarity = calculate_similarity(primary, secondary, p_func, s_func, out_matches);
+            match.confidence = calculate_confidence(primary, secondary, p_func, s_func, out_matches);
             out_matches.push_back(match);
         }
         else if (!mnemonics_hash_matches.primary.empty() && !mnemonics_hash_matches.secondary.empty()) {
@@ -83,7 +83,10 @@ void MnemonicsHashMatcher::match_specific_bucket(
 }
 
 
-float MnemonicsHashMatcher::calculate_similarity(const Function& p_func, const Function& s_func) {
+float MnemonicsHashMatcher::calculate_similarity(const std::shared_ptr<BinExportContent>& primary,
+        const std::shared_ptr<BinExportContent>& secondary,
+        const Function &p_func, const Function &s_func,
+        const std::vector<Match>& existing_matches) const {
     float base_similarity = 0.92f;
 
     if (p_func.get_function_instruction_count() == s_func.get_function_instruction_count()) {
@@ -97,7 +100,10 @@ float MnemonicsHashMatcher::calculate_similarity(const Function& p_func, const F
     return std::min(1.0f, base_similarity);
 }
 
-float MnemonicsHashMatcher::calculate_confidence(const Function& p_func, const Function& s_func) {
+float MnemonicsHashMatcher::calculate_confidence(const std::shared_ptr<BinExportContent>& primary,
+        const std::shared_ptr<BinExportContent>& secondary,
+        const Function &p_func, const Function &s_func,
+        const std::vector<Match>& existing_matches) const{
 
     float base_confidence = 0.85f;
 
@@ -130,7 +136,7 @@ void MnemonicsHashMatcher::handle_multiple_mnemonic_matches(
     const std::shared_ptr<BinExportContent>& secondary,
     const PotentialMatches& mnemonic_matches,
     std::vector<Match>& out_matches,
-    long long mnemonic_hash) {
+    long long mnemonic_hash)const {
 
     std::vector<std::pair<int, int>> best_pairings = find_best_mnemonic_pairings(
         primary, secondary, mnemonic_matches);
@@ -143,8 +149,8 @@ void MnemonicsHashMatcher::handle_multiple_mnemonic_matches(
         const auto& p_func = primary->get_functions()[p_idx];
         const auto& s_func = secondary->get_functions()[s_idx];
 
-        match.similarity = calculate_similarity(p_func, s_func);
-        match.confidence = calculate_confidence(p_func, s_func) * 0.9f;
+        match.similarity = calculate_similarity(primary, secondary, p_func, s_func, out_matches);
+        match.confidence = calculate_confidence(primary, secondary, p_func, s_func, out_matches) * 0.9f;
         out_matches.push_back(match);
     }
 }

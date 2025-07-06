@@ -23,7 +23,7 @@ void LoopStructureMatcher::match_specific_bucket(
 	std::vector<Match>& out_matches,
 	std::vector<PotentialMatches>& unmatched_groups,
 	int index,
-	std::vector<PotentialMatches>& new_unmatched_groups) {
+	std::vector<PotentialMatches>& new_unmatched_groups) const{
 
 	std::map<std::pair<int, int>, PotentialMatches> potential_matches;
 	PotentialMatches specific_bucket = unmatched_groups[index];
@@ -52,8 +52,14 @@ void LoopStructureMatcher::match_specific_bucket(
 			const auto& p_func = primary->get_functions()[structure_matches.primary[0]];
 			const auto& s_func = secondary->get_functions()[structure_matches.secondary[0]];
 
-			match.similarity = calculate_similarity(p_func, s_func);
-			match.confidence = calculate_confidence(p_func, s_func);
+			match.similarity = calculate_similarity(primary, secondary,
+				primary->get_functions()[structure_matches.primary[0]],
+				secondary->get_functions()[structure_matches.secondary[0]],
+				out_matches);
+			match.confidence = calculate_confidence(primary, secondary,
+				primary->get_functions()[structure_matches.primary[0]],
+				secondary->get_functions()[structure_matches.secondary[0]],
+				out_matches);
 			out_matches.push_back(match);
 		} else {
 			for (const auto& function : structure_matches.primary) {
@@ -67,7 +73,10 @@ void LoopStructureMatcher::match_specific_bucket(
 	new_unmatched_groups.push_back(remaining_bucket);
 }
 
-float LoopStructureMatcher::calculate_similarity(const Function& p_func, const Function& s_func) {
+float LoopStructureMatcher::calculate_similarity(const std::shared_ptr<BinExportContent>& primary,
+		const std::shared_ptr<BinExportContent>& secondary,
+		const Function &p_func, const Function &s_func,
+		const std::vector<Match>& existing_matches) const {
     float similarity = 0.85f;
 
     int p_instr = p_func.get_function_instruction_count();
@@ -91,7 +100,10 @@ float LoopStructureMatcher::calculate_similarity(const Function& p_func, const F
     return std::max(0.70f, std::min(1.0f, similarity));
 }
 
-float LoopStructureMatcher::calculate_confidence(const Function& p_func, const Function& s_func) {
+float LoopStructureMatcher::calculate_confidence(const std::shared_ptr<BinExportContent>& primary,
+		const std::shared_ptr<BinExportContent>& secondary,
+		const Function &p_func, const Function &s_func,
+		const std::vector<Match>& existing_matches) const {
     float confidence = 0.70f;
 
     int loop_complexity = std::max(p_func.get_loop_count(), s_func.get_loop_count());

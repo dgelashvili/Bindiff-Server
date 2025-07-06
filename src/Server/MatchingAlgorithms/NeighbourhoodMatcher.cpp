@@ -218,3 +218,17 @@ float NeighbourhoodMatcher::calculate_confidence(
 
     return std::min(0.85f, confidence);
 }
+
+float NeighbourhoodMatcher::calculate_similarity(const std::shared_ptr<BinExportContent>& primary,
+	const std::shared_ptr<BinExportContent>& secondary,
+	const Function &p_func, const Function &s_func,
+	const std::vector<Match>& existing_matches) const{
+	return 0.0;
+}
+
+float NeighbourhoodMatcher::calculate_confidence(const std::shared_ptr<BinExportContent>& primary,
+	const std::shared_ptr<BinExportContent>& secondary,
+	const Function &p_func, const Function &s_func,
+	const std::vector<Match>& existing_matches) const{
+	return 0.0;
+}

@@ -21,7 +21,7 @@ void CallDegreeMatcher::match_specific_bucket(
 	std::vector<Match>& out_matches,
 	std::vector<PotentialMatches>& unmatched_groups,
 	int index,
-	std::vector<PotentialMatches>& new_unmatched_groups) {
+	std::vector<PotentialMatches>& new_unmatched_groups) const{
 
 	std::map<std::tuple<int, int, int>, PotentialMatches> potential_matches;
 	PotentialMatches specific_bucket = unmatched_groups[index];
@@ -54,8 +54,8 @@ void CallDegreeMatcher::match_specific_bucket(
 			const auto& p_func = primary->get_functions()[structure_matches.primary[0]];
 			const auto& s_func = secondary->get_functions()[structure_matches.secondary[0]];
 
-			match.similarity = calculate_similarity(p_func, s_func);
-			match.confidence = calculate_confidence(p_func, s_func);
+			match.similarity = calculate_similarity(primary, secondary, p_func, s_func, out_matches);
+			match.confidence = calculate_confidence(primary, secondary, p_func, s_func, out_matches);
 			out_matches.push_back(match);
 		} else {
 			for (const auto& function : structure_matches.primary) {
@@ -69,7 +69,10 @@ void CallDegreeMatcher::match_specific_bucket(
 	new_unmatched_groups.push_back(remaining_bucket);
 }
 
-float CallDegreeMatcher::calculate_similarity(const Function& p_func, const Function& s_func) {
+float CallDegreeMatcher::calculate_similarity(const std::shared_ptr<BinExportContent>& primary,
+	const std::shared_ptr<BinExportContent>& secondary,
+	const Function &p_func, const Function &s_func,
+	const std::vector<Match>& existing_matches) const{
 	float similarity = 0.88f;
 	if (p_func.get_basic_block_count() == s_func.get_basic_block_count()) {
 		similarity += 0.08f;
@@ -80,7 +83,10 @@ float CallDegreeMatcher::calculate_similarity(const Function& p_func, const Func
 	return std::min(1.0f, similarity);
 }
 
-float CallDegreeMatcher::calculate_confidence(const Function& p_func, const Function& s_func) {
+float CallDegreeMatcher::calculate_confidence(const std::shared_ptr<BinExportContent>& primary,
+	const std::shared_ptr<BinExportContent>& secondary,
+	const Function &p_func, const Function &s_func,
+	const std::vector<Match>& existing_matches) const{
 	float confidence = 0.75f;
 
 

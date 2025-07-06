@@ -33,7 +33,7 @@ void MDIndexMatcher::match_specific_bucket(
     std::vector<PotentialMatches>& unmatched_groups,
     int index,
     std::vector<PotentialMatches>& new_unmatched_groups,
-    bool use_relaxed) {
+    bool use_relaxed) const {
 
     std::map<std::string, PotentialMatches> potential_matches;
     PotentialMatches specific_bucket = unmatched_groups[index];
@@ -93,4 +93,18 @@ std::string MDIndexMatcher::calculate_relaxed_md_index(const Function& function)
                                std::to_string(function.get_loop_count());
 
     return relaxed_index;
+}
+
+float MDIndexMatcher::calculate_similarity(const std::shared_ptr<BinExportContent>& primary,
+        const std::shared_ptr<BinExportContent>& secondary,
+        const Function &p_func, const Function &s_func,
+        const std::vector<Match>& existing_matches) const{
+    return 0.0;
+}
+
+float MDIndexMatcher::calculate_confidence(const std::shared_ptr<BinExportContent>& primary,
+        const std::shared_ptr<BinExportContent>& secondary,
+        const Function &p_func, const Function &s_func,
+        const std::vector<Match>& existing_matches) const{
+    return 0.0;
 }

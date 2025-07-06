@@ -23,7 +23,7 @@ void HashMatcher::match_specific_bucket(
     std::vector<Match>& out_matches,
     std::vector<PotentialMatches>& unmatched_groups,
     const int index,
-    std::vector<PotentialMatches>& new_unmatched_groups) {
+    std::vector<PotentialMatches>& new_unmatched_groups) const{
 
     std::unordered_map<std::string, PotentialMatches> potential_matches;
     PotentialMatches specific_bucket = unmatched_groups[index];
@@ -31,7 +31,7 @@ void HashMatcher::match_specific_bucket(
 
     for (const auto& function : specific_bucket.primary) {
         std::string function_hash = primary->get_functions()[function].get_hash();
-        if (!function_hash.empty()) {  // Only consider functions with valid hashes
+        if (!function_hash.empty()) {
             potential_matches[function_hash].primary.push_back(function);
         }
     }
@@ -50,8 +50,10 @@ void HashMatcher::match_specific_bucket(
             Match match;
             match.address_primary = primary->get_functions()[hash_matches.primary[0]].get_address();
             match.address_secondary = secondary->get_functions()[hash_matches.secondary[0]].get_address();
-            match.similarity = 1.0f;
-            match.confidence = 1.0f;
+            const auto& p_func = primary->get_functions()[hash_matches.primary[0]];
+            const auto& s_func = secondary->get_functions()[hash_matches.secondary[0]];
+            match.similarity = calculate_similarity(primary, secondary, p_func, s_func, out_matches);
+            match.confidence = calculate_confidence(primary, secondary, p_func, s_func, out_matches);
             out_matches.push_back(match);
         }
         else if (!hash_matches.primary.empty() && !hash_matches.secondary.empty()) {
@@ -324,4 +326,18 @@ float HashMatcher::calculate_multiple_match_confidence(
     }
 
     return std::min(1.0f, base_confidence);
+}
+
+float HashMatcher::calculate_similarity(const std::shared_ptr<BinExportContent>& primary,
+    const std::shared_ptr<BinExportContent>& secondary,
+    const Function &p_func, const Function &s_func,
+    const std::vector<Match>& existing_matches) const{
+    return 1.0;
+}
+
+float HashMatcher::calculate_confidence(const std::shared_ptr<BinExportContent>& primary,
+    const std::shared_ptr<BinExportContent>& secondary,
+    const Function &p_func, const Function &s_func,
+    const std::vector<Match>& existing_matches) const{
+    return 1.0;
 }

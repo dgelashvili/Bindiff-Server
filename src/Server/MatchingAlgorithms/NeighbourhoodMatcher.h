@@ -12,6 +12,15 @@ public:
 		const std::shared_ptr<BinExportContent> &secondary,
 		std::vector<Match> &out_matches,
 		std::vector<PotentialMatches> &unmatched_groups) const override;
+	[[nodiscard]] float calculate_similarity(const std::shared_ptr<BinExportContent>& primary,
+		const std::shared_ptr<BinExportContent>& secondary,
+		const Function &p_func, const Function &s_func,
+		const std::vector<Match>& existing_matches) const override;
+
+	[[nodiscard]] float calculate_confidence(const std::shared_ptr<BinExportContent>& primary,
+		const std::shared_ptr<BinExportContent>& secondary,
+		const Function &p_func, const Function &s_func,
+		const std::vector<Match>& existing_matches) const override;
 private:
 	static void fill_neighbour_score(
 		std::map<std::pair<int, int>, std::pair<int, int>> &neighbour_score,
