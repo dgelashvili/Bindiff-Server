@@ -12,7 +12,8 @@ Function::Function(
 	basic_block_count_(calculate_basic_block_count(flow_graph)),
 	function_instruction_count_(calculate_function_instruction_count(binexport_raw, flow_graph)),
 	mnemonics_(calculate_mnemonics(binexport_raw, flow_graph)),
-	mnemonics_hash_(calculate_mnemonics_hash(mnemonic_table))
+	mnemonics_hash_(calculate_mnemonics_hash(mnemonic_table)),
+	loop_count_(calculate_loop_count(flow_graph))
 {
 }
 
@@ -42,6 +43,10 @@ std::vector<std::string> Function::get_mnemonics() const {
 
 long long Function::get_mnemonics_hash() const {
 	return mnemonics_hash_;
+}
+
+int Function::get_loop_count() const {
+	return loop_count_;
 }
 
 std::string Function::calculate_hash(
@@ -144,4 +149,14 @@ long long Function::calculate_mnemonics_hash(MnemonicTable *mnemonic_table) {
 	}
 
 	return hash;
+}
+
+int Function::calculate_loop_count(const BinExport2_FlowGraph *flow_graph) {
+	int loop_count = 0;
+	for (const auto& edge : flow_graph->edge()) {
+		if (edge.has_is_back_edge() && edge.is_back_edge()) {
+			++loop_count;
+		}
+	}
+	return loop_count;
 }

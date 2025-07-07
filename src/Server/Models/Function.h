@@ -21,6 +21,7 @@ public:
 	[[nodiscard]] int get_function_instruction_count() const;
 	[[nodiscard]] std::vector<std::string> get_mnemonics() const;
 	[[nodiscard]] long long get_mnemonics_hash() const;
+	[[nodiscard]] int get_loop_count() const;
 
 private:
 	static std::string calculate_hash(const BinExport2* binexport_raw, const BinExport2_FlowGraph* flow_graph);
@@ -30,6 +31,7 @@ private:
 	static int calculate_function_instruction_count(const BinExport2* binexport_raw, const BinExport2_FlowGraph* flow_graph);
 	static std::vector<std::string> calculate_mnemonics(const BinExport2* binexport_raw, const BinExport2_FlowGraph* flow_graph);
 	long long calculate_mnemonics_hash(MnemonicTable* mnemonic_table);
+	static int calculate_loop_count(const BinExport2_FlowGraph* flow_graph);
 
 private:
 	std::string hash_;
@@ -39,6 +41,7 @@ private:
 	int function_instruction_count_;
 	std::vector<std::string> mnemonics_;
 	long long mnemonics_hash_;
+	int loop_count_;
 };
 
 #endif //FUNCTION_H

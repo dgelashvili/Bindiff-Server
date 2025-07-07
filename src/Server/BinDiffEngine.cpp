@@ -3,6 +3,7 @@
 #include "HashMatcher.h"
 #include "MnemonicsHashMatcher.h"
 #include "NameMatcher.h"
+#include "LoopStructureMatcher.h"
 #include "BasicStructureMatcher.h"
 
 BinDiffEngine::BinDiffEngine() {
@@ -35,5 +36,6 @@ void BinDiffEngine::fill_matching_algorithms() {
 	matching_algorithms_.push_back(std::make_unique<HashMatcher>());
 	matching_algorithms_.push_back(std::make_unique<MnemonicsHashMatcher>());
 	matching_algorithms_.push_back(std::make_unique<NameMatcher>());
+	matching_algorithms_.push_back(std::make_unique<LoopStructureMatcher>());
 	matching_algorithms_.push_back(std::make_unique<BasicStructureMatcher>());
 }
