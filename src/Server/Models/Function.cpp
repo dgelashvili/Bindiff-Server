@@ -5,7 +5,9 @@ Function::Function(
 	const BinExport2* binexport_raw,
 	const BinExport2_CallGraph_Vertex* vertex,
 	const BinExport2_FlowGraph* flow_graph,
-	MnemonicTable* mnemonic_table) :
+	MnemonicTable* mnemonic_table,
+	const std::vector<std::vector<std::vector<int>>>& call_index_graph_,
+	int vertex_index) :
 	hash_(calculate_hash(binexport_raw, flow_graph)),
 	address_(calculate_address(vertex)),
 	name_(calculate_name(vertex)),
@@ -13,7 +15,10 @@ Function::Function(
 	function_instruction_count_(calculate_function_instruction_count(binexport_raw, flow_graph)),
 	mnemonics_(calculate_mnemonics(binexport_raw, flow_graph)),
 	mnemonics_hash_(calculate_mnemonics_hash(mnemonic_table)),
-	loop_count_(calculate_loop_count(flow_graph))
+	loop_count_(calculate_loop_count(flow_graph)),
+	outgoing_degree_(calculate_outgoing_degree(call_index_graph_, vertex_index)),
+	ingoing_degree_(calculate_ingoing_degree(call_index_graph_, vertex_index)),
+	recursive_degree_(calculate_recursive_degree(call_index_graph_, vertex_index))
 {
 }
 
@@ -47,6 +52,18 @@ long long Function::get_mnemonics_hash() const {
 
 int Function::get_loop_count() const {
 	return loop_count_;
+}
+
+int Function::get_outgoing_degree() const {
+	return outgoing_degree_;
+}
+
+int Function::get_incoming_degree() const {
+	return ingoing_degree_;
+}
+
+int Function::get_recursive_degree() const {
+	return recursive_degree_;
 }
 
 std::string Function::calculate_hash(
@@ -159,4 +176,22 @@ int Function::calculate_loop_count(const BinExport2_FlowGraph *flow_graph) {
 		}
 	}
 	return loop_count;
+}
+
+int Function::calculate_outgoing_degree(
+	const std::vector<std::vector<std::vector<int>>>& call_index_graph_,
+	int vertex_index) {
+	return (int)call_index_graph_[vertex_index][0].size();
+}
+
+int Function::calculate_ingoing_degree(
+	const std::vector<std::vector<std::vector<int>>>& call_index_graph_,
+	int vertex_index) {
+	return (int)call_index_graph_[vertex_index][1].size();
+}
+
+int Function::calculate_recursive_degree(
+	const std::vector<std::vector<std::vector<int>>>& call_index_graph_,
+	int vertex_index) {
+	return (int)call_index_graph_[vertex_index][2].size();
 }

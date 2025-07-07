@@ -18,12 +18,14 @@ public:
 
 private:
 	void fill_flow_graph_address_map();
+	void fill_call_index_graph();
 private:
 	BinExport2 binexport_raw_;
 	std::unordered_map<uint64_t, const BinExport2_FlowGraph*> flow_graph_address_map_;
 	std::vector<Function> functions_;
 	std::unordered_map<uint64_t, std::string> address_to_name_map_;
 	MnemonicTable *mnemonic_table_;
+	std::vector<std::vector<std::vector<int>>> call_index_graph_;
 };
 
 #endif //BINDIFFCONTENT_H

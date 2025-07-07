@@ -7,9 +7,17 @@ BinExportContent::BinExportContent(const std::string &file_bytes, MnemonicTable*
 	mnemonic_table_ = mnemonic_table;
 
 	fill_flow_graph_address_map();
+	fill_call_index_graph();
 
-	for (const auto& func : binexport_raw_.call_graph().vertex()) {
-		functions_.emplace_back(&binexport_raw_, &func, flow_graph_address_map_[func.address()], mnemonic_table);
+	for (int index = 0; index < binexport_raw_.call_graph().vertex().size(); index++) {
+		const auto& func = binexport_raw_.call_graph().vertex()[index];
+		functions_.emplace_back(
+			&binexport_raw_,
+			&func,
+			flow_graph_address_map_[func.address()],
+			mnemonic_table,
+			call_index_graph_,
+			index);
 		address_to_name_map_[func.address()] = functions_[functions_.size() - 1].get_name();
 	}
 }
@@ -43,5 +51,20 @@ void BinExportContent::fill_flow_graph_address_map() {
 
 		const auto& instr = binexport_raw_.instruction(instr_index);
 		flow_graph_address_map_[instr.address()] = &flow_graph;
+	}
+}
+
+void BinExportContent::fill_call_index_graph() {
+	call_index_graph_.resize(
+		binexport_raw_.call_graph().vertex_size(), std::vector(3, std::vector<int>()));
+	for (auto& edge : binexport_raw_.call_graph().edge()) {
+		const int caller_index = edge.source_vertex_index();
+		const int callee_index = edge.target_vertex_index();
+		if (caller_index != callee_index) {
+			call_index_graph_[caller_index][0].push_back(callee_index);
+			call_index_graph_[callee_index][1].push_back(caller_index);
+		} else {
+			call_index_graph_[caller_index][2].push_back(callee_index);
+		}
 	}
 }

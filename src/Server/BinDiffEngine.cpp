@@ -5,6 +5,7 @@
 #include "NameMatcher.h"
 #include "LoopStructureMatcher.h"
 #include "BasicStructureMatcher.h"
+#include "CallDegreeMatcher.h"
 
 BinDiffEngine::BinDiffEngine() {
 	fill_matching_algorithms();
@@ -38,4 +39,5 @@ void BinDiffEngine::fill_matching_algorithms() {
 	matching_algorithms_.push_back(std::make_unique<NameMatcher>());
 	matching_algorithms_.push_back(std::make_unique<LoopStructureMatcher>());
 	matching_algorithms_.push_back(std::make_unique<BasicStructureMatcher>());
+	matching_algorithms_.push_back(std::make_unique<CallDegreeMatcher>());
 }
