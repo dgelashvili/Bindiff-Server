@@ -36,8 +36,8 @@ std::vector<std::string> BinDiffClient::Get(const std::string &id) const {
 
 	if (const grpc::Status status = stub_->Get(&context, request, &reply); status.ok()) {
 		std::vector<std::string> function_names;
-		for (const auto& function_name : reply.function_names()) {
-			function_names.push_back(function_name);
+		for (const auto& function : reply.functions()) {
+			function_names.push_back(function.name());
 		}
 		return function_names;
 	} else {

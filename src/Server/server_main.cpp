@@ -15,7 +15,7 @@ void BuildAndStartServer(const std::string& server_address) {
 }
 
 int main() {
-	const std::string address = "localhost:50051";
+	const std::string address = "0.0.0.0:50051";
 
 	BuildAndStartServer(address);
 

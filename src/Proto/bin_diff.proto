@@ -36,6 +36,11 @@ message GetRequest {
   string id = 1;
 }
 
+message FunctionInfo {
+  string name = 1;
+  uint64 address = 2;
+}
+
 message GetReply {
-  repeated string function_names = 1;
+  repeated FunctionInfo functions = 1;
 }

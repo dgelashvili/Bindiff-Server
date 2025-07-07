@@ -61,6 +61,10 @@ class DiffRequest;
 struct DiffRequestDefaultTypeInternal;
 extern DiffRequestDefaultTypeInternal _DiffRequest_default_instance_;
 extern const ::google::protobuf::internal::ClassDataFull DiffRequest_class_data_;
+class FunctionInfo;
+struct FunctionInfoDefaultTypeInternal;
+extern FunctionInfoDefaultTypeInternal _FunctionInfo_default_instance_;
+extern const ::google::protobuf::internal::ClassDataFull FunctionInfo_class_data_;
 class FunctionMatch;
 struct FunctionMatchDefaultTypeInternal;
 extern FunctionMatchDefaultTypeInternal _FunctionMatch_default_instance_;
@@ -682,208 +686,6 @@ class GetRequest final : public ::google::protobuf::Message
 extern const ::google::protobuf::internal::ClassDataFull GetRequest_class_data_;
 // -------------------------------------------------------------------
 
-class GetReply final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:bin_diff.GetReply) */ {
- public:
-  inline GetReply() : GetReply(nullptr) {}
-  ~GetReply() PROTOBUF_FINAL;
-
-#if defined(PROTOBUF_CUSTOM_VTABLE)
-  void operator delete(GetReply* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
-    SharedDtor(*msg);
-    ::google::protobuf::internal::SizedDelete(msg, sizeof(GetReply));
-  }
-#endif
-
-  template <typename = void>
-  explicit PROTOBUF_CONSTEXPR GetReply(::google::protobuf::internal::ConstantInitialized);
-
-  inline GetReply(const GetReply& from) : GetReply(nullptr, from) {}
-  inline GetReply(GetReply&& from) noexcept
-      : GetReply(nullptr, std::move(from)) {}
-  inline GetReply& operator=(const GetReply& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline GetReply& operator=(GetReply&& from) noexcept {
-    if (this == &from) return *this;
-    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL mutable_unknown_fields()
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const GetReply& default_instance() {
-    return *reinterpret_cast<const GetReply*>(
-        &_GetReply_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages = 6;
-  friend void swap(GetReply& a, GetReply& b) { a.Swap(&b); }
-  inline void Swap(GetReply* PROTOBUF_NONNULL other) {
-    if (other == this) return;
-    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(GetReply* PROTOBUF_NONNULL other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  GetReply* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
-    return ::google::protobuf::Message::DefaultConstruct<GetReply>(arena);
-  }
-  using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const GetReply& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const GetReply& from) { GetReply::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
-                        const ::google::protobuf::MessageLite& from_msg);
-
-  public:
-  bool IsInitialized() const {
-    return true;
-  }
-  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
-  #if defined(PROTOBUF_CUSTOM_VTABLE)
-  private:
-  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
-  static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
-      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
-      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
-
-  public:
-  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
-  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
-      ::uint8_t* PROTOBUF_NONNULL target,
-      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
-    return _InternalSerialize(*this, target, stream);
-  }
-  #else   // PROTOBUF_CUSTOM_VTABLE
-  ::size_t ByteSizeLong() const final;
-  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
-      ::uint8_t* PROTOBUF_NONNULL target,
-      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
-  #endif  // PROTOBUF_CUSTOM_VTABLE
-  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  static void SharedDtor(MessageLite& self);
-  void InternalSwap(GetReply* PROTOBUF_NONNULL other);
- private:
-  template <typename T>
-  friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
-  static ::absl::string_view FullMessageName() { return "bin_diff.GetReply"; }
-
- protected:
-  explicit GetReply(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  GetReply(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const GetReply& from);
-  GetReply(
-      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, GetReply&& from) noexcept
-      : GetReply(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
-  static void* PROTOBUF_NONNULL PlacementNew_(
-      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
-      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-  static constexpr auto InternalNewImpl_();
-
- public:
-  static constexpr auto InternalGenerateClassData_();
-
-  ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-  enum : int {
-    kFunctionNamesFieldNumber = 1,
-  };
-  // repeated string function_names = 1;
-  int function_names_size() const;
-  private:
-  int _internal_function_names_size() const;
-
-  public:
-  void clear_function_names() ;
-  const std::string& function_names(int index) const;
-  std::string* PROTOBUF_NONNULL mutable_function_names(int index);
-  template <typename Arg_ = const std::string&, typename... Args_>
-  void set_function_names(int index, Arg_&& value, Args_... args);
-  std::string* PROTOBUF_NONNULL add_function_names();
-  template <typename Arg_ = const std::string&, typename... Args_>
-  void add_function_names(Arg_&& value, Args_... args);
-  const ::google::protobuf::RepeatedPtrField<std::string>& function_names() const;
-  ::google::protobuf::RepeatedPtrField<std::string>* PROTOBUF_NONNULL mutable_function_names();
-
-  private:
-  const ::google::protobuf::RepeatedPtrField<std::string>& _internal_function_names() const;
-  ::google::protobuf::RepeatedPtrField<std::string>* PROTOBUF_NONNULL _internal_mutable_function_names();
-
-  public:
-  // @@protoc_insertion_point(class_scope:bin_diff.GetReply)
- private:
-  class _Internal;
-  friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<0, 1,
-                                   0, 40,
-                                   2>
-      _table_;
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(
-        ::google::protobuf::internal::InternalVisibility visibility,
-        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
-    inline explicit Impl_(
-        ::google::protobuf::internal::InternalVisibility visibility,
-        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
-        const GetReply& from_msg);
-    ::google::protobuf::RepeatedPtrField<std::string> function_names_;
-    ::google::protobuf::internal::CachedSize _cached_size_;
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_bin_5fdiff_2eproto;
-};
-
-extern const ::google::protobuf::internal::ClassDataFull GetReply_class_data_;
-// -------------------------------------------------------------------
-
 class FunctionMatch final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:bin_diff.FunctionMatch) */ {
  public:
@@ -1121,6 +923,214 @@ class FunctionMatch final : public ::google::protobuf::Message
 extern const ::google::protobuf::internal::ClassDataFull FunctionMatch_class_data_;
 // -------------------------------------------------------------------
 
+class FunctionInfo final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:bin_diff.FunctionInfo) */ {
+ public:
+  inline FunctionInfo() : FunctionInfo(nullptr) {}
+  ~FunctionInfo() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(FunctionInfo* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(FunctionInfo));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR FunctionInfo(::google::protobuf::internal::ConstantInitialized);
+
+  inline FunctionInfo(const FunctionInfo& from) : FunctionInfo(nullptr, from) {}
+  inline FunctionInfo(FunctionInfo&& from) noexcept
+      : FunctionInfo(nullptr, std::move(from)) {}
+  inline FunctionInfo& operator=(const FunctionInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline FunctionInfo& operator=(FunctionInfo&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const FunctionInfo& default_instance() {
+    return *reinterpret_cast<const FunctionInfo*>(
+        &_FunctionInfo_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 6;
+  friend void swap(FunctionInfo& a, FunctionInfo& b) { a.Swap(&b); }
+  inline void Swap(FunctionInfo* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(FunctionInfo* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  FunctionInfo* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<FunctionInfo>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const FunctionInfo& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const FunctionInfo& from) { FunctionInfo::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
+                        const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(FunctionInfo* PROTOBUF_NONNULL other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "bin_diff.FunctionInfo"; }
+
+ protected:
+  explicit FunctionInfo(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  FunctionInfo(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const FunctionInfo& from);
+  FunctionInfo(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, FunctionInfo&& from) noexcept
+      : FunctionInfo(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
+  static void* PROTOBUF_NONNULL PlacementNew_(
+      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr auto InternalNewImpl_();
+
+ public:
+  static constexpr auto InternalGenerateClassData_();
+
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kNameFieldNumber = 1,
+    kAddressFieldNumber = 2,
+  };
+  // string name = 1;
+  void clear_name() ;
+  const std::string& name() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_name(Arg_&& arg, Args_... args);
+  std::string* PROTOBUF_NONNULL mutable_name();
+  [[nodiscard]] std::string* PROTOBUF_NULLABLE release_name();
+  void set_allocated_name(std::string* PROTOBUF_NULLABLE value);
+
+  private:
+  const std::string& _internal_name() const;
+  PROTOBUF_ALWAYS_INLINE void _internal_set_name(const std::string& value);
+  std::string* PROTOBUF_NONNULL _internal_mutable_name();
+
+  public:
+  // uint64 address = 2;
+  void clear_address() ;
+  ::uint64_t address() const;
+  void set_address(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_address() const;
+  void _internal_set_address(::uint64_t value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:bin_diff.FunctionInfo)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<1, 2,
+                                   0, 34,
+                                   2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+        const FunctionInfo& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::internal::ArenaStringPtr name_;
+    ::uint64_t address_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_bin_5fdiff_2eproto;
+};
+
+extern const ::google::protobuf::internal::ClassDataFull FunctionInfo_class_data_;
+// -------------------------------------------------------------------
+
 class DiffRequest final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:bin_diff.DiffRequest) */ {
  public:
@@ -1332,6 +1342,203 @@ class DiffRequest final : public ::google::protobuf::Message
 };
 
 extern const ::google::protobuf::internal::ClassDataFull DiffRequest_class_data_;
+// -------------------------------------------------------------------
+
+class GetReply final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:bin_diff.GetReply) */ {
+ public:
+  inline GetReply() : GetReply(nullptr) {}
+  ~GetReply() PROTOBUF_FINAL;
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+  void operator delete(GetReply* PROTOBUF_NONNULL msg, std::destroying_delete_t) {
+    SharedDtor(*msg);
+    ::google::protobuf::internal::SizedDelete(msg, sizeof(GetReply));
+  }
+#endif
+
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR GetReply(::google::protobuf::internal::ConstantInitialized);
+
+  inline GetReply(const GetReply& from) : GetReply(nullptr, from) {}
+  inline GetReply(GetReply&& from) noexcept
+      : GetReply(nullptr, std::move(from)) {}
+  inline GetReply& operator=(const GetReply& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GetReply& operator=(GetReply&& from) noexcept {
+    if (this == &from) return *this;
+    if (::google::protobuf::internal::CanMoveWithInternalSwap(GetArena(), from.GetArena())) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* PROTOBUF_NONNULL mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* PROTOBUF_NONNULL GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* PROTOBUF_NONNULL GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const GetReply& default_instance() {
+    return *reinterpret_cast<const GetReply*>(
+        &_GetReply_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 7;
+  friend void swap(GetReply& a, GetReply& b) { a.Swap(&b); }
+  inline void Swap(GetReply* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    if (::google::protobuf::internal::CanUseInternalSwap(GetArena(), other->GetArena())) {
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(GetReply* PROTOBUF_NONNULL other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  GetReply* PROTOBUF_NONNULL New(::google::protobuf::Arena* PROTOBUF_NULLABLE arena = nullptr) const {
+    return ::google::protobuf::Message::DefaultConstruct<GetReply>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const GetReply& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const GetReply& from) { GetReply::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(::google::protobuf::MessageLite& to_msg,
+                        const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      const ::google::protobuf::MessageLite& msg, ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* PROTOBUF_NONNULL _InternalSerialize(
+      ::uint8_t* PROTOBUF_NONNULL target,
+      ::google::protobuf::io::EpsCopyOutputStream* PROTOBUF_NONNULL stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static void SharedDtor(MessageLite& self);
+  void InternalSwap(GetReply* PROTOBUF_NONNULL other);
+ private:
+  template <typename T>
+  friend ::absl::string_view(::google::protobuf::internal::GetAnyMessageName)();
+  static ::absl::string_view FullMessageName() { return "bin_diff.GetReply"; }
+
+ protected:
+  explicit GetReply(::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  GetReply(::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const GetReply& from);
+  GetReply(
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, GetReply&& from) noexcept
+      : GetReply(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL GetClassData() const PROTOBUF_FINAL;
+  static void* PROTOBUF_NONNULL PlacementNew_(
+      const void* PROTOBUF_NONNULL, void* PROTOBUF_NONNULL mem,
+      ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+  static constexpr auto InternalNewImpl_();
+
+ public:
+  static constexpr auto InternalGenerateClassData_();
+
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kFunctionsFieldNumber = 1,
+  };
+  // repeated .bin_diff.FunctionInfo functions = 1;
+  int functions_size() const;
+  private:
+  int _internal_functions_size() const;
+
+  public:
+  void clear_functions() ;
+  ::bin_diff::FunctionInfo* PROTOBUF_NONNULL mutable_functions(int index);
+  ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionInfo>* PROTOBUF_NONNULL mutable_functions();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionInfo>& _internal_functions() const;
+  ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionInfo>* PROTOBUF_NONNULL _internal_mutable_functions();
+  public:
+  const ::bin_diff::FunctionInfo& functions(int index) const;
+  ::bin_diff::FunctionInfo* PROTOBUF_NONNULL add_functions();
+  const ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionInfo>& functions() const;
+  // @@protoc_insertion_point(class_scope:bin_diff.GetReply)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<0, 1,
+                                   1, 0,
+                                   2>
+      _table_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena);
+    inline explicit Impl_(
+        ::google::protobuf::internal::InternalVisibility visibility,
+        ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
+        const GetReply& from_msg);
+    ::google::protobuf::RepeatedPtrField< ::bin_diff::FunctionInfo > functions_;
+    ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_bin_5fdiff_2eproto;
+};
+
+extern const ::google::protobuf::internal::ClassDataFull GetReply_class_data_;
 // -------------------------------------------------------------------
 
 class DiffReply final : public ::google::protobuf::Message
@@ -2121,70 +2328,149 @@ inline void GetRequest::set_allocated_id(std::string* PROTOBUF_NULLABLE value) {
 
 // -------------------------------------------------------------------
 
-// GetReply
+// FunctionInfo
 
-// repeated string function_names = 1;
-inline int GetReply::_internal_function_names_size() const {
-  return _internal_function_names().size();
-}
-inline int GetReply::function_names_size() const {
-  return _internal_function_names_size();
-}
-inline void GetReply::clear_function_names() {
+// string name = 1;
+inline void FunctionInfo::clear_name() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.function_names_.Clear();
+  _impl_.name_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline std::string* PROTOBUF_NONNULL GetReply::add_function_names()
+inline const std::string& FunctionInfo::name() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:bin_diff.FunctionInfo.name)
+  return _internal_name();
+}
+template <typename Arg_, typename... Args_>
+PROTOBUF_ALWAYS_INLINE void FunctionInfo::set_name(Arg_&& arg, Args_... args) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  std::string* _s = _internal_mutable_function_names()->Add();
-  // @@protoc_insertion_point(field_add_mutable:bin_diff.GetReply.function_names)
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.name_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:bin_diff.FunctionInfo.name)
+}
+inline std::string* PROTOBUF_NONNULL FunctionInfo::mutable_name()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_name();
+  // @@protoc_insertion_point(field_mutable:bin_diff.FunctionInfo.name)
   return _s;
 }
-inline const std::string& GetReply::function_names(int index) const
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:bin_diff.GetReply.function_names)
-  return _internal_function_names().Get(index);
-}
-inline std::string* PROTOBUF_NONNULL GetReply::mutable_function_names(int index)
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable:bin_diff.GetReply.function_names)
-  return _internal_mutable_function_names()->Mutable(index);
-}
-template <typename Arg_, typename... Args_>
-inline void GetReply::set_function_names(int index, Arg_&& value, Args_... args) {
-  ::google::protobuf::internal::AssignToString(*_internal_mutable_function_names()->Mutable(index), std::forward<Arg_>(value),
-                        args... );
-  // @@protoc_insertion_point(field_set:bin_diff.GetReply.function_names)
-}
-template <typename Arg_, typename... Args_>
-inline void GetReply::add_function_names(Arg_&& value, Args_... args) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  ::google::protobuf::internal::AddToRepeatedPtrField(*_internal_mutable_function_names(),
-                               std::forward<Arg_>(value),
-                               args... );
-  // @@protoc_insertion_point(field_add:bin_diff.GetReply.function_names)
-}
-inline const ::google::protobuf::RepeatedPtrField<std::string>& GetReply::function_names() const
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_list:bin_diff.GetReply.function_names)
-  return _internal_function_names();
-}
-inline ::google::protobuf::RepeatedPtrField<std::string>* PROTOBUF_NONNULL
-GetReply::mutable_function_names() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable_list:bin_diff.GetReply.function_names)
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  return _internal_mutable_function_names();
-}
-inline const ::google::protobuf::RepeatedPtrField<std::string>&
-GetReply::_internal_function_names() const {
+inline const std::string& FunctionInfo::_internal_name() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.function_names_;
+  return _impl_.name_.Get();
 }
-inline ::google::protobuf::RepeatedPtrField<std::string>* PROTOBUF_NONNULL
-GetReply::_internal_mutable_function_names() {
+inline void FunctionInfo::_internal_set_name(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.name_.Set(value, GetArena());
+}
+inline std::string* PROTOBUF_NONNULL FunctionInfo::_internal_mutable_name() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.name_.Mutable( GetArena());
+}
+inline std::string* PROTOBUF_NULLABLE FunctionInfo::release_name() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:bin_diff.FunctionInfo.name)
+  if ((_impl_._has_bits_[0] & 0x00000001u) == 0) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* released = _impl_.name_.Release();
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString()) {
+    _impl_.name_.Set("", GetArena());
+  }
+  return released;
+}
+inline void FunctionInfo::set_allocated_name(std::string* PROTOBUF_NULLABLE value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.name_.SetAllocated(value, GetArena());
+  if (::google::protobuf::internal::DebugHardenForceCopyDefaultString() && _impl_.name_.IsDefault()) {
+    _impl_.name_.Set("", GetArena());
+  }
+  // @@protoc_insertion_point(field_set_allocated:bin_diff.FunctionInfo.name)
+}
+
+// uint64 address = 2;
+inline void FunctionInfo::clear_address() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.address_ = ::uint64_t{0u};
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline ::uint64_t FunctionInfo::address() const {
+  // @@protoc_insertion_point(field_get:bin_diff.FunctionInfo.address)
+  return _internal_address();
+}
+inline void FunctionInfo::set_address(::uint64_t value) {
+  _internal_set_address(value);
+  _impl_._has_bits_[0] |= 0x00000002u;
+  // @@protoc_insertion_point(field_set:bin_diff.FunctionInfo.address)
+}
+inline ::uint64_t FunctionInfo::_internal_address() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return &_impl_.function_names_;
+  return _impl_.address_;
+}
+inline void FunctionInfo::_internal_set_address(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.address_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// GetReply
+
+// repeated .bin_diff.FunctionInfo functions = 1;
+inline int GetReply::_internal_functions_size() const {
+  return _internal_functions().size();
+}
+inline int GetReply::functions_size() const {
+  return _internal_functions_size();
+}
+inline void GetReply::clear_functions() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.functions_.Clear();
+}
+inline ::bin_diff::FunctionInfo* PROTOBUF_NONNULL GetReply::mutable_functions(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:bin_diff.GetReply.functions)
+  return _internal_mutable_functions()->Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionInfo>* PROTOBUF_NONNULL GetReply::mutable_functions()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:bin_diff.GetReply.functions)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_functions();
+}
+inline const ::bin_diff::FunctionInfo& GetReply::functions(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:bin_diff.GetReply.functions)
+  return _internal_functions().Get(index);
+}
+inline ::bin_diff::FunctionInfo* PROTOBUF_NONNULL GetReply::add_functions()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::bin_diff::FunctionInfo* _add = _internal_mutable_functions()->Add();
+  // @@protoc_insertion_point(field_add:bin_diff.GetReply.functions)
+  return _add;
+}
+inline const ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionInfo>& GetReply::functions() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:bin_diff.GetReply.functions)
+  return _internal_functions();
+}
+inline const ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionInfo>&
+GetReply::_internal_functions() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.functions_;
+}
+inline ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionInfo>* PROTOBUF_NONNULL
+GetReply::_internal_mutable_functions() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.functions_;
 }
 
 #ifdef __GNUC__

@@ -59,7 +59,9 @@ grpc::Status BinDiffServer::Get(
 	try {
 		std::shared_ptr<BinExportContent> bin_export_content = bin_diff_cache_.get(id);
 		for (const auto& function : bin_export_content->get_functions()) {
-			response->add_function_names(function.get_name());
+			auto* function_info = response->add_functions();
+			function_info->set_address(function.get_address());
+			function_info->set_name(function.get_name());
 		}
 		return grpc::Status::OK;
 	} catch (const std::runtime_error& e) {
