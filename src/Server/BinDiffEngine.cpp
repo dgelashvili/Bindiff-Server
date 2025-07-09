@@ -27,8 +27,14 @@ std::vector<Match> BinDiffEngine::match(
 	}
 	potentialMatches.push_back(std::move(initial));
 
-	for (const auto& algorithm : matching_algorithms_) {
-		algorithm->match(primary, secondary, result, potentialMatches);
+	for (int i = 0; i < 4; i++) {
+		const int previous_size = result.size();
+		for (const auto& algorithm : matching_algorithms_) {
+			algorithm->match(primary, secondary, result, potentialMatches);
+		}
+		if (previous_size == result.size()) {
+			break;
+		}
 	}
 
 	return result;
@@ -36,8 +42,8 @@ std::vector<Match> BinDiffEngine::match(
 
 void BinDiffEngine::fill_matching_algorithms() {
 	matching_algorithms_.push_back(std::make_unique<HashMatcher>());
-	matching_algorithms_.push_back(std::make_unique<MnemonicsHashMatcher>());
 	matching_algorithms_.push_back(std::make_unique<NameMatcher>());
+	matching_algorithms_.push_back(std::make_unique<MnemonicsHashMatcher>());
 	matching_algorithms_.push_back(std::make_unique<LoopStructureMatcher>());
 	matching_algorithms_.push_back(std::make_unique<BasicStructureMatcher>());
 	matching_algorithms_.push_back(std::make_unique<CallDegreeMatcher>());

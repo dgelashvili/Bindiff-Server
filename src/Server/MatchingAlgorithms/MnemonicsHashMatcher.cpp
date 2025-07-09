@@ -36,7 +36,7 @@ void MnemonicsHashMatcher::match_specific_bucket(
 		potential_matches[function_mnemonics_hash].secondary.push_back(function);
 	}
 
-	PotentialMatches remaining_bucket;
+	PotentialMatches lone_functions_bucket;
 	for (const auto& it : potential_matches) {
 		PotentialMatches mnemonics_hash_matches = it.second;
 		if (mnemonics_hash_matches.primary.size() == 1 && mnemonics_hash_matches.secondary.size() == 1) {
@@ -46,14 +46,23 @@ void MnemonicsHashMatcher::match_specific_bucket(
 			match.similarity = 1.0;
 			match.confidence = 1.0;
 			out_matches.push_back(match);
-		} else {
+		} else if (!mnemonics_hash_matches.primary.empty() && !mnemonics_hash_matches.secondary.empty()) {
+			PotentialMatches new_bucket;
 			for (const auto& function : mnemonics_hash_matches.primary) {
-				remaining_bucket.primary.push_back(function);
+				new_bucket.primary.push_back(function);
 			}
 			for (const auto& function : mnemonics_hash_matches.secondary) {
-				remaining_bucket.secondary.push_back(function);
+				new_bucket.secondary.push_back(function);
+			}
+			new_unmatched_groups.push_back(new_bucket);
+		} else {
+			for (const auto& function : mnemonics_hash_matches.primary) {
+				lone_functions_bucket.primary.push_back(function);
+			}
+			for (const auto& function : mnemonics_hash_matches.secondary) {
+				lone_functions_bucket.secondary.push_back(function);
 			}
 		}
 	}
-	new_unmatched_groups.push_back(remaining_bucket);
+	new_unmatched_groups.push_back(lone_functions_bucket);
 }
