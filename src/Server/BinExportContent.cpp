@@ -20,6 +20,8 @@ BinExportContent::BinExportContent(const std::string &file_bytes, MnemonicTable*
 			index);
 		address_to_name_map_[func.address()] = functions_[functions_.size() - 1].get_name();
 	}
+
+	fill_address_to_index_map();
 }
 
 const BinExport2 &BinExportContent::get_raw() {
@@ -32,6 +34,18 @@ const std::vector<Function> &BinExportContent::get_functions() {
 
 std::unordered_map<uint64_t, std::string> &BinExportContent::get_address_to_name_map() {
 	return address_to_name_map_;
+}
+
+const std::vector<int> &BinExportContent::get_caller_neighbours(const int graph_index) const {
+	return call_index_graph_[graph_index][1];
+}
+
+const std::vector<int> &BinExportContent::get_callee_neighbours(const int graph_index) const {
+	return call_index_graph_[graph_index][0];
+}
+
+int BinExportContent::get_index_from_address(const uint64_t address) {
+	return address_to_index_map_[address];
 }
 
 void BinExportContent::fill_flow_graph_address_map() {
@@ -66,5 +80,11 @@ void BinExportContent::fill_call_index_graph() {
 		} else {
 			call_index_graph_[caller_index][2].push_back(callee_index);
 		}
+	}
+}
+
+void BinExportContent::fill_address_to_index_map() {
+	for (int function_index = 0; function_index < functions_.size(); function_index++) {
+		address_to_index_map_[functions_[function_index].get_address()] = function_index;
 	}
 }
