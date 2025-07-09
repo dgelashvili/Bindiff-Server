@@ -9,6 +9,8 @@ BinExportContent::BinExportContent(const std::string &file_bytes, MnemonicTable*
 	fill_flow_graph_address_map();
 	fill_call_index_graph();
 
+	std::cout << "Number of Functions: " << binexport_raw_.call_graph().vertex_size() << std::endl << std::endl;
+
 	for (int index = 0; index < binexport_raw_.call_graph().vertex().size(); index++) {
 		const auto& func = binexport_raw_.call_graph().vertex()[index];
 		functions_.emplace_back(
