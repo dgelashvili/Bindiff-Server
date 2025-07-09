@@ -10,6 +10,7 @@ if plugin_dir not in sys.path:
 
 try:
     from Generated import bin_diff_pb2, bin_diff_pb2_grpc
+    from Upload import uploader
 
     IMPORTED = True
 except ImportError as e:
@@ -21,9 +22,10 @@ class BinDiffPlugin:
     def __init__(self):
         self.server_address = "localhost:50051"
         self.uploaded_files = {}
+        self.uploader = uploader.BinExportUploader(self.server_address)
 
     def upload_current_file(self, bv):
-        file_id = 1
+        file_id = self.uploader.upload_current_binexport(bv)
 
         if file_id:
             self.uploaded_files[bv.file.filename] = file_id
