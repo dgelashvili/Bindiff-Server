@@ -39,7 +39,11 @@ class BinDiffPlugin:
             self.function_viewer.retrieve_and_display_functions(bv, file_id)
             return
         else:
-            show_message_box("Error", "This file has not been uploaded to the server")
+            show_message_box("Error", "This file has not been uploaded to the server "
+                                      "or Binary Ninja got restarted and because of that it no longer holds "
+                                      "file id to correctly access its contents using the server.\n\n"
+                                      "In both cases, please, upload the file first.\n"
+                                      "If it has already been uploaded in the past, server will recognize it.")
 
 
 if IMPORTED:
