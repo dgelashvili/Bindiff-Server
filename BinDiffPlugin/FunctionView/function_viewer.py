@@ -3,9 +3,18 @@ from Generated import bin_diff_pb2, bin_diff_pb2_grpc
 
 from binaryninja import show_message_box
 
+from function_viewer_ui_components import FunctionTableDialog
+
 
 def show_functions_table(bv, functions):
-    pass
+    try:
+        sorted_functions = sorted(functions, key=lambda f: f['address'])
+
+        dialog = FunctionTableDialog(bv, sorted_functions)
+        dialog.show()
+
+    except Exception as e:
+        show_message_box("Display Error", f"Could not display functions table: {e}")
 
 
 class FunctionViewer:

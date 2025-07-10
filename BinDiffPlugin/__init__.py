@@ -11,6 +11,7 @@ if plugin_dir not in sys.path:
 try:
     from Generated import bin_diff_pb2, bin_diff_pb2_grpc
     from Upload import uploader
+    from FunctionView import function_viewer_ui_components
     from FunctionView import function_viewer
 
     IMPORTED = True
