@@ -11,6 +11,7 @@ if plugin_dir not in sys.path:
 try:
     from Generated import bin_diff_pb2, bin_diff_pb2_grpc
     from Upload import uploader
+    from FunctionView import function_viewer
 
     IMPORTED = True
 except ImportError as e:
@@ -23,6 +24,7 @@ class BinDiffPlugin:
         self.server_address = "localhost:50051"
         self.uploaded_files = {}
         self.uploader = uploader.BinExportUploader(self.server_address)
+        self.function_viewer = function_viewer.FunctionViewer(self.server_address)
 
     def upload_current_file(self, bv):
         file_id = self.uploader.upload_current_binexport(bv)
@@ -33,6 +35,8 @@ class BinDiffPlugin:
     def view_functions(self, bv):
         path = bv.file.filename
         if self.uploaded_files.__contains__(path):
+            file_id = self.uploaded_files.get(path)
+            self.function_viewer.retrieve_and_display_functions(bv, file_id)
             return
         else:
             show_message_box("Error", "This file has not been uploaded to the server")
