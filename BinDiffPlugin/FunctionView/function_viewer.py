@@ -30,10 +30,8 @@ class FunctionViewer:
             else:
                 show_message_box("Fail", f"No functions found for file ID: {file_id}")
 
-            return True
         except Exception as e:
             show_message_box("Error", f"Failed to retrieve functions: {e}")
-            return False
 
     def _get_functions_from_server(self, file_id):
         try:

@@ -13,6 +13,7 @@ try:
     from Upload import uploader
     from FunctionView import function_viewer_ui_components
     from FunctionView import function_viewer
+    from DiffView import diff_viewer
 
     IMPORTED = True
 except ImportError as e:
@@ -26,6 +27,7 @@ class BinDiffPlugin:
         self.uploaded_files = {}
         self.uploader = uploader.BinExportUploader(self.server_address)
         self.function_viewer = function_viewer.FunctionViewer(self.server_address)
+        self.diff_viewer = diff_viewer.DiffViewer(self.server_address)
         self.primary = None
         self.secondary = None
 
@@ -57,6 +59,26 @@ class BinDiffPlugin:
         path = bv.file.filename
         if self.get_id_from_path(path) != -1:
             self.secondary = bv
+
+    def diff_files(self, bv):
+        if not self.primary or not self.primary.file:
+            show_message_box("Error", "No file set for primary")
+            return
+        primary_path = self.primary.file.filename
+        primary_id = self.get_id_from_path(primary_path)
+        if primary_id == -1:
+            return
+
+        if not self.secondary or not self.secondary.file:
+            show_message_box("Error", "No file set for secondary")
+            return
+
+        secondary_path = self.secondary.file.filename
+        secondary_id = self.get_id_from_path(secondary_path)
+        if secondary_id == -1:
+            return
+
+        self.diff_viewer.retrieve_and_display_diff_result(self.primary, self.secondary, primary_id, secondary_id)
 
     def get_id_from_path(self, path):
         if self.uploaded_files.__contains__(path):
@@ -98,4 +120,10 @@ if IMPORTED:
         plugin.set_as_secondary
     )
 
-    log_info("BinDiffPlugin loaded - 4 commands available")
+    PluginCommand.register(
+        "BinDiffPlugin\\Diff Files",
+        "Diff currently set primary file with currently set secondary file",
+        plugin.diff_files
+    )
+
+    log_info("BinDiffPlugin loaded - 5 commands available")
