@@ -1,5 +1,5 @@
 #include "BasicStructureMatcher.h"
-
+#include "ContentSimilarityCalculator.h"
 #include <map>
 
 void BasicStructureMatcher::match(
@@ -90,6 +90,14 @@ float BasicStructureMatcher::calculate_confidence(const std::shared_ptr<BinExpor
 	const std::vector<Match>& existing_matches) const{
 	float confidence = 0.75f;
 
+	float content_sim = ContentSimilarityCalculator::calculate_content_similarity(p_func, s_func);
+
+	if (content_sim > 0.8f) {
+		confidence += 0.10f;
+	} else if (content_sim < 0.4f) {
+		confidence -= 0.10f;
+	}
+
 	int complexity_score = p_func.get_basic_block_count() + p_func.get_loop_count() * 2;
 	if (complexity_score > 15) {
 		confidence += 0.15f;
@@ -108,5 +116,5 @@ float BasicStructureMatcher::calculate_confidence(const std::shared_ptr<BinExpor
 		}
 		}
 
-	return std::min(0.90f, confidence);
+	return std::min(0.90f, std::max(0.3f, confidence));
 }

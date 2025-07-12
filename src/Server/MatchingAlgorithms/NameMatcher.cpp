@@ -1,5 +1,5 @@
 #include "NameMatcher.h"
-
+#include "ContentSimilarityCalculator.h"
 #include <string>
 #include <unordered_map>
 
@@ -50,6 +50,11 @@ void NameMatcher::match_specific_bucket(
 			const auto& s_func = secondary->get_functions()[name_matches.secondary[0]];
 			match.similarity = calculate_similarity(primary, secondary, p_func, s_func, out_matches);
 			match.confidence = calculate_confidence(primary, secondary, p_func, s_func, out_matches);
+			float content_similarity = ContentSimilarityCalculator::calculate_content_similarity(p_func, s_func);
+			float name_confidence = ContentSimilarityCalculator::calculate_name_based_confidence(p_func, s_func, content_similarity);
+			match.similarity = content_similarity;
+			match.confidence = name_confidence;
+
 			out_matches.push_back(match);
 		} else if (!name_matches.primary.empty() && !name_matches.secondary.empty()) {
 			PotentialMatches new_bucket;

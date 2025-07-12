@@ -1,4 +1,5 @@
 #include "MnemonicsHashMatcher.h"
+#include "ContentSimilarityCalculator.h"
 
 void MnemonicsHashMatcher::match(
     const std::shared_ptr<BinExportContent>& primary,
@@ -104,8 +105,15 @@ float MnemonicsHashMatcher::calculate_confidence(const std::shared_ptr<BinExport
         const std::shared_ptr<BinExportContent>& secondary,
         const Function &p_func, const Function &s_func,
         const std::vector<Match>& existing_matches) const{
-
     float base_confidence = 0.85f;
+
+    float content_sim = ContentSimilarityCalculator::calculate_content_similarity(p_func, s_func);
+
+    if (content_sim > 0.9f) {
+        base_confidence += 0.08f;
+    } else if (content_sim < 0.5f) {
+        base_confidence -= 0.15f;
+    }
 
     int min_instructions = std::min(p_func.get_function_instruction_count(),
                                    s_func.get_function_instruction_count());
@@ -126,9 +134,9 @@ float MnemonicsHashMatcher::calculate_confidence(const std::shared_ptr<BinExport
         if (p_name == s_name) {
             base_confidence += 0.05f;
         }
-    }
+        }
 
-    return std::min(0.95f, base_confidence);
+    return std::min(0.95f, std::max(0.3f, base_confidence));
 }
 
 void MnemonicsHashMatcher::handle_multiple_mnemonic_matches(
