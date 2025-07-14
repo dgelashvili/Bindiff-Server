@@ -116,6 +116,8 @@ inline constexpr FunctionMatch::Impl_::Impl_(
         name_secondary_(
             &::google::protobuf::internal::fixed_address_empty_string,
             ::_pbi::ConstantInitialized()),
+        address_primary_{::uint64_t{0u}},
+        address_secondary_{::uint64_t{0u}},
         similarity_{0},
         confidence_{0} {}
 
@@ -225,6 +227,8 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
 inline constexpr DiffReply::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : matches_{},
+        unmatched_primary_{},
+        unmatched_secondary_{},
         _cached_size_{0} {}
 
 template <typename>
@@ -294,14 +298,18 @@ const ::uint32_t
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::bin_diff::FunctionMatch, _impl_.address_primary_),
+        PROTOBUF_FIELD_OFFSET(::bin_diff::FunctionMatch, _impl_.address_secondary_),
         PROTOBUF_FIELD_OFFSET(::bin_diff::FunctionMatch, _impl_.name_primary_),
         PROTOBUF_FIELD_OFFSET(::bin_diff::FunctionMatch, _impl_.name_secondary_),
         PROTOBUF_FIELD_OFFSET(::bin_diff::FunctionMatch, _impl_.similarity_),
         PROTOBUF_FIELD_OFFSET(::bin_diff::FunctionMatch, _impl_.confidence_),
-        0,
-        1,
         2,
         3,
+        0,
+        1,
+        4,
+        5,
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::bin_diff::DiffReply, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -311,6 +319,8 @@ const ::uint32_t
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
         PROTOBUF_FIELD_OFFSET(::bin_diff::DiffReply, _impl_.matches_),
+        PROTOBUF_FIELD_OFFSET(::bin_diff::DiffReply, _impl_.unmatched_primary_),
+        PROTOBUF_FIELD_OFFSET(::bin_diff::DiffReply, _impl_.unmatched_secondary_),
         PROTOBUF_FIELD_OFFSET(::bin_diff::GetRequest, _impl_._has_bits_),
         PROTOBUF_FIELD_OFFSET(::bin_diff::GetRequest, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -349,11 +359,11 @@ static const ::_pbi::MigrationSchema
         {0, 9, -1, sizeof(::bin_diff::UploadRequest)},
         {10, 19, -1, sizeof(::bin_diff::UploadReply)},
         {20, 30, -1, sizeof(::bin_diff::DiffRequest)},
-        {32, 44, -1, sizeof(::bin_diff::FunctionMatch)},
-        {48, -1, -1, sizeof(::bin_diff::DiffReply)},
-        {57, 66, -1, sizeof(::bin_diff::GetRequest)},
-        {67, 77, -1, sizeof(::bin_diff::FunctionInfo)},
-        {79, -1, -1, sizeof(::bin_diff::GetReply)},
+        {32, 46, -1, sizeof(::bin_diff::FunctionMatch)},
+        {52, -1, -1, sizeof(::bin_diff::DiffReply)},
+        {63, 72, -1, sizeof(::bin_diff::GetRequest)},
+        {73, 83, -1, sizeof(::bin_diff::FunctionInfo)},
+        {85, -1, -1, sizeof(::bin_diff::GetReply)},
 };
 static const ::_pb::Message* PROTOBUF_NONNULL const file_default_instances[] = {
     &::bin_diff::_UploadRequest_default_instance_._instance,
@@ -370,25 +380,28 @@ const char descriptor_table_protodef_bin_5fdiff_2eproto[] ABSL_ATTRIBUTE_SECTION
     "\n\016bin_diff.proto\022\010bin_diff\" \n\rUploadRequ"
     "est\022\017\n\007content\030\001 \001(\014\"\031\n\013UploadReply\022\n\n\002i"
     "d\030\001 \001(\t\")\n\013DiffRequest\022\014\n\004id_1\030\001 \001(\t\022\014\n\004"
-    "id_2\030\002 \001(\t\"e\n\rFunctionMatch\022\024\n\014name_prim"
-    "ary\030\001 \001(\t\022\026\n\016name_secondary\030\002 \001(\t\022\022\n\nsim"
-    "ilarity\030\003 \001(\002\022\022\n\nconfidence\030\004 \001(\002\"5\n\tDif"
-    "fReply\022(\n\007matches\030\001 \003(\0132\027.bin_diff.Funct"
-    "ionMatch\"\030\n\nGetRequest\022\n\n\002id\030\001 \001(\t\"-\n\014Fu"
-    "nctionInfo\022\014\n\004name\030\001 \001(\t\022\017\n\007address\030\002 \001("
-    "\004\"5\n\010GetReply\022)\n\tfunctions\030\001 \003(\0132\026.bin_d"
-    "iff.FunctionInfo2\256\001\n\rBinDiffServer\0228\n\006Up"
-    "load\022\027.bin_diff.UploadRequest\032\025.bin_diff"
-    ".UploadReply\0222\n\004Diff\022\025.bin_diff.DiffRequ"
-    "est\032\023.bin_diff.DiffReply\022/\n\003Get\022\024.bin_di"
-    "ff.GetRequest\032\022.bin_diff.GetReplyb\006proto"
-    "3"
+    "id_2\030\002 \001(\t\"\231\001\n\rFunctionMatch\022\027\n\017address_"
+    "primary\030\001 \001(\004\022\031\n\021address_secondary\030\002 \001(\004"
+    "\022\024\n\014name_primary\030\003 \001(\t\022\026\n\016name_secondary"
+    "\030\004 \001(\t\022\022\n\nsimilarity\030\005 \001(\002\022\022\n\nconfidence"
+    "\030\006 \001(\002\"\235\001\n\tDiffReply\022(\n\007matches\030\001 \003(\0132\027."
+    "bin_diff.FunctionMatch\0221\n\021unmatched_prim"
+    "ary\030\002 \003(\0132\026.bin_diff.FunctionInfo\0223\n\023unm"
+    "atched_secondary\030\003 \003(\0132\026.bin_diff.Functi"
+    "onInfo\"\030\n\nGetRequest\022\n\n\002id\030\001 \001(\t\"-\n\014Func"
+    "tionInfo\022\014\n\004name\030\001 \001(\t\022\017\n\007address\030\002 \001(\004\""
+    "5\n\010GetReply\022)\n\tfunctions\030\001 \003(\0132\026.bin_dif"
+    "f.FunctionInfo2\256\001\n\rBinDiffServer\0228\n\006Uplo"
+    "ad\022\027.bin_diff.UploadRequest\032\025.bin_diff.U"
+    "ploadReply\0222\n\004Diff\022\025.bin_diff.DiffReques"
+    "t\032\023.bin_diff.DiffReply\022/\n\003Get\022\024.bin_diff"
+    ".GetRequest\032\022.bin_diff.GetReplyb\006proto3"
 };
 static ::absl::once_flag descriptor_table_bin_5fdiff_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_bin_5fdiff_2eproto = {
     false,
     false,
-    601,
+    759,
     descriptor_table_protodef_bin_5fdiff_2eproto,
     "bin_diff.proto",
     &descriptor_table_bin_5fdiff_2eproto_once,
@@ -1270,11 +1283,11 @@ FunctionMatch::FunctionMatch(
       from._internal_metadata_);
   new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
   ::memcpy(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, similarity_),
+               offsetof(Impl_, address_primary_),
            reinterpret_cast<const char *>(&from._impl_) +
-               offsetof(Impl_, similarity_),
+               offsetof(Impl_, address_primary_),
            offsetof(Impl_, confidence_) -
-               offsetof(Impl_, similarity_) +
+               offsetof(Impl_, address_primary_) +
                sizeof(Impl_::confidence_));
 
   // @@protoc_insertion_point(copy_constructor:bin_diff.FunctionMatch)
@@ -1289,10 +1302,10 @@ PROTOBUF_NDEBUG_INLINE FunctionMatch::Impl_::Impl_(
 inline void FunctionMatch::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   ::memset(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, similarity_),
+               offsetof(Impl_, address_primary_),
            0,
            offsetof(Impl_, confidence_) -
-               offsetof(Impl_, similarity_) +
+               offsetof(Impl_, address_primary_) +
                sizeof(Impl_::confidence_));
 }
 FunctionMatch::~FunctionMatch() {
@@ -1351,16 +1364,16 @@ const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL FunctionMatch::G
   return FunctionMatch_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<2, 4, 0, 57, 2>
+const ::_pbi::TcParseTable<3, 6, 0, 57, 2>
 FunctionMatch::_table_ = {
   {
     PROTOBUF_FIELD_OFFSET(FunctionMatch, _impl_._has_bits_),
     0, // no _extensions_
-    4, 24,  // max_field_number, fast_idx_mask
+    6, 56,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967280,  // skipmap
+    4294967232,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    4,  // num_field_entries
+    6,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     FunctionMatch_class_data_.base(),
@@ -1370,37 +1383,51 @@ FunctionMatch::_table_ = {
     ::_pbi::TcParser::GetTable<::bin_diff::FunctionMatch>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // float confidence = 4;
-    {::_pbi::TcParser::FastF32S1,
-     {37, 3, 0, PROTOBUF_FIELD_OFFSET(FunctionMatch, _impl_.confidence_)}},
-    // string name_primary = 1;
+    {::_pbi::TcParser::MiniParse, {}},
+    // uint64 address_primary = 1;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(FunctionMatch, _impl_.address_primary_), 2>(),
+     {8, 2, 0, PROTOBUF_FIELD_OFFSET(FunctionMatch, _impl_.address_primary_)}},
+    // uint64 address_secondary = 2;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint64_t, offsetof(FunctionMatch, _impl_.address_secondary_), 3>(),
+     {16, 3, 0, PROTOBUF_FIELD_OFFSET(FunctionMatch, _impl_.address_secondary_)}},
+    // string name_primary = 3;
     {::_pbi::TcParser::FastUS1,
-     {10, 0, 0, PROTOBUF_FIELD_OFFSET(FunctionMatch, _impl_.name_primary_)}},
-    // string name_secondary = 2;
+     {26, 0, 0, PROTOBUF_FIELD_OFFSET(FunctionMatch, _impl_.name_primary_)}},
+    // string name_secondary = 4;
     {::_pbi::TcParser::FastUS1,
-     {18, 1, 0, PROTOBUF_FIELD_OFFSET(FunctionMatch, _impl_.name_secondary_)}},
-    // float similarity = 3;
+     {34, 1, 0, PROTOBUF_FIELD_OFFSET(FunctionMatch, _impl_.name_secondary_)}},
+    // float similarity = 5;
     {::_pbi::TcParser::FastF32S1,
-     {29, 2, 0, PROTOBUF_FIELD_OFFSET(FunctionMatch, _impl_.similarity_)}},
+     {45, 4, 0, PROTOBUF_FIELD_OFFSET(FunctionMatch, _impl_.similarity_)}},
+    // float confidence = 6;
+    {::_pbi::TcParser::FastF32S1,
+     {53, 5, 0, PROTOBUF_FIELD_OFFSET(FunctionMatch, _impl_.confidence_)}},
+    {::_pbi::TcParser::MiniParse, {}},
   }}, {{
     65535, 65535
   }}, {{
-    // string name_primary = 1;
+    // uint64 address_primary = 1;
+    {PROTOBUF_FIELD_OFFSET(FunctionMatch, _impl_.address_primary_), _Internal::kHasBitsOffset + 2, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kUInt64)},
+    // uint64 address_secondary = 2;
+    {PROTOBUF_FIELD_OFFSET(FunctionMatch, _impl_.address_secondary_), _Internal::kHasBitsOffset + 3, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kUInt64)},
+    // string name_primary = 3;
     {PROTOBUF_FIELD_OFFSET(FunctionMatch, _impl_.name_primary_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
-    // string name_secondary = 2;
+    // string name_secondary = 4;
     {PROTOBUF_FIELD_OFFSET(FunctionMatch, _impl_.name_secondary_), _Internal::kHasBitsOffset + 1, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kUtf8String | ::_fl::kRepAString)},
-    // float similarity = 3;
-    {PROTOBUF_FIELD_OFFSET(FunctionMatch, _impl_.similarity_), _Internal::kHasBitsOffset + 2, 0,
+    // float similarity = 5;
+    {PROTOBUF_FIELD_OFFSET(FunctionMatch, _impl_.similarity_), _Internal::kHasBitsOffset + 4, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kFloat)},
-    // float confidence = 4;
-    {PROTOBUF_FIELD_OFFSET(FunctionMatch, _impl_.confidence_), _Internal::kHasBitsOffset + 3, 0,
+    // float confidence = 6;
+    {PROTOBUF_FIELD_OFFSET(FunctionMatch, _impl_.confidence_), _Internal::kHasBitsOffset + 5, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kFloat)},
   }},
   // no aux_entries
   {{
-    "\26\14\16\0\0\0\0\0"
+    "\26\0\0\14\16\0\0\0"
     "bin_diff.FunctionMatch"
     "name_primary"
     "name_secondary"
@@ -1422,10 +1449,10 @@ PROTOBUF_NOINLINE void FunctionMatch::Clear() {
       _impl_.name_secondary_.ClearNonDefaultToEmpty();
     }
   }
-  if ((cached_has_bits & 0x0000000cu) != 0) {
-    ::memset(&_impl_.similarity_, 0, static_cast<::size_t>(
+  if ((cached_has_bits & 0x0000003cu) != 0) {
+    ::memset(&_impl_.address_primary_, 0, static_cast<::size_t>(
         reinterpret_cast<char*>(&_impl_.confidence_) -
-        reinterpret_cast<char*>(&_impl_.similarity_)) + sizeof(_impl_.confidence_));
+        reinterpret_cast<char*>(&_impl_.address_primary_)) + sizeof(_impl_.confidence_));
   }
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
@@ -1446,41 +1473,59 @@ PROTOBUF_NOINLINE void FunctionMatch::Clear() {
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
-  // string name_primary = 1;
+  // uint64 address_primary = 1;
+  if ((this_._impl_._has_bits_[0] & 0x00000004u) != 0) {
+    if (this_._internal_address_primary() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+          1, this_._internal_address_primary(), target);
+    }
+  }
+
+  // uint64 address_secondary = 2;
+  if ((this_._impl_._has_bits_[0] & 0x00000008u) != 0) {
+    if (this_._internal_address_secondary() != 0) {
+      target = stream->EnsureSpace(target);
+      target = ::_pbi::WireFormatLite::WriteUInt64ToArray(
+          2, this_._internal_address_secondary(), target);
+    }
+  }
+
+  // string name_primary = 3;
   if ((this_._impl_._has_bits_[0] & 0x00000001u) != 0) {
     if (!this_._internal_name_primary().empty()) {
       const std::string& _s = this_._internal_name_primary();
       ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
           _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "bin_diff.FunctionMatch.name_primary");
-      target = stream->WriteStringMaybeAliased(1, _s, target);
+      target = stream->WriteStringMaybeAliased(3, _s, target);
     }
   }
 
-  // string name_secondary = 2;
+  // string name_secondary = 4;
   if ((this_._impl_._has_bits_[0] & 0x00000002u) != 0) {
     if (!this_._internal_name_secondary().empty()) {
       const std::string& _s = this_._internal_name_secondary();
       ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
           _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "bin_diff.FunctionMatch.name_secondary");
-      target = stream->WriteStringMaybeAliased(2, _s, target);
+      target = stream->WriteStringMaybeAliased(4, _s, target);
     }
   }
 
-  // float similarity = 3;
-  if ((this_._impl_._has_bits_[0] & 0x00000004u) != 0) {
+  // float similarity = 5;
+  if ((this_._impl_._has_bits_[0] & 0x00000010u) != 0) {
     if (::absl::bit_cast<::uint32_t>(this_._internal_similarity()) != 0) {
       target = stream->EnsureSpace(target);
       target = ::_pbi::WireFormatLite::WriteFloatToArray(
-          3, this_._internal_similarity(), target);
+          5, this_._internal_similarity(), target);
     }
   }
 
-  // float confidence = 4;
-  if ((this_._impl_._has_bits_[0] & 0x00000008u) != 0) {
+  // float confidence = 6;
+  if ((this_._impl_._has_bits_[0] & 0x00000020u) != 0) {
     if (::absl::bit_cast<::uint32_t>(this_._internal_confidence()) != 0) {
       target = stream->EnsureSpace(target);
       target = ::_pbi::WireFormatLite::WriteFloatToArray(
-          4, this_._internal_confidence(), target);
+          6, this_._internal_confidence(), target);
     }
   }
 
@@ -1509,29 +1554,43 @@ PROTOBUF_NOINLINE void FunctionMatch::Clear() {
 
   ::_pbi::Prefetch5LinesFrom7Lines(&this_);
   cached_has_bits = this_._impl_._has_bits_[0];
-  if ((cached_has_bits & 0x0000000fu) != 0) {
-    // string name_primary = 1;
+  if ((cached_has_bits & 0x0000003fu) != 0) {
+    // string name_primary = 3;
     if ((cached_has_bits & 0x00000001u) != 0) {
       if (!this_._internal_name_primary().empty()) {
         total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
                                         this_._internal_name_primary());
       }
     }
-    // string name_secondary = 2;
+    // string name_secondary = 4;
     if ((cached_has_bits & 0x00000002u) != 0) {
       if (!this_._internal_name_secondary().empty()) {
         total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
                                         this_._internal_name_secondary());
       }
     }
-    // float similarity = 3;
+    // uint64 address_primary = 1;
     if ((cached_has_bits & 0x00000004u) != 0) {
+      if (this_._internal_address_primary() != 0) {
+        total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+            this_._internal_address_primary());
+      }
+    }
+    // uint64 address_secondary = 2;
+    if ((cached_has_bits & 0x00000008u) != 0) {
+      if (this_._internal_address_secondary() != 0) {
+        total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(
+            this_._internal_address_secondary());
+      }
+    }
+    // float similarity = 5;
+    if ((cached_has_bits & 0x00000010u) != 0) {
       if (::absl::bit_cast<::uint32_t>(this_._internal_similarity()) != 0) {
         total_size += 5;
       }
     }
-    // float confidence = 4;
-    if ((cached_has_bits & 0x00000008u) != 0) {
+    // float confidence = 6;
+    if ((cached_has_bits & 0x00000020u) != 0) {
       if (::absl::bit_cast<::uint32_t>(this_._internal_confidence()) != 0) {
         total_size += 5;
       }
@@ -1550,7 +1609,7 @@ void FunctionMatch::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::g
   (void) cached_has_bits;
 
   cached_has_bits = from._impl_._has_bits_[0];
-  if ((cached_has_bits & 0x0000000fu) != 0) {
+  if ((cached_has_bits & 0x0000003fu) != 0) {
     if ((cached_has_bits & 0x00000001u) != 0) {
       if (!from._internal_name_primary().empty()) {
         _this->_internal_set_name_primary(from._internal_name_primary());
@@ -1570,11 +1629,21 @@ void FunctionMatch::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::g
       }
     }
     if ((cached_has_bits & 0x00000004u) != 0) {
+      if (from._internal_address_primary() != 0) {
+        _this->_impl_.address_primary_ = from._impl_.address_primary_;
+      }
+    }
+    if ((cached_has_bits & 0x00000008u) != 0) {
+      if (from._internal_address_secondary() != 0) {
+        _this->_impl_.address_secondary_ = from._impl_.address_secondary_;
+      }
+    }
+    if ((cached_has_bits & 0x00000010u) != 0) {
       if (::absl::bit_cast<::uint32_t>(from._internal_similarity()) != 0) {
         _this->_impl_.similarity_ = from._impl_.similarity_;
       }
     }
-    if ((cached_has_bits & 0x00000008u) != 0) {
+    if ((cached_has_bits & 0x00000020u) != 0) {
       if (::absl::bit_cast<::uint32_t>(from._internal_confidence()) != 0) {
         _this->_impl_.confidence_ = from._impl_.confidence_;
       }
@@ -1603,9 +1672,9 @@ void FunctionMatch::InternalSwap(FunctionMatch* PROTOBUF_RESTRICT PROTOBUF_NONNU
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(FunctionMatch, _impl_.confidence_)
       + sizeof(FunctionMatch::_impl_.confidence_)
-      - PROTOBUF_FIELD_OFFSET(FunctionMatch, _impl_.similarity_)>(
-          reinterpret_cast<char*>(&_impl_.similarity_),
-          reinterpret_cast<char*>(&other->_impl_.similarity_));
+      - PROTOBUF_FIELD_OFFSET(FunctionMatch, _impl_.address_primary_)>(
+          reinterpret_cast<char*>(&_impl_.address_primary_),
+          reinterpret_cast<char*>(&other->_impl_.address_primary_));
 }
 
 ::google::protobuf::Metadata FunctionMatch::GetMetadata() const {
@@ -1631,6 +1700,8 @@ PROTOBUF_NDEBUG_INLINE DiffReply::Impl_::Impl_(
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
     const ::bin_diff::DiffReply& from_msg)
       : matches_{visibility, arena, from.matches_},
+        unmatched_primary_{visibility, arena, from.unmatched_primary_},
+        unmatched_secondary_{visibility, arena, from.unmatched_secondary_},
         _cached_size_{0} {}
 
 DiffReply::DiffReply(
@@ -1653,6 +1724,8 @@ PROTOBUF_NDEBUG_INLINE DiffReply::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* PROTOBUF_NULLABLE arena)
       : matches_{visibility, arena},
+        unmatched_primary_{visibility, arena},
+        unmatched_secondary_{visibility, arena},
         _cached_size_{0} {}
 
 inline void DiffReply::SharedCtor(::_pb::Arena* PROTOBUF_NULLABLE arena) {
@@ -1678,6 +1751,14 @@ constexpr auto DiffReply::InternalNewImpl_() {
   constexpr auto arena_bits = ::google::protobuf::internal::EncodePlacementArenaOffsets({
       PROTOBUF_FIELD_OFFSET(DiffReply, _impl_.matches_) +
           decltype(DiffReply::_impl_.matches_)::
+              InternalGetArenaOffset(
+                  ::google::protobuf::Message::internal_visibility()),
+      PROTOBUF_FIELD_OFFSET(DiffReply, _impl_.unmatched_primary_) +
+          decltype(DiffReply::_impl_.unmatched_primary_)::
+              InternalGetArenaOffset(
+                  ::google::protobuf::Message::internal_visibility()),
+      PROTOBUF_FIELD_OFFSET(DiffReply, _impl_.unmatched_secondary_) +
+          decltype(DiffReply::_impl_.unmatched_secondary_)::
               InternalGetArenaOffset(
                   ::google::protobuf::Message::internal_visibility()),
   });
@@ -1724,17 +1805,17 @@ const ::google::protobuf::internal::ClassData* PROTOBUF_NONNULL DiffReply::GetCl
   return DiffReply_class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<0, 1, 1, 0, 2>
+const ::_pbi::TcParseTable<2, 3, 3, 0, 2>
 DiffReply::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    1, 0,  // max_field_number, fast_idx_mask
+    3, 24,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967294,  // skipmap
+    4294967288,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    1,  // num_field_entries
-    1,  // num_aux_entries
+    3,  // num_field_entries
+    3,  // num_aux_entries
     offsetof(decltype(_table_), aux_entries),
     DiffReply_class_data_.base(),
     nullptr,  // post_loop_handler
@@ -1743,18 +1824,33 @@ DiffReply::_table_ = {
     ::_pbi::TcParser::GetTable<::bin_diff::DiffReply>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
+    {::_pbi::TcParser::MiniParse, {}},
     // repeated .bin_diff.FunctionMatch matches = 1;
     {::_pbi::TcParser::FastMtR1,
      {10, 63, 0, PROTOBUF_FIELD_OFFSET(DiffReply, _impl_.matches_)}},
+    // repeated .bin_diff.FunctionInfo unmatched_primary = 2;
+    {::_pbi::TcParser::FastMtR1,
+     {18, 63, 1, PROTOBUF_FIELD_OFFSET(DiffReply, _impl_.unmatched_primary_)}},
+    // repeated .bin_diff.FunctionInfo unmatched_secondary = 3;
+    {::_pbi::TcParser::FastMtR1,
+     {26, 63, 2, PROTOBUF_FIELD_OFFSET(DiffReply, _impl_.unmatched_secondary_)}},
   }}, {{
     65535, 65535
   }}, {{
     // repeated .bin_diff.FunctionMatch matches = 1;
     {PROTOBUF_FIELD_OFFSET(DiffReply, _impl_.matches_), 0, 0,
     (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
+    // repeated .bin_diff.FunctionInfo unmatched_primary = 2;
+    {PROTOBUF_FIELD_OFFSET(DiffReply, _impl_.unmatched_primary_), 0, 1,
+    (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
+    // repeated .bin_diff.FunctionInfo unmatched_secondary = 3;
+    {PROTOBUF_FIELD_OFFSET(DiffReply, _impl_.unmatched_secondary_), 0, 2,
+    (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
   }},
   {{
       {::_pbi::TcParser::GetTable<::bin_diff::FunctionMatch>()},
+      {::_pbi::TcParser::GetTable<::bin_diff::FunctionInfo>()},
+      {::_pbi::TcParser::GetTable<::bin_diff::FunctionInfo>()},
   }},
   {{
   }},
@@ -1767,6 +1863,8 @@ PROTOBUF_NOINLINE void DiffReply::Clear() {
   (void) cached_has_bits;
 
   _impl_.matches_.Clear();
+  _impl_.unmatched_primary_.Clear();
+  _impl_.unmatched_secondary_.Clear();
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -1793,6 +1891,28 @@ PROTOBUF_NOINLINE void DiffReply::Clear() {
     target =
         ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
             1, repfield, repfield.GetCachedSize(),
+            target, stream);
+  }
+
+  // repeated .bin_diff.FunctionInfo unmatched_primary = 2;
+  for (unsigned i = 0, n = static_cast<unsigned>(
+                           this_._internal_unmatched_primary_size());
+       i < n; i++) {
+    const auto& repfield = this_._internal_unmatched_primary().Get(i);
+    target =
+        ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+            2, repfield, repfield.GetCachedSize(),
+            target, stream);
+  }
+
+  // repeated .bin_diff.FunctionInfo unmatched_secondary = 3;
+  for (unsigned i = 0, n = static_cast<unsigned>(
+                           this_._internal_unmatched_secondary_size());
+       i < n; i++) {
+    const auto& repfield = this_._internal_unmatched_secondary().Get(i);
+    target =
+        ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+            3, repfield, repfield.GetCachedSize(),
             target, stream);
   }
 
@@ -1828,6 +1948,20 @@ PROTOBUF_NOINLINE void DiffReply::Clear() {
         total_size += ::google::protobuf::internal::WireFormatLite::MessageSize(msg);
       }
     }
+    // repeated .bin_diff.FunctionInfo unmatched_primary = 2;
+    {
+      total_size += 1UL * this_._internal_unmatched_primary_size();
+      for (const auto& msg : this_._internal_unmatched_primary()) {
+        total_size += ::google::protobuf::internal::WireFormatLite::MessageSize(msg);
+      }
+    }
+    // repeated .bin_diff.FunctionInfo unmatched_secondary = 3;
+    {
+      total_size += 1UL * this_._internal_unmatched_secondary_size();
+      for (const auto& msg : this_._internal_unmatched_secondary()) {
+        total_size += ::google::protobuf::internal::WireFormatLite::MessageSize(msg);
+      }
+    }
   }
   return this_.MaybeComputeUnknownFieldsSize(total_size,
                                              &this_._impl_._cached_size_);
@@ -1843,6 +1977,10 @@ void DiffReply::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::googl
 
   _this->_internal_mutable_matches()->MergeFrom(
       from._internal_matches());
+  _this->_internal_mutable_unmatched_primary()->MergeFrom(
+      from._internal_unmatched_primary());
+  _this->_internal_mutable_unmatched_secondary()->MergeFrom(
+      from._internal_unmatched_secondary());
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -1858,6 +1996,8 @@ void DiffReply::InternalSwap(DiffReply* PROTOBUF_RESTRICT PROTOBUF_NONNULL other
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   _impl_.matches_.InternalSwap(&other->_impl_.matches_);
+  _impl_.unmatched_primary_.InternalSwap(&other->_impl_.unmatched_primary_);
+  _impl_.unmatched_secondary_.InternalSwap(&other->_impl_.unmatched_secondary_);
 }
 
 ::google::protobuf::Metadata DiffReply::GetMetadata() const {

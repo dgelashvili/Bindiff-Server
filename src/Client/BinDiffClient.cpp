@@ -58,16 +58,19 @@ std::vector<MatchByName> BinDiffClient::Diff(const std::string &id_1, const std:
 		std::vector<MatchByName> matches;
 		for (const auto& match_proto  : reply.matches()) {
 			MatchByName match;
+			match.address_primary = match_proto.address_primary();
+			match.address_secondary = match_proto.address_secondary();
 			match.name_primary = match_proto.name_primary();
 			match.name_secondary = match_proto.name_secondary();
 			match.similarity = match_proto.similarity();
 			match.confidence = match_proto.confidence();
 			matches.push_back(match);
 		}
+		std::cout << "UNMATCHED PRIMARIES: " << reply.unmatched_primary_size() << std::endl;
+		std::cout << "UNMATCHED SECONDARIES: " << reply.unmatched_secondary_size() << std::endl;
 		return matches;
 	} else {
 		std::cerr << status.error_code() << ": " << status.error_message() << std::endl;
 		return {};
 	}
 }
-

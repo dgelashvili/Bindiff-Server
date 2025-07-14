@@ -13,6 +13,15 @@ struct Match{
     float confidence{};
 };
 
+struct MatchByName{
+	uint64_t address_primary{};
+	uint64_t address_secondary{};
+	std::string name_primary{};
+	std::string name_secondary{};
+	float similarity{};
+	float confidence{};
+};
+
 struct PotentialMatches {
 	std::vector<int> primary;
 	std::vector<int> secondary;

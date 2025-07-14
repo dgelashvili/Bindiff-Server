@@ -829,12 +829,14 @@ class FunctionMatch final : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
   enum : int {
-    kNamePrimaryFieldNumber = 1,
-    kNameSecondaryFieldNumber = 2,
-    kSimilarityFieldNumber = 3,
-    kConfidenceFieldNumber = 4,
+    kNamePrimaryFieldNumber = 3,
+    kNameSecondaryFieldNumber = 4,
+    kAddressPrimaryFieldNumber = 1,
+    kAddressSecondaryFieldNumber = 2,
+    kSimilarityFieldNumber = 5,
+    kConfidenceFieldNumber = 6,
   };
-  // string name_primary = 1;
+  // string name_primary = 3;
   void clear_name_primary() ;
   const std::string& name_primary() const;
   template <typename Arg_ = const std::string&, typename... Args_>
@@ -849,7 +851,7 @@ class FunctionMatch final : public ::google::protobuf::Message
   std::string* PROTOBUF_NONNULL _internal_mutable_name_primary();
 
   public:
-  // string name_secondary = 2;
+  // string name_secondary = 4;
   void clear_name_secondary() ;
   const std::string& name_secondary() const;
   template <typename Arg_ = const std::string&, typename... Args_>
@@ -864,7 +866,27 @@ class FunctionMatch final : public ::google::protobuf::Message
   std::string* PROTOBUF_NONNULL _internal_mutable_name_secondary();
 
   public:
-  // float similarity = 3;
+  // uint64 address_primary = 1;
+  void clear_address_primary() ;
+  ::uint64_t address_primary() const;
+  void set_address_primary(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_address_primary() const;
+  void _internal_set_address_primary(::uint64_t value);
+
+  public:
+  // uint64 address_secondary = 2;
+  void clear_address_secondary() ;
+  ::uint64_t address_secondary() const;
+  void set_address_secondary(::uint64_t value);
+
+  private:
+  ::uint64_t _internal_address_secondary() const;
+  void _internal_set_address_secondary(::uint64_t value);
+
+  public:
+  // float similarity = 5;
   void clear_similarity() ;
   float similarity() const;
   void set_similarity(float value);
@@ -874,7 +896,7 @@ class FunctionMatch final : public ::google::protobuf::Message
   void _internal_set_similarity(float value);
 
   public:
-  // float confidence = 4;
+  // float confidence = 6;
   void clear_confidence() ;
   float confidence() const;
   void set_confidence(float value);
@@ -888,7 +910,7 @@ class FunctionMatch final : public ::google::protobuf::Message
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<2, 4,
+  static const ::google::protobuf::internal::TcParseTable<3, 6,
                                    0, 57,
                                    2>
       _table_;
@@ -912,6 +934,8 @@ class FunctionMatch final : public ::google::protobuf::Message
     ::google::protobuf::internal::CachedSize _cached_size_;
     ::google::protobuf::internal::ArenaStringPtr name_primary_;
     ::google::protobuf::internal::ArenaStringPtr name_secondary_;
+    ::uint64_t address_primary_;
+    ::uint64_t address_secondary_;
     float similarity_;
     float confidence_;
     PROTOBUF_TSAN_DECLARE_MEMBER
@@ -1685,6 +1709,8 @@ class DiffReply final : public ::google::protobuf::Message
   // accessors -------------------------------------------------------
   enum : int {
     kMatchesFieldNumber = 1,
+    kUnmatchedPrimaryFieldNumber = 2,
+    kUnmatchedSecondaryFieldNumber = 3,
   };
   // repeated .bin_diff.FunctionMatch matches = 1;
   int matches_size() const;
@@ -1703,12 +1729,46 @@ class DiffReply final : public ::google::protobuf::Message
   const ::bin_diff::FunctionMatch& matches(int index) const;
   ::bin_diff::FunctionMatch* PROTOBUF_NONNULL add_matches();
   const ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionMatch>& matches() const;
+  // repeated .bin_diff.FunctionInfo unmatched_primary = 2;
+  int unmatched_primary_size() const;
+  private:
+  int _internal_unmatched_primary_size() const;
+
+  public:
+  void clear_unmatched_primary() ;
+  ::bin_diff::FunctionInfo* PROTOBUF_NONNULL mutable_unmatched_primary(int index);
+  ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionInfo>* PROTOBUF_NONNULL mutable_unmatched_primary();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionInfo>& _internal_unmatched_primary() const;
+  ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionInfo>* PROTOBUF_NONNULL _internal_mutable_unmatched_primary();
+  public:
+  const ::bin_diff::FunctionInfo& unmatched_primary(int index) const;
+  ::bin_diff::FunctionInfo* PROTOBUF_NONNULL add_unmatched_primary();
+  const ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionInfo>& unmatched_primary() const;
+  // repeated .bin_diff.FunctionInfo unmatched_secondary = 3;
+  int unmatched_secondary_size() const;
+  private:
+  int _internal_unmatched_secondary_size() const;
+
+  public:
+  void clear_unmatched_secondary() ;
+  ::bin_diff::FunctionInfo* PROTOBUF_NONNULL mutable_unmatched_secondary(int index);
+  ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionInfo>* PROTOBUF_NONNULL mutable_unmatched_secondary();
+
+  private:
+  const ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionInfo>& _internal_unmatched_secondary() const;
+  ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionInfo>* PROTOBUF_NONNULL _internal_mutable_unmatched_secondary();
+  public:
+  const ::bin_diff::FunctionInfo& unmatched_secondary(int index) const;
+  ::bin_diff::FunctionInfo* PROTOBUF_NONNULL add_unmatched_secondary();
+  const ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionInfo>& unmatched_secondary() const;
   // @@protoc_insertion_point(class_scope:bin_diff.DiffReply)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<0, 1,
-                                   1, 0,
+  static const ::google::protobuf::internal::TcParseTable<2, 3,
+                                   3, 0,
                                    2>
       _table_;
 
@@ -1728,6 +1788,8 @@ class DiffReply final : public ::google::protobuf::Message
         ::google::protobuf::Arena* PROTOBUF_NULLABLE arena, const Impl_& from,
         const DiffReply& from_msg);
     ::google::protobuf::RepeatedPtrField< ::bin_diff::FunctionMatch > matches_;
+    ::google::protobuf::RepeatedPtrField< ::bin_diff::FunctionInfo > unmatched_primary_;
+    ::google::protobuf::RepeatedPtrField< ::bin_diff::FunctionInfo > unmatched_secondary_;
     ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -2025,7 +2087,55 @@ inline void DiffRequest::set_allocated_id_2(std::string* PROTOBUF_NULLABLE value
 
 // FunctionMatch
 
-// string name_primary = 1;
+// uint64 address_primary = 1;
+inline void FunctionMatch::clear_address_primary() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.address_primary_ = ::uint64_t{0u};
+  _impl_._has_bits_[0] &= ~0x00000004u;
+}
+inline ::uint64_t FunctionMatch::address_primary() const {
+  // @@protoc_insertion_point(field_get:bin_diff.FunctionMatch.address_primary)
+  return _internal_address_primary();
+}
+inline void FunctionMatch::set_address_primary(::uint64_t value) {
+  _internal_set_address_primary(value);
+  _impl_._has_bits_[0] |= 0x00000004u;
+  // @@protoc_insertion_point(field_set:bin_diff.FunctionMatch.address_primary)
+}
+inline ::uint64_t FunctionMatch::_internal_address_primary() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.address_primary_;
+}
+inline void FunctionMatch::_internal_set_address_primary(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.address_primary_ = value;
+}
+
+// uint64 address_secondary = 2;
+inline void FunctionMatch::clear_address_secondary() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.address_secondary_ = ::uint64_t{0u};
+  _impl_._has_bits_[0] &= ~0x00000008u;
+}
+inline ::uint64_t FunctionMatch::address_secondary() const {
+  // @@protoc_insertion_point(field_get:bin_diff.FunctionMatch.address_secondary)
+  return _internal_address_secondary();
+}
+inline void FunctionMatch::set_address_secondary(::uint64_t value) {
+  _internal_set_address_secondary(value);
+  _impl_._has_bits_[0] |= 0x00000008u;
+  // @@protoc_insertion_point(field_set:bin_diff.FunctionMatch.address_secondary)
+}
+inline ::uint64_t FunctionMatch::_internal_address_secondary() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.address_secondary_;
+}
+inline void FunctionMatch::_internal_set_address_secondary(::uint64_t value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.address_secondary_ = value;
+}
+
+// string name_primary = 3;
 inline void FunctionMatch::clear_name_primary() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.name_primary_.ClearToEmpty();
@@ -2090,7 +2200,7 @@ inline void FunctionMatch::set_allocated_name_primary(std::string* PROTOBUF_NULL
   // @@protoc_insertion_point(field_set_allocated:bin_diff.FunctionMatch.name_primary)
 }
 
-// string name_secondary = 2;
+// string name_secondary = 4;
 inline void FunctionMatch::clear_name_secondary() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.name_secondary_.ClearToEmpty();
@@ -2155,11 +2265,11 @@ inline void FunctionMatch::set_allocated_name_secondary(std::string* PROTOBUF_NU
   // @@protoc_insertion_point(field_set_allocated:bin_diff.FunctionMatch.name_secondary)
 }
 
-// float similarity = 3;
+// float similarity = 5;
 inline void FunctionMatch::clear_similarity() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.similarity_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000004u;
+  _impl_._has_bits_[0] &= ~0x00000010u;
 }
 inline float FunctionMatch::similarity() const {
   // @@protoc_insertion_point(field_get:bin_diff.FunctionMatch.similarity)
@@ -2167,7 +2277,7 @@ inline float FunctionMatch::similarity() const {
 }
 inline void FunctionMatch::set_similarity(float value) {
   _internal_set_similarity(value);
-  _impl_._has_bits_[0] |= 0x00000004u;
+  _impl_._has_bits_[0] |= 0x00000010u;
   // @@protoc_insertion_point(field_set:bin_diff.FunctionMatch.similarity)
 }
 inline float FunctionMatch::_internal_similarity() const {
@@ -2179,11 +2289,11 @@ inline void FunctionMatch::_internal_set_similarity(float value) {
   _impl_.similarity_ = value;
 }
 
-// float confidence = 4;
+// float confidence = 6;
 inline void FunctionMatch::clear_confidence() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.confidence_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000008u;
+  _impl_._has_bits_[0] &= ~0x00000020u;
 }
 inline float FunctionMatch::confidence() const {
   // @@protoc_insertion_point(field_get:bin_diff.FunctionMatch.confidence)
@@ -2191,7 +2301,7 @@ inline float FunctionMatch::confidence() const {
 }
 inline void FunctionMatch::set_confidence(float value) {
   _internal_set_confidence(value);
-  _impl_._has_bits_[0] |= 0x00000008u;
+  _impl_._has_bits_[0] |= 0x00000020u;
   // @@protoc_insertion_point(field_set:bin_diff.FunctionMatch.confidence)
 }
 inline float FunctionMatch::_internal_confidence() const {
@@ -2255,6 +2365,106 @@ inline ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionMatch>* PROTOBUF
 DiffReply::_internal_mutable_matches() {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return &_impl_.matches_;
+}
+
+// repeated .bin_diff.FunctionInfo unmatched_primary = 2;
+inline int DiffReply::_internal_unmatched_primary_size() const {
+  return _internal_unmatched_primary().size();
+}
+inline int DiffReply::unmatched_primary_size() const {
+  return _internal_unmatched_primary_size();
+}
+inline void DiffReply::clear_unmatched_primary() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.unmatched_primary_.Clear();
+}
+inline ::bin_diff::FunctionInfo* PROTOBUF_NONNULL DiffReply::mutable_unmatched_primary(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:bin_diff.DiffReply.unmatched_primary)
+  return _internal_mutable_unmatched_primary()->Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionInfo>* PROTOBUF_NONNULL DiffReply::mutable_unmatched_primary()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:bin_diff.DiffReply.unmatched_primary)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_unmatched_primary();
+}
+inline const ::bin_diff::FunctionInfo& DiffReply::unmatched_primary(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:bin_diff.DiffReply.unmatched_primary)
+  return _internal_unmatched_primary().Get(index);
+}
+inline ::bin_diff::FunctionInfo* PROTOBUF_NONNULL DiffReply::add_unmatched_primary()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::bin_diff::FunctionInfo* _add = _internal_mutable_unmatched_primary()->Add();
+  // @@protoc_insertion_point(field_add:bin_diff.DiffReply.unmatched_primary)
+  return _add;
+}
+inline const ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionInfo>& DiffReply::unmatched_primary() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:bin_diff.DiffReply.unmatched_primary)
+  return _internal_unmatched_primary();
+}
+inline const ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionInfo>&
+DiffReply::_internal_unmatched_primary() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.unmatched_primary_;
+}
+inline ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionInfo>* PROTOBUF_NONNULL
+DiffReply::_internal_mutable_unmatched_primary() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.unmatched_primary_;
+}
+
+// repeated .bin_diff.FunctionInfo unmatched_secondary = 3;
+inline int DiffReply::_internal_unmatched_secondary_size() const {
+  return _internal_unmatched_secondary().size();
+}
+inline int DiffReply::unmatched_secondary_size() const {
+  return _internal_unmatched_secondary_size();
+}
+inline void DiffReply::clear_unmatched_secondary() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.unmatched_secondary_.Clear();
+}
+inline ::bin_diff::FunctionInfo* PROTOBUF_NONNULL DiffReply::mutable_unmatched_secondary(int index)
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable:bin_diff.DiffReply.unmatched_secondary)
+  return _internal_mutable_unmatched_secondary()->Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionInfo>* PROTOBUF_NONNULL DiffReply::mutable_unmatched_secondary()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_mutable_list:bin_diff.DiffReply.unmatched_secondary)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  return _internal_mutable_unmatched_secondary();
+}
+inline const ::bin_diff::FunctionInfo& DiffReply::unmatched_secondary(int index) const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:bin_diff.DiffReply.unmatched_secondary)
+  return _internal_unmatched_secondary().Get(index);
+}
+inline ::bin_diff::FunctionInfo* PROTOBUF_NONNULL DiffReply::add_unmatched_secondary()
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::bin_diff::FunctionInfo* _add = _internal_mutable_unmatched_secondary()->Add();
+  // @@protoc_insertion_point(field_add:bin_diff.DiffReply.unmatched_secondary)
+  return _add;
+}
+inline const ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionInfo>& DiffReply::unmatched_secondary() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_list:bin_diff.DiffReply.unmatched_secondary)
+  return _internal_unmatched_secondary();
+}
+inline const ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionInfo>&
+DiffReply::_internal_unmatched_secondary() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.unmatched_secondary_;
+}
+inline ::google::protobuf::RepeatedPtrField<::bin_diff::FunctionInfo>* PROTOBUF_NONNULL
+DiffReply::_internal_mutable_unmatched_secondary() {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return &_impl_.unmatched_secondary_;
 }
 
 // -------------------------------------------------------------------

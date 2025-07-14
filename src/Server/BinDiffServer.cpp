@@ -36,10 +36,28 @@ grpc::Status BinDiffServer::Diff(
 
 		for (const auto& match : matches) {
 			auto* new_match = response->add_matches();
+
+			new_match->set_address_primary(match.address_primary);
+			new_match->set_address_secondary(match.address_secondary);
 			new_match->set_name_primary(primary_content->get_address_to_name_map()[match.address_primary]);
 			new_match->set_name_secondary(secondary_content->get_address_to_name_map()[match.address_secondary]);
 			new_match->set_similarity(match.similarity);
 			new_match->set_confidence(match.confidence);
+		}
+
+		std::vector<std::pair<uint64_t, std::string>> unmatched_primaries = bin_diff_engine.get_unmatched_primaries();
+		for (const auto& p : unmatched_primaries) {
+			auto* new_unmatched_func = response->add_unmatched_primary();
+
+			new_unmatched_func->set_address(p.first);
+			new_unmatched_func->set_name(p.second);
+		}
+		std::vector<std::pair<uint64_t, std::string>> unmatched_secondaries = unmatched_secondaries = bin_diff_engine.get_unmatched_secondaries();
+		for (const auto& p : unmatched_secondaries) {
+			auto* new_unmatched_func = response->add_unmatched_secondary();
+
+			new_unmatched_func->set_address(p.first);
+			new_unmatched_func->set_name(p.second);
 		}
 
 		return grpc::Status::OK;

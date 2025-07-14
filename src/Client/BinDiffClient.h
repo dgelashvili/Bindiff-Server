@@ -8,13 +8,6 @@
 #include "bin_diff.grpc.pb.h"
 #include "Server/MatchingAlgorithms/MatchingAlgorithm.h"
 
-struct MatchByName{
-	std::string name_primary{};
-	std::string name_secondary{};
-	float similarity{};
-	float confidence{};
-};
-
 class BinDiffClient {
 public:
 	explicit BinDiffClient(const std::shared_ptr<grpc::Channel>& channel);

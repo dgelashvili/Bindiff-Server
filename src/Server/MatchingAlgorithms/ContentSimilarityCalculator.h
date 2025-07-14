@@ -93,7 +93,7 @@ private:
             (func2_recursive && !func1_recursive && !func1_has_loops)) {
             return 0.40f;
         }
-
+        return 0.5;
     }
 
     static float apply_content_similarity_adjustment(float base_confidence, float content_similarity) {

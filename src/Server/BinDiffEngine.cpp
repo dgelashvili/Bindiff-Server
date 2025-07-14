@@ -17,7 +17,7 @@ BinDiffEngine::BinDiffEngine() {
 
 std::vector<Match> BinDiffEngine::match(
 	const std::shared_ptr<BinExportContent>& primary,
-	const std::shared_ptr<BinExportContent>& secondary) const {
+	const std::shared_ptr<BinExportContent>& secondary) {
 	std::vector<Match> result;
 	std::vector<PotentialMatches> potentialMatches;
 
@@ -32,15 +32,41 @@ std::vector<Match> BinDiffEngine::match(
 
 	for (int i = 0; i < 4; i++) {
 		const int previous_size = result.size();
-		for (const auto& algorithm : matching_algorithms_) {
-			algorithm->match(primary, secondary, result, potentialMatches);
+		for (int j = 0; j < matching_algorithms_.size(); j++) {
+			if (i < 2 && (j >= 5 && j <= 8)) continue;
+			matching_algorithms_[j]->match(primary, secondary, result, potentialMatches);
 		}
 		if (previous_size == result.size()) {
 			break;
 		}
 	}
 
+	unmatched_primaries.clear();
+	unmatched_secondaries.clear();
+	const std::vector<Function> primary_functions = primary->get_functions();
+	const std::vector<Function> secondary_functions = secondary->get_functions();
+	for (const auto& potential_match : potentialMatches) {
+		for (const auto& primary_ind : potential_match.primary) {
+			const auto& func = primary_functions[primary_ind];
+			std::pair<uint64_t, std::string> p = std::make_pair(func.get_address(), func.get_name());
+			unmatched_primaries.push_back(p);
+		}
+		for (const auto& secondary_ind : potential_match.secondary) {
+			const auto& func = secondary_functions[secondary_ind];
+			std::pair<uint64_t, std::string> p = std::make_pair(func.get_address(), func.get_name());
+			unmatched_secondaries.push_back(p);
+		}
+	}
+
 	return result;
+}
+
+std::vector<std::pair<uint64_t, std::string> > BinDiffEngine::get_unmatched_primaries() const {
+	return unmatched_primaries;
+}
+
+std::vector<std::pair<uint64_t, std::string> > BinDiffEngine::get_unmatched_secondaries() const {
+	return unmatched_secondaries;
 }
 
 void BinDiffEngine::fill_matching_algorithms() {

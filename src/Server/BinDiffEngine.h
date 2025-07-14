@@ -13,12 +13,16 @@ public:
 
 	[[nodiscard]] std::vector<Match> match(
 		const std::shared_ptr<BinExportContent>& primary,
-		const std::shared_ptr<BinExportContent>& secondary) const;
+		const std::shared_ptr<BinExportContent>& secondary);
+	[[nodiscard]] std::vector<std::pair<uint64_t, std::string>> get_unmatched_primaries() const;
+	[[nodiscard]] std::vector<std::pair<uint64_t, std::string>> get_unmatched_secondaries() const;
 
 private:
 	void fill_matching_algorithms();
 private:
 	std::vector<std::unique_ptr<MatchingAlgorithm>> matching_algorithms_;
+	std::vector<std::pair<uint64_t, std::string>> unmatched_primaries;
+	std::vector<std::pair<uint64_t, std::string>> unmatched_secondaries;
 };
 
 #endif //BINDIFFENGINE_H
