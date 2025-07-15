@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0e\x62in_diff.proto\x12\x08\x62in_diff\" \n\rUploadRequest\x12\x0f\n\x07\x63ontent\x18\x01 \x01(\x0c\"\x19\n\x0bUploadReply\x12\n\n\x02id\x18\x01 \x01(\t\")\n\x0b\x44iffRequest\x12\x0c\n\x04id_1\x18\x01 \x01(\t\x12\x0c\n\x04id_2\x18\x02 \x01(\t\"e\n\rFunctionMatch\x12\x14\n\x0cname_primary\x18\x01 \x01(\t\x12\x16\n\x0ename_secondary\x18\x02 \x01(\t\x12\x12\n\nsimilarity\x18\x03 \x01(\x02\x12\x12\n\nconfidence\x18\x04 \x01(\x02\"5\n\tDiffReply\x12(\n\x07matches\x18\x01 \x03(\x0b\x32\x17.bin_diff.FunctionMatch\"\x18\n\nGetRequest\x12\n\n\x02id\x18\x01 \x01(\t\"-\n\x0c\x46unctionInfo\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x01(\x04\"5\n\x08GetReply\x12)\n\tfunctions\x18\x01 \x03(\x0b\x32\x16.bin_diff.FunctionInfo2\xae\x01\n\rBinDiffServer\x12\x38\n\x06Upload\x12\x17.bin_diff.UploadRequest\x1a\x15.bin_diff.UploadReply\x12\x32\n\x04\x44iff\x12\x15.bin_diff.DiffRequest\x1a\x13.bin_diff.DiffReply\x12/\n\x03Get\x12\x14.bin_diff.GetRequest\x1a\x12.bin_diff.GetReplyb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0e\x62in_diff.proto\x12\x08\x62in_diff\" \n\rUploadRequest\x12\x0f\n\x07\x63ontent\x18\x01 \x01(\x0c\"\x19\n\x0bUploadReply\x12\n\n\x02id\x18\x01 \x01(\t\")\n\x0b\x44iffRequest\x12\x0c\n\x04id_1\x18\x01 \x01(\t\x12\x0c\n\x04id_2\x18\x02 \x01(\t\"\x99\x01\n\rFunctionMatch\x12\x17\n\x0f\x61\x64\x64ress_primary\x18\x01 \x01(\x04\x12\x19\n\x11\x61\x64\x64ress_secondary\x18\x02 \x01(\x04\x12\x14\n\x0cname_primary\x18\x03 \x01(\t\x12\x16\n\x0ename_secondary\x18\x04 \x01(\t\x12\x12\n\nsimilarity\x18\x05 \x01(\x02\x12\x12\n\nconfidence\x18\x06 \x01(\x02\"\x9d\x01\n\tDiffReply\x12(\n\x07matches\x18\x01 \x03(\x0b\x32\x17.bin_diff.FunctionMatch\x12\x31\n\x11unmatched_primary\x18\x02 \x03(\x0b\x32\x16.bin_diff.FunctionInfo\x12\x33\n\x13unmatched_secondary\x18\x03 \x03(\x0b\x32\x16.bin_diff.FunctionInfo\"\x18\n\nGetRequest\x12\n\n\x02id\x18\x01 \x01(\t\"-\n\x0c\x46unctionInfo\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07\x61\x64\x64ress\x18\x02 \x01(\x04\"5\n\x08GetReply\x12)\n\tfunctions\x18\x01 \x03(\x0b\x32\x16.bin_diff.FunctionInfo2\xae\x01\n\rBinDiffServer\x12\x38\n\x06Upload\x12\x17.bin_diff.UploadRequest\x1a\x15.bin_diff.UploadReply\x12\x32\n\x04\x44iff\x12\x15.bin_diff.DiffRequest\x1a\x13.bin_diff.DiffReply\x12/\n\x03Get\x12\x14.bin_diff.GetRequest\x1a\x12.bin_diff.GetReplyb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -37,16 +37,16 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_UPLOADREPLY']._serialized_end=87
   _globals['_DIFFREQUEST']._serialized_start=89
   _globals['_DIFFREQUEST']._serialized_end=130
-  _globals['_FUNCTIONMATCH']._serialized_start=132
-  _globals['_FUNCTIONMATCH']._serialized_end=233
-  _globals['_DIFFREPLY']._serialized_start=235
-  _globals['_DIFFREPLY']._serialized_end=288
-  _globals['_GETREQUEST']._serialized_start=290
-  _globals['_GETREQUEST']._serialized_end=314
-  _globals['_FUNCTIONINFO']._serialized_start=316
-  _globals['_FUNCTIONINFO']._serialized_end=361
-  _globals['_GETREPLY']._serialized_start=363
-  _globals['_GETREPLY']._serialized_end=416
-  _globals['_BINDIFFSERVER']._serialized_start=419
-  _globals['_BINDIFFSERVER']._serialized_end=593
+  _globals['_FUNCTIONMATCH']._serialized_start=133
+  _globals['_FUNCTIONMATCH']._serialized_end=286
+  _globals['_DIFFREPLY']._serialized_start=289
+  _globals['_DIFFREPLY']._serialized_end=446
+  _globals['_GETREQUEST']._serialized_start=448
+  _globals['_GETREQUEST']._serialized_end=472
+  _globals['_FUNCTIONINFO']._serialized_start=474
+  _globals['_FUNCTIONINFO']._serialized_end=519
+  _globals['_GETREPLY']._serialized_start=521
+  _globals['_GETREPLY']._serialized_end=574
+  _globals['_BINDIFFSERVER']._serialized_start=577
+  _globals['_BINDIFFSERVER']._serialized_end=751
 # @@protoc_insertion_point(module_scope)

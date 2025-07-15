@@ -3,9 +3,16 @@ from Generated import bin_diff_pb2, bin_diff_pb2_grpc
 
 from binaryninja import show_message_box
 
+from diff_viewer_ui_components import DiffResultDialog
+
 
 def show_diff_result(primary_bv, secondary_bv, diff_result):
-    show_message_box("Result", f"{len(diff_result)}")
+    try:
+        dialog = DiffResultDialog(primary_bv, secondary_bv, diff_result)
+        dialog.show()
+
+    except Exception as e:
+        show_message_box("Display Error", f"Could not display functions table: {e}")
 
 
 class DiffViewer:
@@ -35,17 +42,33 @@ class DiffViewer:
             request.id_2 = secondary_id
             response = stub.Diff(request, timeout=30)
 
-            if response and response.matches:
+            if response and response.matches and response.unmatched_primary and response.unmatched_secondary:
                 matches = []
                 for match in response.matches:
                     matches.append({
+                        'address_primary': match.address_primary,
+                        'address_secondary': match.address_secondary,
                         'name_primary': match.name_primary,
                         'name_secondary': match.name_secondary,
                         'similarity': match.similarity,
                         'confidence': match.confidence
                     })
 
-                return matches
+                unmatched_primary = []
+                for func in response.unmatched_primary:
+                    unmatched_primary.append({
+                        'name': func.name,
+                        'address': func.address
+                    })
+
+                unmatched_secondary = []
+                for func in response.unmatched_secondary:
+                    unmatched_secondary.append({
+                        'name': func.name,
+                        'address': func.address
+                    })
+
+                return [matches, unmatched_primary, unmatched_secondary]
             else:
                 return []
 

@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package bin_diff;
+
+service BinDiffServer {
+  rpc Upload (UploadRequest) returns (UploadReply);
+  rpc Diff (DiffRequest) returns (DiffReply);
+  rpc Get (GetRequest) returns (GetReply);
+}
+
+message UploadRequest {
+  bytes content = 1;
+}
+
+message UploadReply {
+  string id = 1;
+}
+
+message DiffRequest {
+  string id_1 = 1;
+  string id_2 = 2;
+}
+
+message FunctionMatch {
+  uint64 address_primary = 1;
+  uint64 address_secondary = 2;
+  string name_primary = 3;
+  string name_secondary = 4;
+  float similarity = 5;
+  float confidence = 6;
+}
+
+message DiffReply {
+  repeated FunctionMatch matches = 1;
+  repeated FunctionInfo unmatched_primary = 2;
+  repeated FunctionInfo unmatched_secondary = 3;
+}
+
+message GetRequest {
+  string id = 1;
+}
+
+message FunctionInfo {
+  string name = 1;
+  uint64 address = 2;
+}
+
+message GetReply {
+  repeated FunctionInfo functions = 1;
+}
