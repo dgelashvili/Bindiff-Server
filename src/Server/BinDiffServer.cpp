@@ -32,7 +32,20 @@ grpc::Status BinDiffServer::Diff(
 		const std::shared_ptr<BinExportContent> primary_content = bin_diff_cache_.get(primary_id);
 		const std::shared_ptr<BinExportContent> secondary_content = bin_diff_cache_.get(secondary_id);
 
-		std::vector<Match> matches = bin_diff_engine.match(primary_content, secondary_content);
+		std::vector<Match> matches;
+		std::vector<std::pair<uint64_t, std::string>> unmatched_primaries;
+		std::vector<std::pair<uint64_t, std::string>> unmatched_secondaries;
+
+		if (bin_diff_cache_.contains(primary_id, secondary_id)) {
+			const auto tuple = bin_diff_cache_.get(primary_id, secondary_id);
+			std::tie(matches, unmatched_primaries, unmatched_secondaries) = tuple;
+		} else {
+			matches = bin_diff_engine.match(primary_content, secondary_content);
+			unmatched_primaries = bin_diff_engine.get_unmatched_primaries();
+			unmatched_secondaries = bin_diff_engine.get_unmatched_secondaries();
+			const auto tuple = std::make_tuple(matches, unmatched_primaries, unmatched_secondaries);
+			bin_diff_cache_.add(primary_id, secondary_id, tuple);
+		}
 
 		for (const auto& match : matches) {
 			auto* new_match = response->add_matches();
@@ -45,14 +58,13 @@ grpc::Status BinDiffServer::Diff(
 			new_match->set_confidence(match.confidence);
 		}
 
-		std::vector<std::pair<uint64_t, std::string>> unmatched_primaries = bin_diff_engine.get_unmatched_primaries();
 		for (const auto& p : unmatched_primaries) {
 			auto* new_unmatched_func = response->add_unmatched_primary();
 
 			new_unmatched_func->set_address(p.first);
 			new_unmatched_func->set_name(p.second);
 		}
-		std::vector<std::pair<uint64_t, std::string>> unmatched_secondaries = unmatched_secondaries = bin_diff_engine.get_unmatched_secondaries();
+
 		for (const auto& p : unmatched_secondaries) {
 			auto* new_unmatched_func = response->add_unmatched_secondary();
 
