@@ -4,6 +4,7 @@
 void BuildAndStartServer(const std::string& server_address) {
 	grpc::ServerBuilder builder;
 	builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
+	builder.SetMaxReceiveMessageSize(16 * 1024 * 1024 * 10);
 
 	BinDiffServer service;
 	builder.RegisterService(&service);
