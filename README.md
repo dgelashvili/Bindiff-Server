@@ -12,25 +12,25 @@ It includes:
 
 ## Table of Contents
 
-- ### [Overview](#overview)
+- ### [Overview](#overview-1)
 
 
-- ### [Architecture](#architecture)
+- ### [Architecture](#architecture-1)
 
 
-- ### [Accuracy & Performance](#accuracy--performance)
+- ### [Accuracy & Performance](#accuracy--performance-1)
 
 
-- ### [Installation & Requirements](#installation--requirements)
+- ### [Installation & Requirements](#installation--requirements-1)
 
 
-- ### [Usage](#usage)
+- ### [Usage](#usage-1)
 
 
-- ### [Extensibility](#extensibility)
+- ### [Extensibility](#extensibility-1)
 
 
-- ### [Acknowledgments](#acknowledgments)
+- ### [Acknowledgments](#acknowledgments-1)
 
 ---
 
