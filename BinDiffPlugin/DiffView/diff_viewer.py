@@ -40,7 +40,7 @@ class DiffViewer:
             request = bin_diff_pb2.DiffRequest()
             request.id_1 = primary_id
             request.id_2 = secondary_id
-            response = stub.Diff(request, timeout=30)
+            response = stub.Diff(request, timeout=50)
 
             if response and response.matches and response.unmatched_primary and response.unmatched_secondary:
                 matches = []

@@ -80,6 +80,10 @@ bool BinDiffEngine::has_meaningful_names(const std::shared_ptr<BinExportContent>
     for (int i = 0; i < sample_size; i++) {
         const std::string& name = functions[i].get_name();
 
+        if (name.empty()) {
+            continue;
+        }
+
         if (name.find("sub_") == 0 ||
             name.find("loc_") == 0 ||
             name.find("nullsub_") == 0 ||
@@ -92,7 +96,7 @@ bool BinDiffEngine::has_meaningful_names(const std::shared_ptr<BinExportContent>
             name.find("seg_") == 0 ||
             name.find("asc_") == 0 ||
             name.find("j_") == 0 ){
-        	auto_generated_names++;
+            auto_generated_names++;
         } else {
             meaningful_names++;
         }
