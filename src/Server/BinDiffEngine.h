@@ -19,6 +19,7 @@ public:
 
 private:
 	void fill_matching_algorithms();
+	static bool has_meaningful_names(const std::shared_ptr<BinExportContent>& content);
 private:
 	std::vector<std::unique_ptr<MatchingAlgorithm>> matching_algorithms_;
 	std::vector<std::pair<uint64_t, std::string>> unmatched_primaries;

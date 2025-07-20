@@ -51,6 +51,7 @@ add_executable(server
 		${SRC_DIR}/Server/MatchingAlgorithms/AddressMatcher.cpp
 		${SRC_DIR}/Server/MatchingAlgorithms/MDIndexMatcher.cpp
 		${SRC_DIR}/Server/MatchingAlgorithms/CallSequenceMatcher.cpp
+		${SRC_DIR}/Server/MatchingAlgorithms/RelaxedMDIndexMatcher.cpp
 
 )
 target_link_libraries(server

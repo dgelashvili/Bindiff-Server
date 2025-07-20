@@ -10,6 +10,7 @@
 #include "BasicStructureMatcher.h"
 #include "CallDegreeMatcher.h"
 #include "NeighbourhoodMatcher.h"
+#include "RelaxedMDIndexMatcher.h"
 
 BinDiffEngine::BinDiffEngine() {
 	fill_matching_algorithms();
@@ -20,6 +21,12 @@ std::vector<Match> BinDiffEngine::match(
 	const std::shared_ptr<BinExportContent>& secondary) {
 	std::vector<Match> result;
 	std::vector<PotentialMatches> potentialMatches;
+
+	if (has_meaningful_names(primary) && has_meaningful_names(secondary)) {
+		if (!matching_algorithms_.empty()) {
+			matching_algorithms_.pop_back();
+		}
+	}
 
 	PotentialMatches initial;
 	for (int i = 0; i < primary->get_functions().size(); i++) {
@@ -61,6 +68,41 @@ std::vector<Match> BinDiffEngine::match(
 	return result;
 }
 
+bool BinDiffEngine::has_meaningful_names(const std::shared_ptr<BinExportContent>& content) {
+    const auto& functions = content->get_functions();
+
+    int total_functions = functions.size();
+    int meaningful_names = 0;
+    int auto_generated_names = 0;
+
+    int sample_size = std::min(200, total_functions);
+
+    for (int i = 0; i < sample_size; i++) {
+        const std::string& name = functions[i].get_name();
+
+        if (name.find("sub_") == 0 ||
+            name.find("loc_") == 0 ||
+            name.find("nullsub_") == 0 ||
+            name.find("unk_") == 0 ||
+            name.find("byte_") == 0 ||
+            name.find("word_") == 0 ||
+            name.find("dword_") == 0 ||
+            name.find("qword_") == 0 ||
+            name.find("off_") == 0 ||
+            name.find("seg_") == 0 ||
+            name.find("asc_") == 0 ||
+            name.find("j_") == 0 ){
+        	auto_generated_names++;
+        } else {
+            meaningful_names++;
+        }
+    }
+
+    float meaningful_ratio = static_cast<float>(meaningful_names) / sample_size;
+
+    return meaningful_ratio > 0.5f;
+}
+
 std::vector<std::pair<uint64_t, std::string> > BinDiffEngine::get_unmatched_primaries() const {
 	return unmatched_primaries;
 }
@@ -80,4 +122,5 @@ void BinDiffEngine::fill_matching_algorithms() {
 	matching_algorithms_.push_back(std::make_unique<CallDegreeMatcher>());
 	matching_algorithms_.push_back(std::make_unique<CallSequenceMatcher>());
 	matching_algorithms_.push_back(std::make_unique<NeighbourhoodMatcher>());
+	matching_algorithms_.push_back(std::make_unique<RelaxedMDIndexMatcher>());
 }

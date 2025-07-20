@@ -29,13 +29,32 @@ void NameMatcher::match_specific_bucket(
 	std::unordered_map<std::string, PotentialMatches> potential_matches;
 	PotentialMatches specific_bucket = unmatched_groups[index];
 	unmatched_groups.erase(unmatched_groups.begin() + index);
+	PotentialMatches skipped_functions;
 
 	for (const auto& function : specific_bucket.primary) {
 		std::string function_name = primary->get_functions()[function].get_name();
+
+		if (function_name.find("sub_") == 0 ||
+			function_name.find("loc_") == 0 ||
+			function_name.find("nullsub_") == 0 ||
+			function_name.empty()) {
+			skipped_functions.primary.push_back(function);
+			continue;
+		}
+
 		potential_matches[function_name].primary.push_back(function);
 	}
 	for (const auto& function : specific_bucket.secondary) {
 		std::string function_name = secondary->get_functions()[function].get_name();
+
+		if (function_name.find("sub_") == 0 ||
+			function_name.find("loc_") == 0 ||
+			function_name.find("nullsub_") == 0 ||
+			function_name.empty()) {
+			skipped_functions.secondary.push_back(function);
+			continue;
+		}
+
 		potential_matches[function_name].secondary.push_back(function);
 	}
 
@@ -74,6 +93,14 @@ void NameMatcher::match_specific_bucket(
 			}
 		}
 	}
+
+	for (const auto& function : skipped_functions.primary) {
+		lone_functions_bucket.primary.push_back(function);
+	}
+	for (const auto& function : skipped_functions.secondary) {
+		lone_functions_bucket.secondary.push_back(function);
+	}
+
 	new_unmatched_groups.push_back(lone_functions_bucket);
 }
 
